@@ -1,8 +1,20 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { defineCustomElements, } from '@ionic/pwa-elements/loader';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+
+/**    
+ * Some Capacitor plugins, including the Camera API, 
+ * provide the web-based functionality and UI via the Ionic PWA Elements library.
+ * 
+ * Call the element loader after the platform has been bootstrapped. 
+ * 
+ * https://ionicframework.com/docs/react/your-first-app .
+ * 
+ */
+defineCustomElements(window);
 
 const container = document.getElementById('root');
 const root = createRoot(container!);

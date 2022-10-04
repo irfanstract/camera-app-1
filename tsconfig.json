@@ -1,24 +1,37 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+
+    // LANGUAGE
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true, // '"strict": true ' did not enforce this
+    "noUncheckedIndexedAccess": true, // i believe `tsc init` should have done this.
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+
+    // BINARY COMPAT
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSourceMap": true,
+    "allowSyntheticDefaultImports": true, // WDYT ?
+    "esModuleInterop": true, // WDYT ?
+    "forceConsistentCasingInFileNames": true, // WDYT ?
+    "skipLibCheck": true, // WDYT ?
+    "outDir": "./dist",
+    "noEmit": true, // WDYT ?
+    
   },
   "include": [
     "src"

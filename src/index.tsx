@@ -12,6 +12,20 @@ root.render(
   </React.StrictMode>
 );
 
+/**       
+ * some arguments to automatic `reload()` .    
+ * - "the WebPack server has diconnnected. refresh the page of necessary."  
+ * avoid doing this in production, since 
+ * - that will mean loss of usability when internet-access goes away
+ */
+if (1) {
+  setTimeout(() => {
+    setTimeout(() => {
+      (window.location).reload() ;
+    }, 5 * 1000 ) ;
+  } , 15 * 60 * 1000 ) ;
+};
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA

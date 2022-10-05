@@ -24,9 +24,6 @@ import Tab3 from './pages/Tab3';
  */
 import './ionicCoreCss' ;
 
-/* Theme variables */
-import './theme/variables.css';
-
 setupIonicReact();
 
 const App: React.FC = () => (

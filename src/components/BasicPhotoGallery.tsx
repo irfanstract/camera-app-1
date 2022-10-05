@@ -88,16 +88,26 @@ const useSavedPhotos: (
         ) ;
         const loadSaved = async () => {
           const { value } = await Preferences.get({ key: PHOTO_STORAGE, });
-          const photosInPreferences = (value ? JSON.parse(value) : []) as UserPhoto[];
-      
-          for (let photo of photosInPreferences) {
+          const photosInPreferences0 = (value ? JSON.parse(value) : []) as UserPhoto[];
+          const photosInPreferences = (
+          await Promise.all((
+          photosInPreferences0
+          .map(async (photo): Promise<UserPhoto > => {
             const file = await Filesystem.readFile({
               path: photo.filepath,
               directory: Directory.Data,
             });
             // Web platform only: Load the photo as base64 data
-            photo.webviewPath = `data:image/jpeg;base64,${file.data}`;
-          }
+            return (
+              {
+                ...photo,
+                webviewPath : `data:image/jpeg;base64,${file.data}`,
+              } // end of `UserPhoto`
+            )
+          } )
+          ))
+          );
+      
           setPhotos(photosInPreferences);
         };
         loadSaved();

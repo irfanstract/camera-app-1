@@ -49,6 +49,21 @@ export class UserPhoto {
     public originalResol?: readonly [number, number,] ,
   ) {}
 } ;
+const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {
+  const base64Data = await base64FromPath(photo.webPath!);
+  const savedFile = await Filesystem.writeFile({
+    path: fileName,
+    data: base64Data,
+    directory: Directory.Data,
+  });
+
+  // Use webPath to display the new image instead of base64 since it's
+  // already loaded into memory
+  return {
+    filepath: fileName,
+    webviewPath: photo.webPath,
+  };
+};
 const useSavedPhotos: (
   () => {
     photos: UserPhoto[];

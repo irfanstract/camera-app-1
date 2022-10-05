@@ -30,7 +30,6 @@ const Tab1: React.FC = () => {
         <IonButton onClick={() => takePhoto() }>
           Take Photo
         </IonButton>
-        <ExploreContainer name="Tab 1 page" />
       </IonContent>
     </IonPage>
   );

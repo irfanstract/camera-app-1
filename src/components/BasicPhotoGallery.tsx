@@ -50,7 +50,25 @@ export class UserPhoto {
   ) {}
 } ;
 const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {
-  const base64Data = await base64FromPath(photo.webPath!);
+  const base64Data = (
+    /**     
+     * per
+     * the advice per https://ionicframework.com/docs/react/your-first-app/adding-mobile 
+     * 
+     */
+    await (async (): Promise<string> => {
+      ;
+      // "hybrid" will detect Cordova or Capacitor;
+      if (isPlatform('hybrid')) {
+        const file = await Filesystem.readFile({
+          path: photo.path!,
+        });
+        return file.data;
+      } else {
+        return await base64FromPath(photo.webPath!);
+      }
+    } )()
+  );
   const savedFile = await Filesystem.writeFile({
     path: fileName,
     data: base64Data,

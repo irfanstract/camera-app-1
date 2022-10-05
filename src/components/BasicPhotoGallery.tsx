@@ -102,13 +102,11 @@ export function usePhotoGallery() {
     const fileName = (
       generateFilename() + '.jpeg'
     ) ;
+    const savedFileImage = await savePicture(photo, fileName);
     setPhotos(photos => {
       ;
       const newPhotos = [
-        {
-          filepath: fileName,
-          webviewPath: photo.webPath,
-        },
+        savedFileImage,
         ...photos,
       ];
       return newPhotos ;

@@ -96,14 +96,7 @@ const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> =
   };
   }
 };
-const useSavedPhotos: (
-  () => {
-    photos: UserPhoto[];
-    setPhotos: React.Dispatch<React.SetStateAction<UserPhoto[]>>;
-    lastUpdatedStart ?: string ;
-    lastUpdatedEnd ?: string ;
-  }
-) = (
+const useSavedPhotosImpl = (
   () => {
     const [photosA, setPhotos0] = (
       useState<(
@@ -151,19 +144,6 @@ const useSavedPhotos: (
         ;
       } , Promise.resolve() ,)
     ) ;
-    useEffect(() => {
-      const intervalId = (
-        setInterval((
-          () => refresh()
-        ) , 8 * 1000 , )
-      ) ;
-      refresh() ;
-      return (
-        (): void => {
-          clearInterval(intervalId, ) ;
-        }
-      ) ;
-    } , [refresh, ] , ) ;
     const exportDoSetPhotos = (
       /**   
        * use `useCallback` the way `setState` and `reduce` has done
@@ -198,6 +178,42 @@ const useSavedPhotos: (
         }
       ) , [setPhotos0 , ] , )
     ) ;
+    return {
+      photosA ,
+      refresh ,
+      exportDoSetPhotos ,
+    } ;
+  }
+) ;
+const useSavedPhotos: (
+  () => {
+    photos: UserPhoto[];
+    setPhotos: React.Dispatch<React.SetStateAction<UserPhoto[]>>;
+    lastUpdatedStart ?: string ;
+    lastUpdatedEnd ?: string ;
+  }
+) = (
+  () => {
+    const {
+      photosA ,
+      refresh ,
+      exportDoSetPhotos ,
+    } = (
+      useSavedPhotosImpl()
+    ) ;
+    useEffect(() => {
+      const intervalId = (
+        setInterval((
+          () => refresh()
+        ) , 8 * 1000 , )
+      ) ;
+      refresh() ;
+      return (
+        (): void => {
+          clearInterval(intervalId, ) ;
+        }
+      ) ;
+    } , [refresh, ] , ) ;
     const { value: photos, compStartDate, compEndDate , } = (
       function useAw() {
         const [v, setV] = (

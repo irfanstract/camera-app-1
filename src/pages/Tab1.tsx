@@ -7,6 +7,10 @@ import { // BPG
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
+  const {
+    photoGallery ,
+    takePhoto ,
+  } = usePhotoGallery() ;
   return (
     <IonPage>
       <IonHeader>

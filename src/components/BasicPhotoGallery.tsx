@@ -121,7 +121,10 @@ const useSavedPhotos: (
         const loadSaved = async () => {
           const { value } = await Preferences.get({ key: PHOTO_STORAGE, });
           const photosInPreferences0 = (value ? JSON.parse(value) : []) as UserPhoto[];
-          const photosInPreferences = (
+          const photosInPreferences = /* COND */ (
+          // https://ionicframework.com/docs/react/your-first-app/adding-mobile 
+          !isPlatform('hybrid') ?
+          (
           await Promise.all((
           photosInPreferences0
           .map(async (photo): Promise<UserPhoto > => {
@@ -138,7 +141,9 @@ const useSavedPhotos: (
             )
           } )
           ))
-          );
+          )
+          : photosInPreferences0
+          ) /* COND */ ;
       
           setPhotos(photosInPreferences);
         };

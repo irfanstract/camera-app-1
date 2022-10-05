@@ -14,6 +14,18 @@ const Tab1: React.FC = () => {
   const [showAlert, ] = (
     useIonAlert()
   ) ;
+  const showRudimentaryALert : (
+    () => void
+  ) = (
+    () => {
+      showAlert(`An Alert` , [
+        {
+          role : "confirm" ,
+          text : "OK" ,
+        } ,
+      ] );
+    }
+  ) ;
   return (
     <IonPage>
       <IonHeader>

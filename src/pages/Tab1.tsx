@@ -1,6 +1,9 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { IonButton, useIonAlert, } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
+import { // BPG
+  usePhotoGallery ,
+} from "components/BasicPhotoGallery" ;
 import './Tab1.css';
 
 const Tab1: React.FC = () => {

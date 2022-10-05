@@ -45,6 +45,13 @@ const Tab1: React.FC = () => {
         <IonButton onClick={() => takePhoto() }>
           Take Photo
         </IonButton>
+        <IonButton 
+        onClick={() => {
+          showRudimentaryALert() ;
+        } }
+        >
+          Show Alert
+        </IonButton>
       </IonContent>
     </IonPage>
   );

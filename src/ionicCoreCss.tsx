@@ -22,6 +22,14 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
+// TODO
+if ((
+   0 
+   /** can't use `false` nor `true` since that would interfere with the type-checking. */ 
+)) {
+   setupIonicReact();
+} 
+
 
 
 

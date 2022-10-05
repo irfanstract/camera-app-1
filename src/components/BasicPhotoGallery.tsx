@@ -57,12 +57,26 @@ const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> =
     directory: Directory.Data,
   });
 
+  /**     
+   * per
+   * the advice per https://ionicframework.com/docs/react/your-first-app/adding-mobile 
+   * 
+   */
+  if (isPlatform('hybrid')) {
+    // Display the new image by rewriting the 'file://' path to HTTP
+    // Details: https://ionicframework.com/docs/building/webview#file-protocol
+    return {
+      filepath: savedFile.uri,
+      webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+    };
+  } else {
   // Use webPath to display the new image instead of base64 since it's
   // already loaded into memory
   return {
     filepath: fileName,
     webviewPath: photo.webPath,
   };
+  }
 };
 const useSavedPhotos: (
   () => {

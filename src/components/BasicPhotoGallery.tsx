@@ -73,12 +73,109 @@ const useSavedPhotos: (
   }
 ) = (
   () => {
-    const [photos, setPhotos,] = (
-      useState<UserPhoto[] >([], )
+    const [photosA, setPhotos0] = (
+      useState<(
+        Promise<{ compStartDate ?: string ; compEndDate ?: string ; value : UserPhoto[] ; }> 
+      )>(async () => ({ value : [] , }) )
+    );
+    const [ , refresh, ] = (
+      useReducer(async (): Promise<void> => {
+        const setPhotos = (
+          (...[v] : [UserPhoto[] , ]): void => {
+            const compEndDate = Date() ;
+            setPhotos0(async () => ({ value: v , compEndDate, }) ) ;
+          }
+        ) ;
+        const loadSaved = async () => {
+          const { value } = await Preferences.get({ key: PHOTO_STORAGE, });
+          const photosInPreferences = (value ? JSON.parse(value) : []) as UserPhoto[];
+      
+          for (let photo of photosInPreferences) {
+            const file = await Filesystem.readFile({
+              path: photo.filepath,
+              directory: Directory.Data,
+            });
+            // Web platform only: Load the photo as base64 data
+            photo.webviewPath = `data:image/jpeg;base64,${file.data}`;
+          }
+          setPhotos(photosInPreferences);
+        };
+        loadSaved();
+        ;
+      } , Promise.resolve() ,)
     ) ;
+    useEffect(() => {
+      const intervalId = (
+        setInterval((
+          () => refresh()
+        ) , 8 * 1000 , )
+      ) ;
+      refresh() ;
+      return (
+        (): void => {
+          clearInterval(intervalId, ) ;
+        }
+      ) ;
+    } , [refresh, ] , ) ;
+    const exportDoSetPhotos = (
+      /**   
+       * use `useCallback` the way `setState` and `reduce` has done
+       * 
+       */
+      useCallback((
+        (...[updt0] : [React.SetStateAction<UserPhoto[]> , ] ) => {
+          const updt = (
+            (typeof updt0 === "function") ?
+            updt0
+            : (() => updt0 )
+          ) ;
+          setPhotos0(async (photosA) => {
+            const p0 = (
+              await (
+                photosA
+              )
+            ) ;
+            const { value: photos, } = p0 ;
+            ;
+            const newPhotos = (
+              updt(photos, )
+            ) ;
+            await (
+              Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos), })
+            ) ;
+            return (
+              p0
+            ) ;
+          } ) ;
+          refresh() ;
+        }
+      ) , [setPhotos0 , ] , )
+    ) ;
+    const { value: photos, compStartDate, compEndDate , } = (
+      function useAw() {
+        const [v, setV] = (
+          useState<(
+            (typeof photosA) extends Promise<infer A> ?
+            A : never
+          ) >({ value: [], })
+        ) ;
+        useEffect(() => {
+          (
+            photosA
+            .then((v) => {
+              0 && console.log({ v, }) ;
+              setV(v ) ;
+            } )
+          ) ;
+        } , [photosA, ], ) ;
+        return v ;
+      }
+    )() ;
     return {
       photos ,
-      setPhotos ,
+      setPhotos: exportDoSetPhotos ,
+      lastUpdatedStart: compStartDate ,
+      lastUpdatedEnd: compEndDate ,
     } ;
   }
 ) ;

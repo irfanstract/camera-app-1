@@ -14,6 +14,18 @@ const Tab1: React.FC = () => {
   const [showAlert, ] = (
     useIonAlert()
   ) ;
+  const showRudimentaryALert : (
+    () => void
+  ) = (
+    () => {
+      showAlert(`An Alert` , [
+        {
+          role : "confirm" ,
+          text : "OK" ,
+        } ,
+      ] );
+    }
+  ) ;
   return (
     <IonPage>
       <IonHeader>
@@ -32,6 +44,13 @@ const Tab1: React.FC = () => {
         </div>
         <IonButton onClick={() => takePhoto() }>
           Take Photo
+        </IonButton>
+        <IonButton 
+        onClick={() => {
+          showRudimentaryALert() ;
+        } }
+        >
+          Show Alert
         </IonButton>
       </IonContent>
     </IonPage>

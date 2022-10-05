@@ -120,6 +120,7 @@ export function usePhotoGallery() {
     photos ,
   };
 } ;
+const PHOTO_STORAGE: string = 'photos';
 
 
 const generateFilename : (

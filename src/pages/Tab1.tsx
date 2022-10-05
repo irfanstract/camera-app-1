@@ -11,6 +11,9 @@ const Tab1: React.FC = () => {
     photoGallery ,
     takePhoto ,
   } = usePhotoGallery() ;
+  const [showAlert, ] = (
+    useIonAlert()
+  ) ;
   return (
     <IonPage>
       <IonHeader>

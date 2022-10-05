@@ -24,6 +24,12 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <div>
+        { photoGallery }
+        </div>
+        <IonButton onClick={() => takePhoto() }>
+          Take Photo
+        </IonButton>
         <ExploreContainer name="Tab 1 page" />
       </IonContent>
     </IonPage>

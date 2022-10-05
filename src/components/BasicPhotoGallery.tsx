@@ -96,6 +96,15 @@ const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> =
   };
   }
 };
+/**    
+ * not meant for public use.  
+ * 
+ * primarily the extracted basics.
+ * 
+ * does not itself auto-refresh ;
+ * must manually be called.
+ * 
+ */
 const useSavedPhotosImpl = (
   () => {
     const [photosA, setPhotos0] = (

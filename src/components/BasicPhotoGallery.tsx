@@ -161,40 +161,6 @@ const useSavedPhotosImpl = (
         ;
       } , Promise.resolve() ,)
     ) ;
-    const exportDoSetPhotos = (
-      /**   
-       * use `useCallback` the way `setState` and `reduce` has done
-       * 
-       */
-      useCallback((
-        (...[usrUpdt0] : [React.SetStateAction<UserPhoto[]> , ] ) => {
-          const usrUpdt = (
-            (typeof usrUpdt0 === "function") ?
-            usrUpdt0
-            : (() => usrUpdt0 )
-          ) ;
-          setPhotos0(async (photosA) => {
-            const p0 = (
-              await (
-                photosA
-              )
-            ) ;
-            const { value: photos, } = p0 ;
-            ;
-            const newPhotos = (
-              usrUpdt(photos, )
-            ) ;
-            await (
-              Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos), })
-            ) ;
-            return (
-              p0
-            ) ;
-          } ) ;
-          refresh() ;
-        }
-      ) , [setPhotos0 , ] , )
-    ) ;
     return {
       photosA ,
       refresh ,

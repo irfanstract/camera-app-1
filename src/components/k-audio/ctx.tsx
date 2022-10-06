@@ -114,6 +114,10 @@ class TAndTScale {
 
 }
 namespace TAndTScale { ; }  // TS-1205, TS-2702, 
+export {
+   PdMode ,
+   TAndTScale ,
+} ;
 const CToGivenAudioCtxDest : (
    React.FC<(
       Required<React.PropsWithChildren >

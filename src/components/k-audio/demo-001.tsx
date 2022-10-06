@@ -60,6 +60,58 @@ import { useIndependentACtx, ACtxBoundary, } from "./actx-base";
 
 
 
+const CWaveTableImpl : (
+   React.FC<(
+      { type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }
+      &
+      { c: AudioNode ; }
+   )>
+) = (
+   ({ type: waveShape , c: dest, }) => {
+      useEffect(() => {
+         const c = dest.context ;
+         const o = c.createOscillator() ;
+         o.connect(dest , ) ;
+         {
+            ;
+            (typeof waveShape !== "object") && (
+               o.type = waveShape
+            ) ;
+            (waveShape instanceof PeriodicWave ) && (
+               o.setPeriodicWave(waveShape , )
+            ) ;
+         }
+         o.start() ;
+         return (): void => {
+            o.disconnect() ;
+         } ;
+      } , [dest, ] , ) ;
+      return (
+         <></>
+      ) ;
+   }
+) ;
+const CWaveTable : (
+   React.FC<(
+      Partial<{ type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }>
+   )>
+) = (
+   ({ type: waveShape = "triangle", }) => {
+      return (
+         <CACtxtualDestNodeRefUser>
+         { ({ dest, } ) => (
+            (dest instanceof AudioNode ) 
+            &&
+            <CWaveTableImpl 
+            type={waveShape }
+            c={dest }
+            />
+         ) }
+         </CACtxtualDestNodeRefUser>
+      ) ;
+   }
+) ;
+
 ;
 
 

@@ -296,6 +296,10 @@ const useSavedPhotos: (
   }
 ) ;
 export function usePhotoGallery() {
+  const [showAlert,] = (
+    useIonAlert()
+  ) ;
+
   // TODO
   const {
     photos ,

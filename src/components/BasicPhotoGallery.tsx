@@ -23,7 +23,12 @@ import {
 import { useIonAlert, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
 
-import { 
+/**    
+ * now being type-only import.
+ * superseded by the async, fallible path below.
+ * 
+ */
+import type { 
   //  Camera, 
   //  CameraResultType, 
   //  CameraSource, 
@@ -36,6 +41,10 @@ import {
 import { Preferences, } from '@capacitor/preferences';
 import { Capacitor, } from '@capacitor/core';
 
+/**    
+ * importing it leniently/fail-fast.
+ * 
+ */
 const ASYNC_CGP = import("components/camera-getphoto") ;
 
 

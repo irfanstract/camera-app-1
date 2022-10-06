@@ -70,20 +70,20 @@ const CWaveTableImpl : (
    ({ type: waveShape , c: dest, }) => {
       useEffect(() => {
          const c = dest.context ;
-         const o = c.createOscillator() ;
-         o.connect(dest , ) ;
+         const waveTable1 = c.createOscillator() ;
+         waveTable1.connect(dest , ) ;
          {
             ;
             (typeof waveShape !== "object") && (
-               o.type = waveShape
+               waveTable1.type = waveShape
             ) ;
             (waveShape instanceof PeriodicWave ) && (
-               o.setPeriodicWave(waveShape , )
+               waveTable1.setPeriodicWave(waveShape , )
             ) ;
          }
-         o.start() ;
+         waveTable1.start() ;
          return (): void => {
-            o.disconnect() ;
+            waveTable1.disconnect() ;
          } ;
       } , [dest, ] , ) ;
       return (

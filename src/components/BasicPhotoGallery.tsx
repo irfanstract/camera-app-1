@@ -197,7 +197,15 @@ const useSavedPhotosImpl = (
 const useSavedPhotos: (
   () => {
     photos: UserPhoto[];
-    setPhotos: React.Dispatch<React.SetStateAction<UserPhoto[]>>;
+    setPhotos: (
+      /**   
+       * shall be signature-equivalent with 
+       * the 2nd value of the tuple returned by `useState<UserPhoto[] >(...)` 
+       * (which's the `setState(...)` fnc )
+       * 
+       */
+      React.Dispatch<React.SetStateAction<UserPhoto[]>>
+    );
     lastUpdatedStart ?: string ;
     lastUpdatedEnd ?: string ;
   }

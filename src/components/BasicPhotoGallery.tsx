@@ -167,11 +167,11 @@ const useSavedPhotosImpl = (
        * 
        */
       useCallback((
-        (...[updt0] : [React.SetStateAction<UserPhoto[]> , ] ) => {
-          const updt = (
-            (typeof updt0 === "function") ?
-            updt0
-            : (() => updt0 )
+        (...[usrUpdt0] : [React.SetStateAction<UserPhoto[]> , ] ) => {
+          const usrUpdt = (
+            (typeof usrUpdt0 === "function") ?
+            usrUpdt0
+            : (() => usrUpdt0 )
           ) ;
           setPhotos0(async (photosA) => {
             const p0 = (
@@ -182,7 +182,7 @@ const useSavedPhotosImpl = (
             const { value: photos, } = p0 ;
             ;
             const newPhotos = (
-              updt(photos, )
+              usrUpdt(photos, )
             ) ;
             await (
               Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos), })

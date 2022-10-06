@@ -23,7 +23,7 @@ import {
 import { useIonAlert, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
 
-import { 
+import type { 
   //  Camera, 
   //  CameraResultType, 
   //  CameraSource, 

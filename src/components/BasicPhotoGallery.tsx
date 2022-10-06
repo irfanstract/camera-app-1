@@ -129,7 +129,7 @@ const useSavedPhotosImpl = (
           (
           await Promise.all((
           photosInPreferences0
-          .map(async (photo): Promise<UserPhoto > => {
+          .map(async (photo): Promise<null | UserPhoto > => {
             const file = await Filesystem.readFile({
               path: photo.filepath,
               directory: Directory.Data,
@@ -144,6 +144,7 @@ const useSavedPhotosImpl = (
           } )
           ))
           )
+          .filter((v): v is UserPhoto => !!v )
           : photosInPreferences0
           ) /* COND */ ;
       

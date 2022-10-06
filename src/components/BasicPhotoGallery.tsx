@@ -247,25 +247,12 @@ const useSavedPhotos: (
       ) ;
     } , [refresh, ] , ) ;
     const { value: photos, compStartDate, compEndDate , } = (
-      function useAw() {
-        const [v, setV] = (
-          useState<(
-            (typeof photosA) extends Promise<infer A> ?
-            A : never
-          ) >({ value: [], })
-        ) ;
-        useEffect(() => {
-          (
-            photosA
-            .then((v) => {
-              0 && console.log({ v, }) ;
-              setV(v ) ;
-            } )
-          ) ;
-        } , [photosA, ], ) ;
-        return v ;
-      }
-    )() ;
+      usePromiseValue({ 
+        clearOnSwitch: false, 
+        src: photosA, 
+        initialValue: { value: [] as UserPhoto[] , } ,
+      })
+    ) ;
     return {
       photos ,
       setPhotos: exportDoSetPhotos ,

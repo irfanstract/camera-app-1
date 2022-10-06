@@ -50,6 +50,66 @@ export class UserPhoto {
     public originalResol?: readonly [number, number,] ,
   ) {}
 } ;
+const updateNativePhotos = (
+  async (...[newPhotos, ] : [UserPhoto[] , ] ) => (
+    Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos), })
+  )
+) ;
+const fromNativeStorageGetSavedPhotos = (
+  async function () {
+    ;
+    const photosInPreferences0 = await (async () => {
+      const { value } = await Preferences.get({ key: PHOTO_STORAGE, });
+      return (
+        (value ? JSON.parse(value) : []) as UserPhoto[]
+      ) ;
+    } )() ;
+    ;
+    return photosInPreferences0 ;
+  }
+) ;
+const fromNativeStorageGetSavedPhotosAdapted = (
+  async function () {
+          ;
+          const photosInPreferences0 = await fromNativeStorageGetSavedPhotos();
+          const photosInPreferences = /* COND */ (
+          // https://ionicframework.com/docs/react/your-first-app/adding-mobile 
+          !isPlatform('hybrid') ?
+          (
+          await Promise.all((
+          photosInPreferences0
+          .map(async (photo): Promise<null | UserPhoto > => {
+            const file = await (
+            Filesystem.readFile({
+              path: photo.filepath,
+              directory: PHOTO_DIR,
+            })
+            .catch(z => {
+              console.info(z ) ;
+              return null ;
+            })
+            );
+            if (!file ) return null ;
+            // Web platform only: Load the photo as base64 data
+            return (
+              {
+                ...photo,
+                webviewPath : `data:image/jpeg;base64,${file.data}`,
+              } // end of `UserPhoto`
+            )
+          } )
+          ))
+          )
+          .filter((v): v is UserPhoto => !!v )
+          : photosInPreferences0
+          ) /* COND */ ;
+          ;
+          return {
+            photosInPreferences0 ,
+            photosInPreferences ,
+          } ;
+  }
+) ;
 const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {
   const base64Data = (
     /**     
@@ -125,39 +185,12 @@ const useSavedPhotosImpl = (
       ) ;
       return (
         async () => {
-          const { value } = await Preferences.get({ key: PHOTO_STORAGE, });
-          const photosInPreferences0 = (value ? JSON.parse(value) : []) as UserPhoto[];
-          const photosInPreferences = /* COND */ (
-          // https://ionicframework.com/docs/react/your-first-app/adding-mobile 
-          !isPlatform('hybrid') ?
-          (
-          await Promise.all((
-          photosInPreferences0
-          .map(async (photo): Promise<null | UserPhoto > => {
-            const file = await (
-            Filesystem.readFile({
-              path: photo.filepath,
-              directory: PHOTO_DIR,
-            })
-            .catch(z => {
-              console.info(z ) ;
-              return null ;
-            })
-            );
-            if (!file ) return null ;
-            // Web platform only: Load the photo as base64 data
-            return (
-              {
-                ...photo,
-                webviewPath : `data:image/jpeg;base64,${file.data}`,
-              } // end of `UserPhoto`
-            )
-          } )
-          ))
-          )
-          .filter((v): v is UserPhoto => !!v )
-          : photosInPreferences0
-          ) /* COND */ ;
+          const {
+            photosInPreferences0 ,
+            photosInPreferences ,
+          } = (
+            await fromNativeStorageGetSavedPhotosAdapted()
+          ) ;
       
           setPhotos(photosInPreferences);
         }
@@ -196,7 +229,7 @@ const useSavedPhotosImpl = (
                 usrUpdt(photos, )
               ) ;
               await (
-                Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos), })
+                updateNativePhotos(newPhotos)
               ) ;
               return (
                 p0

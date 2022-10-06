@@ -317,8 +317,19 @@ export function usePhotoGallery() {
           source: CameraSource.Camera,
           quality: 100,
         })
+        /** "Cancel"ed, Denied,  */
+        .catch(e => {
+          console.info(e) ;
+          return null ;
+        } )
       )
     );
+    if (!photo ) {
+      await (
+        showAlert(`NO PHOTO taken.`)
+      ) ;
+      break FLOW ;
+    }
     const fileName = (
       generateFilename() + '.jpeg'
     ) ;

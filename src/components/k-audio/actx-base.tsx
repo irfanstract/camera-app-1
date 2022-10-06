@@ -75,7 +75,7 @@ const useIndependentACtx = (
  */
 const ACtxBoundary = (
    function ACtxBoundaryC(...[{ children: payload, }, ] : [
-      React.ConsumerProps<null | AudioContext > ,
+      React.ConsumerProps<AudioContext > ,
    ] ) : React.ReactElement {
       const aCtx = (
          useIndependentACtx()
@@ -83,7 +83,7 @@ const ACtxBoundary = (
       ;
       return (
          <>
-         { payload(aCtx ) }
+         { aCtx && payload(aCtx ) }
          </>
       ) ;
    }

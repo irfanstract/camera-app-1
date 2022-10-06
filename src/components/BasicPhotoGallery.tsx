@@ -72,7 +72,7 @@ const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> =
   const savedFile = await Filesystem.writeFile({
     path: fileName,
     data: base64Data,
-    directory: Directory.Data,
+    directory: PHOTO_DIR,
   });
 
   /**     
@@ -136,7 +136,7 @@ const useSavedPhotosImpl = (
             const file = await (
             Filesystem.readFile({
               path: photo.filepath,
-              directory: Directory.Data,
+              directory: PHOTO_DIR,
             })
             .catch(z => {
               console.info(z ) ;
@@ -325,6 +325,7 @@ export function usePhotoGallery() {
   };
 } ;
 const PHOTO_STORAGE: string = 'photos';
+const PHOTO_DIR: Directory = Directory.Data ;
 
 
 const generateFilename : (

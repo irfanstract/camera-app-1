@@ -24,9 +24,9 @@ import { useIonAlert, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
 
 import { 
-   Camera, 
-   CameraResultType, 
-   CameraSource, 
+  //  Camera, 
+  //  CameraResultType, 
+  //  CameraSource, 
    Photo ,
 } from '@capacitor/camera';
 import { 
@@ -35,6 +35,8 @@ import {
 } from '@capacitor/filesystem';
 import { Preferences, } from '@capacitor/preferences';
 import { Capacitor, } from '@capacitor/core';
+
+const ASYNC_CGP = import("components/camera-getphoto") ;
 
 
 
@@ -310,13 +312,17 @@ export function usePhotoGallery() {
     FLOW:
     {
     ;
+    const CGP = await ASYNC_CGP.catch(e => (console.warn(e) , null ) ) ;
+    if (!CGP ) {
+      await (
+        showAlert(`CAMERA NOT FOUND.`)
+      ) ;
+      break FLOW ;
+    }
+    ;
     const photo = (
       await (
-        Camera.getPhoto({
-          resultType: CameraResultType.Uri,
-          source: CameraSource.Camera,
-          quality: 100,
-        })
+        CGP.openCameraAndTakePhoto( )
         /** "Cancel"ed, Denied,  */
         .catch(e => {
           console.info(e) ;

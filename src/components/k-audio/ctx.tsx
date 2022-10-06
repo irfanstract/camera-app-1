@@ -114,3 +114,25 @@ class TAndTScale {
 
 }
 namespace TAndTScale { ; }  // TS-1205, TS-2702, 
+const CToGivenAudioCtxDest : (
+   React.FC<(
+      Required<React.PropsWithChildren >
+      &
+      { value : BaseAudioContext ; }
+   )>
+) = (
+   ({ value: aCtx, children: payload, }) => {
+      const { Provider, } = ctx ;
+      const prvv1 = (
+         useMemo((): CtxValue => ({
+            pd: new PdMode.Stochastically(aCtx.destination, ) ,
+            tCtx: TAndTScale.initially() ,
+         }) , [aCtx, ], )
+      ) ;
+      return (
+         <Provider value={prvv1 } >
+            { payload }
+         </Provider>
+      ) ;
+   }
+) ;

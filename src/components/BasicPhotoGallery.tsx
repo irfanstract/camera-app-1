@@ -112,15 +112,18 @@ const useSavedPhotosImpl = (
         Promise<{ compStartDate ?: string ; compEndDate ?: string ; value : UserPhoto[] ; }> 
       )>(async () => ({ value : [] , }) )
     );
-    const [ , refresh, ] = (
-      useReducer(async (): Promise<void> => {
-        const setPhotos = (
+    const setPhotos1 = (
           (...[v] : [UserPhoto[] , ]): void => {
             const compEndDate = Date() ;
             setPhotos0(async () => ({ value: v , compEndDate, }) ) ;
           }
-        ) ;
-        const loadSaved = async () => {
+    ) ;
+    const loadSaved = (() => {
+      const setPhotos = (
+        setPhotos1
+      ) ;
+      return (
+        async () => {
           const { value } = await Preferences.get({ key: PHOTO_STORAGE, });
           const photosInPreferences0 = (value ? JSON.parse(value) : []) as UserPhoto[];
           const photosInPreferences = /* COND */ (
@@ -156,7 +159,11 @@ const useSavedPhotosImpl = (
           ) /* COND */ ;
       
           setPhotos(photosInPreferences);
-        };
+        }
+      ) ;
+    })();
+    const [ , refresh, ] = (
+      useReducer(async (): Promise<void> => {
         loadSaved();
         ;
       } , Promise.resolve() ,)

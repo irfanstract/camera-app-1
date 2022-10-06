@@ -139,3 +139,30 @@ const CToGivenAudioCtxDest : (
 export {
    CToGivenAudioCtxDest ,
 } ;
+const CACtxtualDestNodeRefUser : (
+   React.FC<(
+      React.ConsumerProps<PdMode.OfToSendToDest >
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { pd, } = c ;
+               if (pd instanceof PdMode.OfToSendToDest ) {
+                  return (
+                     payload(pd, )
+                  ) ;
+               }
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ;
+export {
+   CACtxtualDestNodeRefUser ,
+} ;

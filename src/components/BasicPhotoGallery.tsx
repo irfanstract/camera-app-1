@@ -41,6 +41,10 @@ import {
 import { Preferences, } from '@capacitor/preferences';
 import { Capacitor, } from '@capacitor/core';
 
+/**    
+ * importing it leniently/fail-fast.
+ * 
+ */
 const ASYNC_CGP = import("components/camera-getphoto") ;
 
 

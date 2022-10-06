@@ -112,6 +112,38 @@ const CWaveTable : (
    }
 ) ;
 
+export default (
+   identity<React.FC<{}> >((
+      () => (
+         <ACtxBoundary>
+         { (c, ) => {
+            const suspentiveBtn = (
+               <button type="button" onClick={() => c.suspend() } >
+                  suspend
+               </button>
+            ) ;
+            const resumptiveBtn = (
+               <button type="button" onClick={() => c.resume() } >
+                  resume
+               </button>
+            ) ;
+            return (
+               <div>
+                  <p>
+                     { suspentiveBtn }
+                     { resumptiveBtn }
+                  </p>
+                  <div>
+                     <CWaveTable />
+                  </div>
+               </div>
+            ) ;
+         } }
+         </ACtxBoundary>
+      )
+   ))
+) ;
+
 ;
 
 

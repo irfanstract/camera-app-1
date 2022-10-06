@@ -24,9 +24,9 @@ import { useIonAlert, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
 
 import { 
-   Camera, 
-   CameraResultType, 
-   CameraSource, 
+  //  Camera, 
+  //  CameraResultType, 
+  //  CameraSource, 
    Photo ,
 } from '@capacitor/camera';
 import { 

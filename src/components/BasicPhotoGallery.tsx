@@ -312,13 +312,17 @@ export function usePhotoGallery() {
     FLOW:
     {
     ;
+    const CGP = await ASYNC_CGP.catch(e => (console.warn(e) , null ) ) ;
+    if (!CGP ) {
+      await (
+        showAlert(`CAMERA NOT FOUND.`)
+      ) ;
+      break FLOW ;
+    }
+    ;
     const photo = (
       await (
-        Camera.getPhoto({
-          resultType: CameraResultType.Uri,
-          source: CameraSource.Camera,
-          quality: 100,
-        })
+        CGP.openCameraAndTakePhoto( )
         /** "Cancel"ed, Denied,  */
         .catch(e => {
           console.info(e) ;

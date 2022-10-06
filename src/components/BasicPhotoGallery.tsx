@@ -23,6 +23,11 @@ import {
 import { useIonAlert, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
 
+/**    
+ * now being type-only import.
+ * superseded by the async, fallible path below.
+ * 
+ */
 import type { 
   //  Camera, 
   //  CameraResultType, 

@@ -31,6 +31,32 @@ interface MonomorphicDigestFnc<A> {
    (existingValue: A, ) : A ;
 }
 
+const useUpvBasic = (
+   function <A>(...[{ initialValue, }, ] : [
+      { initialValue : A ; } ,
+   ] ) {
+      const [presentValue, setPresentValueImmediately, ] = (
+         useState<A>(initialValue, )
+      ) ;
+      const [ , resetImmediately, ] = (
+         useReducer((
+            (): void => {
+               (
+                  setPresentValueImmediately((v: A, ): A => (
+                     initialValue
+                  ) )
+               ) ;
+            }
+         ) , void 0 , )
+      ) ;
+      ;
+      return {
+         presentValue ,
+         setPresentValueImmediately ,
+         resetImmediately ,
+      } ;
+   }
+) ;
 interface UpvInitialValueConfig<A> {
    /**    
     * if this were `true`, then

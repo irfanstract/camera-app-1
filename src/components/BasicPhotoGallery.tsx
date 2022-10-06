@@ -130,10 +130,17 @@ const useSavedPhotosImpl = (
           await Promise.all((
           photosInPreferences0
           .map(async (photo): Promise<null | UserPhoto > => {
-            const file = await Filesystem.readFile({
+            const file = await (
+            Filesystem.readFile({
               path: photo.filepath,
               directory: Directory.Data,
-            });
+            })
+            .catch(z => {
+              console.info(z ) ;
+              return null ;
+            })
+            );
+            if (!file ) return null ;
             // Web platform only: Load the photo as base64 data
             return (
               {

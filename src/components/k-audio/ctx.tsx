@@ -68,29 +68,25 @@ const ctx = (
       CtxValue
    )>(null , )
 ) ;
-class PdMode {
+class PdMode /* */ {}
+namespace PdMode {
 
-   static OfToSendToDest = (
-      class OfToSendToDest extends PdMode {
+   export class OfToSendToDest extends PdMode {
          constructor(public dest : AudioNode | AudioParam ,) {
             super() ;
          }
-      }
-   ) ;
-   static Stochastically = (
+   } ;
+   export const Stochastically = (
       class StochasticMd extends PdMode.OfToSendToDest {}
    ) ;
-   static OfQuantity = (
+   export const OfQuantity = (
       class QuantityMd extends PdMode.OfToSendToDest {}
    ) ;
 
    // TODO
-   static OfSequencer = (
-      class OfSequencer extends PdMode {}
-   ) ;
+   export class OfSequencer extends PdMode {} ;
 
-}
-namespace PdMode { ; }  // TS-1205, TS-2702, 
+}  // TS-1205, TS-2702, 
 class TAndTScale {
 
    withDurativeFactor(f: number ) {

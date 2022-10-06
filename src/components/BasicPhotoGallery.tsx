@@ -330,6 +330,8 @@ export function usePhotoGallery() {
       ) ;
       break FLOW ;
     }
+    try {
+    ;
     const fileName = (
       generateFilename() + '.jpeg'
     ) ;
@@ -342,6 +344,16 @@ export function usePhotoGallery() {
       ];
       return newPhotos ;
     } );
+    } catch (z) {
+      console.warn(z, ) ;
+      {
+        ;
+        await (
+          showAlert(`the photo was TAKEN BUT GONE AWAY failing the save .`)
+        ) ;
+        break FLOW ;
+      }
+    }
     }
   };
 

@@ -37,3 +37,60 @@ import React, {
 
 
 
+
+/**    
+ * whether the returned {@link AudioContext } would start `paused` or `running`
+ * depends on the underlying platform.
+ * it'd be necessary for callers to take care of that .
+ * 
+ */
+const useIndependentACtx = (
+   function useIndependentACtx1() {
+      ;
+      const [aCtx, setACtx ] = (
+         useState<null | AudioContext >(null )
+      ) ;
+      ;
+      useEffect(() => {
+         const aCtx = (
+            new AudioContext()
+         ) ;
+         setACtx(() => aCtx ) ;
+         return (): void => {
+            setTimeout(() => {
+               aCtx.close() ;
+            } , 8 * 1000 ) ;
+         } ;
+      } , [], ) ;
+      ;
+      return (
+         aCtx
+      ) ;
+   }
+) ;
+/**   
+ * a component which 
+ * {@link useIndependentACtx independently allocates `AudioCOntext` }
+ * 
+ */
+const ACtxBoundary = (
+   function ACtxBoundaryC(...[{ children: payload, }, ] : [
+      React.ConsumerProps<null | AudioContext > ,
+   ] ) : React.ReactElement {
+      const aCtx = (
+         useIndependentACtx()
+      ) ;
+      ;
+      return (
+         <>
+         { payload(aCtx ) }
+         </>
+      ) ;
+   }
+) ;
+export {
+   useIndependentACtx ,
+   ACtxBoundary ,
+} ;
+
+

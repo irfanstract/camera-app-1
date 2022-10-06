@@ -3,6 +3,7 @@
 import { base64FromPath, } from './url-fetch-util';
 
 import { useState, useEffect, useReducer, useCallback, } from 'react';
+import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 import { isPlatform, } from '@ionic/react';
 import {
   IonContent,

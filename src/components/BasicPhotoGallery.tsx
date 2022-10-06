@@ -307,6 +307,9 @@ export function usePhotoGallery() {
   } = useSavedPhotos() ;
   
   const takePhoto = async () => {
+    FLOW:
+    {
+    ;
     const photo = (
       await (
         Camera.getPhoto({
@@ -328,6 +331,7 @@ export function usePhotoGallery() {
       ];
       return newPhotos ;
     } );
+    }
   };
 
   const photoGallery = (

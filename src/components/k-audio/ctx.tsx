@@ -57,6 +57,17 @@ import React, {
 
 
 
+type CtxValue = (
+   {} 
+   & { pd: PdMode ; } 
+   & { tCtx : TAndTScale ; }
+) ;
+const ctx = (
+   React.createContext<(
+      null | 
+      CtxValue
+   )>(null , )
+) ;
 class PdMode {
 
    static OfToSendToDest = (

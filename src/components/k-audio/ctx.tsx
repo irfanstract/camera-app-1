@@ -56,3 +56,27 @@ import React, {
 
 
 
+
+class PdMode {
+
+   static OfToSendToDest = (
+      class OfToSendToDest extends PdMode {
+         constructor(public dest : AudioNode | AudioParam ,) {
+            super() ;
+         }
+      }
+   ) ;
+   static Stochastically = (
+      class StochasticMd extends PdMode.OfToSendToDest {}
+   ) ;
+   static OfQuantity = (
+      class QuantityMd extends PdMode.OfToSendToDest {}
+   ) ;
+
+   // TODO
+   static OfSequencer = (
+      class OfSequencer extends PdMode {}
+   ) ;
+
+}
+namespace PdMode { ; }  // TS-1205, TS-2702, 

@@ -85,7 +85,7 @@ const CWaveTableImpl : (
          return (): void => {
             waveTable1.disconnect() ;
          } ;
-      } , [dest, ] , ) ;
+      } , [dest, waveShape, ] , ) ;
       return (
          <></>
       ) ;

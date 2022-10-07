@@ -25,6 +25,9 @@
 #root,
 ion-title , 
 ion-page , div.ion-page ,
+ion-label ,
+ion-button ,
+ion-tab-button ,
 #-----e {
    font-weight: bold ;
 }

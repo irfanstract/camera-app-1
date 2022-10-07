@@ -18,7 +18,7 @@
 
 #root,
 #----e {
-   --ion-font-family : 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;  
+   --ion-font-family : 'Open Sans', 'Droid Sans', 'Segoe UI', Tahoma, Verdana, Geneva, sans-serif ;  
    font-family: var(--ion-font-family ); 
 }
 

@@ -12,6 +12,13 @@
 .container > * {
   flex: 0 0 auto ;
 } /*  */
+.container {
+  flex-direction: row;
+  flex-wrap: wrap;
+} /*  */
+.container > * {
+  flex: 0 0 100% ;
+} /*  */
 
 .container strong {
   font-size: 20px;

@@ -34,10 +34,6 @@ import type {
   //  CameraSource, 
    Photo ,
 } from '@capacitor/camera';
-import { 
-   Filesystem, 
-   Directory, 
-} from '@capacitor/filesystem';
 import { Preferences, } from '@capacitor/preferences';
 import { Capacitor, } from '@capacitor/core';
 

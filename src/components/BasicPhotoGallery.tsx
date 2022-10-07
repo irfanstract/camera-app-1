@@ -317,6 +317,31 @@ export function usePhotoGallery() {
     setPhotos ,
   } = useSavedPhotos() ;
   
+  const addPhotoImpl = (
+    async function (...psArgs : [
+      Photo ,
+      { fileName : string ; } ,
+    ] ) { 
+      const [
+        photo ,
+        { fileName, } ,
+      ] = psArgs ;
+      ;
+      const savedFileImage = await savePicture(photo, fileName);
+      setPhotos(photos => {
+        ;
+        const newPhotos = [
+          savedFileImage,
+          ...photos,
+        ];
+        return newPhotos ;
+      } );
+      ; 
+      return {
+      } ;
+    }
+  ) ;
+  
   const takePhoto = async () => {
     FLOW:
     {
@@ -350,15 +375,11 @@ export function usePhotoGallery() {
     const fileName = (
       generateFilename() + '.jpeg'
     ) ;
-    const savedFileImage = await savePicture(photo, fileName);
-    setPhotos(photos => {
-      ;
-      const newPhotos = [
-        savedFileImage,
-        ...photos,
-      ];
-      return newPhotos ;
-    } );
+    const {} = (
+      await (
+        addPhotoImpl(photo , { fileName, }, )
+      ) 
+    ) ;
     } catch (z) {
       console.warn(z, ) ;
       {

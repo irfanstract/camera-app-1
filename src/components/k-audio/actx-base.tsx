@@ -55,6 +55,13 @@ const useIndependentACtx = (
          const aCtx = (
             new AudioContext()
          ) ;
+         /**    
+          * needs to initially be suspended per UX principles.
+          * 
+          */
+         if (aCtx.state === "running" ) {
+            aCtx.suspend() ;
+         }
          setACtx(() => aCtx ) ;
          return (): void => {
             setTimeout(() => {

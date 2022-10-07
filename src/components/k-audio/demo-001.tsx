@@ -144,6 +144,7 @@ export default (
             return (
                <div>
                   <p>
+                     <code>{ String(c , ) }</code>
                      { suspentiveBtn }
                      { resumptiveBtn }
                   </p>

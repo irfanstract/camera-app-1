@@ -36,6 +36,13 @@ ion-tab-bar ,
    --background: rgba(var(--ion-background-color-rgb, 255,255,255) , var(--xmda-opacity, 0.5 ) ) ;
 }
 
+ion-title,
+ion-heading ,
+p ,
+#-----e {
+   /* user-select: all ; */
+}
+
 
 
 

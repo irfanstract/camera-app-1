@@ -51,7 +51,7 @@ ion-tab-bar ,
 #----e {
    margin-block-end: -57px ;
 }
-ion-content::scroll,
+ion-content::part(scroll),
 .inner-scroll,
 #-------e {
    /* border: 0.2em solid blue ; */

@@ -67,7 +67,7 @@ ion-fab ,
 #-----e {
    --xmda-scrollable-margin-bottom : 56px ;
 }
-ion-fab ,
+ion-fab[vertical="bottom" ] ,
 /* fixing the layout-bug in the infrastructural code */
 #-----e {
    bottom: calc((10px + var(--xmda-scrollable-margin-bottom, 0px /* */ ) ) ) ;

@@ -58,14 +58,28 @@ p ,
 
 
 #----EXPERIMENTAL--HACK--- {}
+ion-fab ,
+/* fixing the layout-bug in the infrastructural code */
+#-----e {
+   position: fixed ; 
+}
+#root ,
+#-----e {
+   --xmda-scrollable-margin-bottom : 56px ;
+}
+ion-fab[vertical="bottom" ] ,
+/* fixing the layout-bug in the infrastructural code */
+#-----e {
+   bottom: calc((10px + var(--xmda-scrollable-margin-bottom, 0px /* */ ) ) ) ;
+}
 .tabs-inner ,
 #----e {
-   margin-block-end: -57px ;
+   margin-block-end: calc(var(--xmda-scrollable-margin-bottom, 0px ) * -1 ) ;
 }
 ion-content::part(scroll) ,
 .inner-scroll ,
 #------e {
-   padding-block-end: 56px ;
+   padding-block-end: var(--xmda-scrollable-margin-bottom, 0px ) ;
 }
 ion-content::part(scroll),
 .inner-scroll,

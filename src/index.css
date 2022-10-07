@@ -16,6 +16,25 @@
 
 
 
+#root,
+#----e {
+   --ion-font-family : 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;  
+}
+
+#root,
+ion-title , 
+#-----e {
+   font-weight: bold ;
+}
+ion-toolbar ,
+ion-tab-bar ,
+#-----e {
+   backdrop-filter: blur(3px) ;
+   --xmda-opacity: 0.55 ;
+   --background: rgba(255 255 255 / var(--xmda-opacity, 0.5 ) ) ;
+   --background: rgba(var(--ion-background-color-rgb, 255,255,255) , var(--xmda-opacity, 0.5 ) ) ;
+}
+
 
 
 

@@ -1,10 +1,23 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonFab, IonFabButton, } from '@ionic/react';
 import { IonButton, useIonAlert, } from '@ionic/react';
+import { IonIcon, } from '@ionic/react';
+import { camera, trash, close, } from 'ionicons/icons';
 import ExploreContainer from '../components/ExploreContainer';
 import { // BPG
   usePhotoGallery ,
 } from "components/BasicPhotoGallery" ;
 import './Tab1.css';
+
+
+
+
+
+
+// TODO - UNDO THE COMMIT !!!
+
+
+
 
 const Tab1: React.FC = () => {
   const {
@@ -39,12 +52,15 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div>
         { photoGallery }
-        </div>
         <IonButton onClick={() => takePhoto() }>
           Take Photo
         </IonButton>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton onClick={() => takePhoto()}>
+            <IonIcon icon={camera}></IonIcon>
+          </IonFabButton>
+        </IonFab>
         <IonButton 
         onClick={() => {
           showRudimentaryALert() ;
@@ -58,3 +74,4 @@ const Tab1: React.FC = () => {
 };
 
 export default Tab1;
+

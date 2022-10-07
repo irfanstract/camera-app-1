@@ -87,7 +87,21 @@ const CWaveTableImpl : (
          } ;
       } , [dest, waveShape, ] , ) ;
       return (
-         <></>
+         <div>
+         <p>
+            Wave Table {}
+         </p>
+         <table>
+         <tbody>
+            <tr>
+               <td>OScillative Shape</td>
+               <td>
+               <code>{ String(waveShape, ) }</code>
+               </td>
+            </tr>
+         </tbody>
+         </table>
+         </div>
       ) ;
    }
 ) ;

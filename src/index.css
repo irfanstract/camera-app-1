@@ -58,6 +58,11 @@ p ,
 #----e {
    margin-block-end: -57px ;
 }
+ion-content::part(scroll) ,
+.inner-scroll ,
+#------e {
+   padding-block-end: 56px ;
+}
 ion-content::part(scroll),
 .inner-scroll,
 #-------e {

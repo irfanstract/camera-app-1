@@ -45,6 +45,20 @@ ion-tab-bar ,
 
 
 
+#----EXPERIMENTAL--HACK--- {}
+.tabs-inner ,
+#----e {
+   margin-block-end: -57px ;
+}
+ion-content::scroll,
+.inner-scroll,
+#-------e {
+   /* border: 0.2em solid blue ; */
+}
+ion-content::after {
+   content: "inserted content";
+}
+
 
 
 

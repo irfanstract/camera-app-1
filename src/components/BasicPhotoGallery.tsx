@@ -116,7 +116,7 @@ export function usePhotoGallery() {
     }
   };
 
-  const photoGallery = (
+  const photoGallery0 = (
     <IonGrid>
       <IonRow>
         {photos.map((photo, index) => (
@@ -128,6 +128,21 @@ export function usePhotoGallery() {
         ))}
       </IonRow>
     </IonGrid>
+  ) ;
+  const photoGallery = (
+    <div>
+      <IonTitle>
+        A Photo Collection  
+      </IonTitle>
+      { photoGallery0 }
+      <div>
+      <IonFab vertical="bottom" horizontal="end" slot="fixed">
+        <IonFabButton onClick={() => takePhoto()}>
+          <IonIcon icon={camera}></IonIcon>
+        </IonFabButton>
+      </IonFab>
+      </div>
+    </div>
   ) ;
 
   return {

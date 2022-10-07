@@ -133,9 +133,11 @@ export default (
                      { suspentiveBtn }
                      { resumptiveBtn }
                   </p>
+                  <CToGivenAudioCtxDest value={c } >
                   <div>
                      <CWaveTable />
                   </div>
+                  </CToGivenAudioCtxDest>
                </div>
             ) ;
          } }

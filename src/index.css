@@ -1,0 +1,81 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#root,
+#----e {
+   --ion-font-family : 'Open Sans', 'Droid Sans', 'Segoe UI', Tahoma, Verdana, Geneva, sans-serif ;  
+   font-family: var(--ion-font-family ); 
+}
+
+#root,
+ion-title , 
+ion-page , div.ion-page ,
+ion-label ,
+ion-button ,
+ion-tab-button ,
+#-----e {
+   font-weight: bold ;
+}
+ion-toolbar ,
+ion-tab-bar ,
+#-----e {
+   backdrop-filter: blur(3px) ;
+   --xmda-opacity: 0.55 ;
+   --background: rgba(255 255 255 / var(--xmda-opacity, 0.5 ) ) ;
+   --background: rgba(var(--ion-background-color-rgb, 255,255,255) , var(--xmda-opacity, 0.5 ) ) ;
+}
+
+ion-title,
+ion-heading ,
+p ,
+#-----e {
+   /* user-select: all ; */
+}
+
+
+
+
+
+
+
+
+
+
+
+#----EXPERIMENTAL--HACK--- {}
+.tabs-inner ,
+#----e {
+   margin-block-end: -57px ;
+}
+ion-content::part(scroll) ,
+.inner-scroll ,
+#------e {
+   padding-block-end: 56px ;
+}
+ion-content::part(scroll),
+.inner-scroll,
+#-------e {
+   /* border: 0.2em solid blue ; */
+}
+ion-content::after {
+   content: "inserted content";
+}
+
+
+
+

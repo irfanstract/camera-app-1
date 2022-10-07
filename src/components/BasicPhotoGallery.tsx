@@ -306,7 +306,7 @@ const useSavedPhotos: (
     } ;
   }
 ) ;
-export function usePhotoGallery() {
+export function useSavedPhotos1() {
   const [showAlert,] = (
     useIonAlert()
   ) ;
@@ -342,6 +342,21 @@ export function usePhotoGallery() {
     }
   ) ;
   
+  return {
+    photos ,
+    addPhotoImpl ,
+  } ;
+}
+export function usePhotoGallery() {
+  const [showAlert,] = (
+    useIonAlert()
+  ) ;
+
+  const {
+    photos ,
+    addPhotoImpl ,
+  } = useSavedPhotos1() ;
+
   const takePhoto = async () => {
     FLOW:
     {

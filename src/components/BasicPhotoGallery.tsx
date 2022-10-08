@@ -44,6 +44,7 @@ import {
   IonButton ,
 } from '@ionic/react';
 import { useIonAlert, } from '@ionic/react';
+import { IonModal, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
 import { download, } from 'ionicons/icons';
 import ActionElement from 'components/ActionElement';

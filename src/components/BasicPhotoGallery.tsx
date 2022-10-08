@@ -2,7 +2,29 @@
 
 import { base64FromPath, } from './url-fetch-util';
 
-import { useState, useEffect, useReducer, useCallback, } from 'react';
+import React, { 
+  // Callbacks
+  Dispatch,
+  DispatchWithoutAction, 
+
+  // Debug
+  useDebugValue,
+  // UseYyyEffect(s)
+  useLayoutEffect, useEffect, 
+  useInsertionEffect ,
+  // UseImperativeHandle
+  useImperativeHandle ,
+  // UseMemo and UseReducer and UseRefObject
+  useCallback, useMemo, useContext, useDeferredValue, 
+  useState, useReducer, 
+  useRef, 
+
+  // Component
+  Fragment ,
+  ReactElement ,
+  ReactNode ,
+
+} from "react"; 
 import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 import { isPlatform, } from '@ionic/react';
 import {

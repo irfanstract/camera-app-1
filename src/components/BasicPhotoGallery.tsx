@@ -45,6 +45,8 @@ import {
 } from '@ionic/react';
 import { useIonAlert, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
+import ActionElement from 'components/ActionElement';
+import FileUsrSaveElement from 'components/FileUsrSaveElement';
 
 /**    
  * now being type-only import.

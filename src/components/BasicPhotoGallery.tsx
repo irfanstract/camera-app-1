@@ -19,6 +19,7 @@ import {
   IonCol,
   IonImg,
   IonActionSheet,
+  IonButton ,
 } from '@ionic/react';
 import { useIonAlert, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';

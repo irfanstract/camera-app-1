@@ -193,6 +193,18 @@ export function usePhotoGallery() {
           <IonIcon icon={camera}></IonIcon>
         </IonFabButton>
       </IonFab>
+      <FileUsrSaveElement 
+      impl={({ ref, }) => (
+        <a 
+        ref={ref} // core
+        target="_blank" // to prevent overnav
+        href='data:text/plain,peeek this booo !'
+        download="peekthisboo.txt"
+        />
+      ) }
+      >
+        PEEK SOME BOO 
+      </FileUsrSaveElement>
       </div>
     </div>
   ) ;

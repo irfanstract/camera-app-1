@@ -71,7 +71,7 @@ export default (
       { 
         impl : (...args : [
           (
-            { ref: React.Ref<HTMLAnchorElement> ; }
+            { ref: JSX.IntrinsicElements["a"]["ref"] & {} ; }
           ) ,
         ] ) => ReactElement ;
       }

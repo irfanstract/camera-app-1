@@ -2,7 +2,29 @@
 
 import { base64FromPath, } from './url-fetch-util';
 
-import { useState, useEffect, useReducer, useCallback, } from 'react';
+import React, { 
+  // Callbacks
+  Dispatch,
+  DispatchWithoutAction, 
+
+  // Debug
+  useDebugValue,
+  // UseYyyEffect(s)
+  useLayoutEffect, useEffect, 
+  useInsertionEffect ,
+  // UseImperativeHandle
+  useImperativeHandle ,
+  // UseMemo and UseReducer and UseRefObject
+  useCallback, useMemo, useContext, useDeferredValue, 
+  useState, useReducer, 
+  useRef, 
+
+  // Component
+  Fragment ,
+  ReactElement ,
+  ReactNode ,
+
+} from "react"; 
 import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 import { isPlatform, } from '@ionic/react';
 import {
@@ -19,9 +41,14 @@ import {
   IonCol,
   IonImg,
   IonActionSheet,
+  IonButton ,
 } from '@ionic/react';
 import { useIonAlert, } from '@ionic/react';
+import { IonModal, } from '@ionic/react';
 import { camera, trash, close, } from 'ionicons/icons';
+import { download, } from 'ionicons/icons';
+import ActionElement from 'components/ActionElement';
+import FileUsrSaveElement from 'components/FileUsrSaveElement';
 
 /**    
  * now being type-only import.
@@ -41,6 +68,16 @@ import {
   UserPhoto ,
   useSavedPhotos1 ,
 } from "./BasicPhotoGalleryImpl" ;
+
+import {
+  // PhotoEnlargeModal ,
+  // usePhotoEnlargeModal ,
+
+  PhotoEnlargeActionElement ,
+  PhotoEnlargeableElement ,
+  
+  //
+} from "components/PhotoEnlargeModal" ;
 
 /**    
  * importing it leniently/fail-fast.
@@ -121,9 +158,24 @@ export function usePhotoGallery() {
       <IonRow>
         {photos.map((photo, index) => (
           <IonCol size="6" key={index}>
-            <a target="_blank" href={photo.webviewPath } download={photo.filepath } >
-            <IonImg src={photo.webviewPath} />
-            </a>
+            <PhotoEnlargeableElement 
+            src={photo }
+            />
+            <PhotoEnlargeActionElement 
+            src={photo }
+            />
+            <FileUsrSaveElement
+            impl={({ ref, }, ) => (
+              <a 
+              ref={ref} // core
+              target="_blank" // to prevent overnav
+              href={photo.webviewPath } // core
+              download={photo.filepath } // necessary
+              />
+            ) }
+            >
+              <IonIcon icon={download } />
+            </FileUsrSaveElement>
           </IonCol>
         ))}
       </IonRow>
@@ -141,13 +193,34 @@ export function usePhotoGallery() {
           <IonIcon icon={camera}></IonIcon>
         </IonFabButton>
       </IonFab>
+      <FileUsrSaveElement 
+      impl={({ ref, }) => (
+        <a 
+        ref={ref} // core
+        target="_blank" // to prevent overnav
+        href='data:text/plain,peeek this booo !'
+        download="peekthisboo.txt"
+        />
+      ) }
+      >
+        PEEK SOME BOO 
+      </FileUsrSaveElement>
       </div>
     </div>
   ) ;
 
   return {
     takePhoto,
+    /**     
+     * the full UI; the items as-well-as the extra actions .
+     * 
+     */
     photoGallery ,
+    /**     
+     * only the items, without anything else .
+     * 
+     */
+    photoGallery0 ,
     photos ,
   };
 } ;

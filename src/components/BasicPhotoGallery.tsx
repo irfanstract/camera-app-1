@@ -170,6 +170,10 @@ export function usePhotoGallery() {
 
   return {
     takePhoto,
+    /**     
+     * the full UI; the items as-well-as the extra actions .
+     * 
+     */
     photoGallery ,
     photos ,
   };

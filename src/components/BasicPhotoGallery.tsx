@@ -69,6 +69,16 @@ import {
   useSavedPhotos1 ,
 } from "./BasicPhotoGalleryImpl" ;
 
+import {
+  // PhotoEnlargeModal ,
+  // usePhotoEnlargeModal ,
+
+  PhotoEnlargeActionElement ,
+  PhotoEnlargeableElement ,
+  
+  //
+} from "components/PhotoEnlargeModal" ;
+
 /**    
  * importing it leniently/fail-fast.
  * 

@@ -158,9 +158,24 @@ export function usePhotoGallery() {
       <IonRow>
         {photos.map((photo, index) => (
           <IonCol size="6" key={index}>
-            <a target="_blank" href={photo.webviewPath } download={photo.filepath } >
-            <IonImg src={photo.webviewPath} />
-            </a>
+            <PhotoEnlargeableElement 
+            src={photo }
+            />
+            <PhotoEnlargeActionElement 
+            src={photo }
+            />
+            <FileUsrSaveElement
+            impl={({ ref, }, ) => (
+              <a 
+              ref={ref} // core
+              target="_blank" // to prevent overnav
+              href={photo.webviewPath } // core
+              download={photo.filepath } // necessary
+              />
+            ) }
+            >
+              <IonIcon icon={download } />
+            </FileUsrSaveElement>
           </IonCol>
         ))}
       </IonRow>

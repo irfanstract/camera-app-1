@@ -175,6 +175,11 @@ export function usePhotoGallery() {
      * 
      */
     photoGallery ,
+    /**     
+     * only the items, without anything else .
+     * 
+     */
+    photoGallery0 ,
     photos ,
   };
 } ;

@@ -298,8 +298,31 @@ const CToGivenAudioCtxDest : (
       ) ;
    }
 ) ;
+const CWithGivenAFltImpl = (
+   function <A extends AudioNode >(...[{ children: payload, impl, }, ] : [
+      options: (
+         Required<React.PropsWithChildren >
+         &
+         { impl : ANFC<A> ; }
+      ) ,
+   ] ) {
+      const { Provider, } = ctx ;
+      const prvv1 = (
+         useANodeFltCallback1(impl, )
+      ) ;
+      ;
+      return (
+         prvv1 ?
+         <Provider value={prvv1 } >
+            { payload }
+         </Provider>
+         : null
+      ) ;
+   }
+) ;
 export {
    CToGivenAudioCtxDest ,
+   CWithGivenAFltImpl ,
    ANFC ,
 } ;
 const CACtxtualDestNodeRefUser : (

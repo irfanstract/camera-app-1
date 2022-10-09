@@ -70,34 +70,13 @@ import {
 export default (
    identity<React.FC<{}> >((
       () => (
-         <ACtxBoundary>
-         { (c, ) => {
-            const suspentiveBtn = (
-               <button type="button" onClick={() => c.suspend() } >
-                  suspend
-               </button>
-            ) ;
-            const resumptiveBtn = (
-               <button type="button" onClick={() => c.resume() } >
-                  resume
-               </button>
-            ) ;
-            return (
-               <div>
-                  <p>
-                     <code>{ String(c , ) }</code>
-                     { suspentiveBtn }
-                     { resumptiveBtn }
-                  </p>
-                  <CToGivenAudioCtxDest value={c } >
-                  <div>
-                     <CWaveTable />
-                  </div>
-                  </CToGivenAudioCtxDest>
-               </div>
-            ) ;
-         } }
-         </ACtxBoundary>
+         <ACtxBoundaryCc 
+         children={(
+            <CAmpComp value={2 ** 0 } >
+            <CWaveTable />
+            </CAmpComp>
+         ) }
+         />
       )
    ))
 ) ;

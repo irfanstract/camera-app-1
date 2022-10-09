@@ -235,7 +235,12 @@ const useSavedPhotosImpl = (
                 usrUpdt(photos, )
               ) ;
               await (
-                updateNativePhotos(newPhotos)
+                updateNativePhotos((
+                  newPhotos
+                  .map<UserPhoto>((
+                    newlyCreatedPhotoSavingConstraints.CONDITIONALLY_DROP_INLINEATTACHEDVER
+                  )) 
+                ))
               ) ;
               return (
                 p0

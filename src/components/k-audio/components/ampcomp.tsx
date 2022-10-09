@@ -73,3 +73,30 @@ type ComponentProps<A extends {} & Function > = (
 
 
 
+function useConstantSrcNde(aCtx : BaseAudioContext) {
+   return (
+      useMemo(() => {
+         const nd = (
+            aCtx
+            .createConstantSource()
+         ) ;
+         nd.start() ;
+         nd.offset.value = 0 ;
+         return nd ;
+      } , [aCtx, ] , )
+   ) ;
+} ;
+function useAmpNode(aCtx : BaseAudioContext ) {
+   return (
+      useMemo(() => {
+         const nd = (
+            aCtx
+            .createGain()
+         ) ;
+         nd.gain.value = 0 ;
+         return nd ;
+      } , [aCtx, ] , )
+   ) ;
+} ;
+
+

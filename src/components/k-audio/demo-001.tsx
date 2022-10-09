@@ -46,6 +46,12 @@ import React, {
 import { CToGivenAudioCtxDest, CACtxtualDestNodeRefUser, } from "./ctx";
 import { useIndependentACtx, ACtxBoundary, } from "./actx-base";
 import { ACtxBoundary as ACtxBoundaryCc, } from "./ctxcroot";
+import {
+   CWaveTable ,
+} from "./components/oscillativenode" ;
+import {
+   CAmpComp ,
+} from "./components/ampcomp" ;
 
 
 

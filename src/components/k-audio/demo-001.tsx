@@ -72,7 +72,7 @@ export default (
       () => (
          <ACtxBoundaryCc 
          children={(
-            <CAmpComp value={2 ** 0 } >
+            <CAmpComp value={2 ** -2 } >
             <CWaveTable />
             </CAmpComp>
          ) }

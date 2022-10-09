@@ -60,6 +60,7 @@ import React, {
 type CtxValue = (
    {} 
    & { pd: PdMode ; } 
+   & { aCtx: BaseAudioContext ; } 
    & { tCtx : TAndTScale ; }
 ) ;
 const ctx = (
@@ -122,6 +123,7 @@ const useInitially1 : (
       return (
          useMemo((): CtxValue => ({
             pd: new PdMode.Stochastically(aCtx.destination, ) ,
+            aCtx: aCtx ,
             tCtx: TAndTScale.initially() ,
          }) , [aCtx, ], )
       ) ;

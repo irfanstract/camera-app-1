@@ -185,6 +185,100 @@ const useCtxInferredValues = (
       ) ;
    }
 ) ;
+type ANFC<A extends AudioNode > = (
+   { 
+      init : (
+         (...args : [BaseAudioContext, {}?, ] ) 
+         => A
+      ) ; 
+   }
+   &
+   { 
+      update : (
+         (...args : [A, {}?, ] ) 
+         => ReturnType<React.EffectCallback >
+      ) ; 
+      updateDependencies : (
+         React.DependencyList
+      ) ;
+   }
+) ;
+namespace ANFC { ; } // TS-1205
+const useANodeFltCallback1 : (
+   <A extends AudioNode >(...args : [
+      (
+         ANFC<A>
+      ), 
+   ] ) 
+   => (CtxValue | null )
+) = (
+   (...[impl1, ] ) => {
+      /**    
+       * QUERYING FOR
+       * THE CTXTUAL VALUES
+       * 
+       */
+      const {
+         aCtx ,
+         dest ,
+         tCtxValue ,
+      } = (
+         useCtxInferredValues()
+      ) ;
+      /**    
+       * THE INSTANTIATION
+       * 
+       */
+      const {
+         introducedNode1 ,
+      } = (
+         React.useMemo(() => (
+            (aCtx && dest ) ?
+            {
+               introducedNode1: (
+                  impl1.init(aCtx )
+               ) ,
+            }
+            : { introducedNode1 : null , }
+         ) , [aCtx , ] )
+      ) ;
+      /**    
+       * THE UPDATING
+       * 
+       */
+      React["useLayoutEffect"](() => {
+         ;
+         if (introducedNode1 ) {
+            return (
+               impl1.update(introducedNode1 , )
+            ) ;
+         } ;
+      } , impl1.updateDependencies , ) ;
+      /**    
+       * THE `connect()` AND `disconnect()` CALLS
+       * 
+       */
+      useConnectDisconnect((
+         introducedNode1
+      ), dest, ) ;
+      /**    
+       * 
+       */
+      return (
+         useMemo((): (null | CtxValue) => {
+            if (introducedNode1 && tCtxValue ) {
+               return {
+                  pd: new PdMode.Stochastically(introducedNode1 , ) ,
+                  aCtx: introducedNode1.context ,
+                  tCtx: tCtxValue ,
+               } ;
+            } else {
+               return null ;
+            }
+         } , [introducedNode1, tCtxValue, ], )
+      ) ;
+   }
+) ;
 const CToGivenAudioCtxDest : (
    React.FC<(
       Required<React.PropsWithChildren >
@@ -206,6 +300,7 @@ const CToGivenAudioCtxDest : (
 ) ;
 export {
    CToGivenAudioCtxDest ,
+   ANFC ,
 } ;
 const CACtxtualDestNodeRefUser : (
    React.FC<(

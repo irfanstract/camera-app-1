@@ -362,11 +362,37 @@ const CWithGivenAFltImpl = (
       ) ;
    }
 ) ;
+const WithGivenDestNd = (
+   identity<(
+      React.FC<(
+         { value : Parameters<typeof useIWithGivenDestNd1 >[0] ; }
+         &
+         Required<React.PropsWithChildren >
+      )>
+   )>((
+      function WithGivenDestNdC({ value: dest, children: payload, }) {
+         ;
+         const { Provider, } = ctx ;
+         const prvv1 = (
+            useIWithGivenDestNd1(dest, )
+         ) ;
+         ;
+         return (
+            prvv1 ?
+            <Provider value={prvv1 } >
+               { payload }
+            </Provider>
+            : null
+         ) ;
+      }
+   ))
+) ;
 export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
    ANFC ,
    useIWithGivenDestNd1 ,
+   WithGivenDestNd ,
 } ;
 const CACtxtualDestNodeRefUser : (
    React.FC<(

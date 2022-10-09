@@ -129,6 +129,60 @@ const useInitially1 : (
       ) ;
    }
 ) ;
+/**   
+ * all values for the point the call is made at.
+ * 
+ */
+const useCtxInferredValues = (
+   () => {
+      ;
+      const ctxV = (
+         React.useContext(ctx, )
+      ) ;
+      ;
+      return (
+         useMemo((): (
+            (
+               {  tCtxValue : null | ((typeof ctxV ) & object )["tCtx"] ;  } 
+               &
+               (
+                  {  aCtx : null ; dest : null ; } 
+                  |
+                  {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
+               )
+            )
+         ) => {
+            if (ctxV ) {
+               const { 
+                  pd: pdMode , 
+                  aCtx: aCtx ,
+                  tCtx: tCtxValue, 
+               } = ctxV ;
+               if (pdMode instanceof PdMode.OfToSendToDest ) {
+                  const {
+                     dest
+                  } = pdMode ;
+                  return {
+                     tCtxValue ,
+                     dest ,
+                     aCtx ,
+                  } ;
+               }
+               return { 
+                  tCtxValue , 
+                  dest : null ,
+                  aCtx : null , 
+               } ;
+            } 
+            return { 
+               tCtxValue : null , 
+               dest : null ,
+               aCtx : null , 
+            } ;
+         } , [ctxV, ], )
+      ) ;
+   }
+) ;
 const CToGivenAudioCtxDest : (
    React.FC<(
       Required<React.PropsWithChildren >

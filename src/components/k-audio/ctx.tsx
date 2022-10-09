@@ -114,6 +114,19 @@ export {
    PdMode ,
    TAndTScale ,
 } ;
+const useInitially1 : (
+   (...args : [aCtx : BaseAudioContext, ] ) 
+   => CtxValue
+) = (
+   (...[aCtx, ] ) => {
+      return (
+         useMemo((): CtxValue => ({
+            pd: new PdMode.Stochastically(aCtx.destination, ) ,
+            tCtx: TAndTScale.initially() ,
+         }) , [aCtx, ], )
+      ) ;
+   }
+) ;
 const CToGivenAudioCtxDest : (
    React.FC<(
       Required<React.PropsWithChildren >
@@ -124,10 +137,7 @@ const CToGivenAudioCtxDest : (
    ({ value: aCtx, children: payload, }) => {
       const { Provider, } = ctx ;
       const prvv1 = (
-         useMemo((): CtxValue => ({
-            pd: new PdMode.Stochastically(aCtx.destination, ) ,
-            tCtx: TAndTScale.initially() ,
-         }) , [aCtx, ], )
+         useInitially1(aCtx, )
       ) ;
       return (
          <Provider value={prvv1 } >

@@ -394,6 +394,25 @@ export {
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
 } ;
+export const WithCurrentACtx = (
+   identity<(
+      React.FC<(
+         React.ConsumerProps<BaseAudioContext>
+      )>
+   ) >((
+      function WithCurrentACtxC({ children, }) {
+         const ctxv = (
+            React
+            .useContext(ctx, )
+         ) ;
+         return (
+            <>
+            { ctxv && children(ctxv.aCtx, ) }
+            </>
+         ) ;
+      }
+   ))
+) ;
 const CACtxtualDestNodeRefUser : (
    React.FC<(
       React.ConsumerProps<PdMode.OfToSendToDest >

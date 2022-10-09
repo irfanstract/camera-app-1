@@ -131,6 +131,48 @@ const useInitially1 : (
       ) ;
    }
 ) ;
+const useIWithGivenDestNd1 : (
+   (...args : [AudioNode | AudioParam, ] ) 
+   => (CtxValue | null )
+) = (
+   (...[dest, ] ) => {
+      const presentlyCtxV = (
+         React.useContext(ctx, )
+      ) ;
+      return (
+         useMemo((): null | CtxValue => {
+            const tCtxNew = (
+               presentlyCtxV ?
+               presentlyCtxV.tCtx
+               : TAndTScale.initially()
+            ) ;
+            if (dest instanceof AudioNode ) {
+               return {
+                  tCtx: tCtxNew ,
+                  aCtx : (
+                     dest.context
+                  ) ,
+                  pd : (
+                     new PdMode.Stochastically(dest, )
+                  ) ,
+               } ;
+            }
+            if (presentlyCtxV ) {
+               return {
+                  tCtx: tCtxNew ,
+                  aCtx: (
+                     presentlyCtxV.aCtx
+                  ) ,
+                  pd : (
+                     new PdMode.Stochastically(dest, )
+                  ) ,
+               } ;  
+            }
+            return null ;
+         } , [presentlyCtxV, dest, ], )
+      ) ;
+   }
+) ;
 /**   
  * all values for the point the call is made at.
  * 
@@ -324,6 +366,7 @@ export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
    ANFC ,
+   useIWithGivenDestNd1 ,
 } ;
 const CACtxtualDestNodeRefUser : (
    React.FC<(

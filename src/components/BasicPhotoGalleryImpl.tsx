@@ -140,6 +140,8 @@ const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> =
     directory: PHOTO_DIR,
   });
 
+  const supposedReturn0 = ((): UserPhoto => {
+  ;
   /**     
    * per
    * the advice per https://ionicframework.com/docs/react/your-first-app/adding-mobile 
@@ -160,6 +162,12 @@ const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> =
     webviewPath: photo.webPath,
   };
   }
+  } )() ;  
+  return (
+    newlyCreatedPhotoSavingConstraints.CONDITIONALLY_DROP_INLINEATTACHEDVER((
+      supposedReturn0
+    ) )
+  ) ;
 };
 const PHOTO_STORAGE: string = 'photos';
 const PHOTO_DIR: Directory = Directory.Data ;

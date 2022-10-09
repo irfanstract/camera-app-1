@@ -33,6 +33,10 @@ import {
 import { Preferences, } from '@capacitor/preferences';
 import { Capacitor, } from '@capacitor/core';
 
+import { 
+  newlyCreatedPhotoSavingConstraints, 
+} from './BasicPhotoGalleryImplNewlyCreatedPhotoSavingConstraints';
+
 
 
 

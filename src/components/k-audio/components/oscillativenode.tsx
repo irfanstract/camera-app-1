@@ -95,6 +95,7 @@ const CWaveTableImpl : (
 ) = (
    ({ 
       type: waveShape , 
+      f = 440, det = 0 , 
       c: dest, aCtx, 
    }) => {
       const [nd1, ] = (

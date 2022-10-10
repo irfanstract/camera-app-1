@@ -49,6 +49,11 @@ import { WithGivenDestNd, } from "components/k-audio/ctx";
 import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
 import { numericOrRElement, } from "./constantparamsourcenode";
 
+type ComponentProps<A extends {} & Function > = (
+   (A ) extends { (p: infer P ): unknown ; } ?
+   P : never
+) ;
+ 
 type ACanConnectOrDisconnect = (
    { connect(dest: AudioNode | AudioParam , i?: number , ): void ; }
    &

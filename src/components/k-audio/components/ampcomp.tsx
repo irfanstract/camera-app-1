@@ -53,6 +53,7 @@ import {
    WithGivenDestNd ,
    WithCurrentACtx ,
 } from "components/k-audio/ctx";
+import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
 
 type ComponentProps<A extends {} & Function > = (
    (A ) extends { (p: infer P ): unknown ; } ?

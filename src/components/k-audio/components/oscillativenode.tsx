@@ -165,16 +165,18 @@ const CWaveTableImpl : (
       ) ;
    }
 ) ;
-const CWaveTable1A : (
-   React.FC<(
-      { type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }
-   )>
-) = (
+const CWaveTable1A = (
    currentAdestnoderefWrpcomp(`CWaveTable` , CWaveTableImpl, )
 ) ;
 const CWaveTable : (
    React.FC<(
-      Partial<{ type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }>
+      Partial<(
+         Pick<ComponentProps<typeof CWaveTable1A > , "type" >
+      )>
+      &
+      Partial<(
+         Pick<ComponentProps<typeof CWaveTable1A > , "f" | "det" >
+      )>
    )>
 ) = (
    ({ type = "triangle", ...otherProps }) => (

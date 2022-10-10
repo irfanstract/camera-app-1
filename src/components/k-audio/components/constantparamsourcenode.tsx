@@ -125,11 +125,35 @@ const CConstantValueSrc = (
 ) ;
 
 
+const numericOrRElement = (
+   (...[valueArgument0,] : [
+      number | ReactElement ,
+   ] ) => {
+      const valueArgument1 : ReactElement = (
+         typeof valueArgument0 === "number" ?
+         <CConstantValueSrc value={valueArgument0 } />
+         : valueArgument0
+      ) ;
+      const vDisplay = (
+         <code>
+         { (typeof valueArgument0 === "number" ) ? valueArgument0 : `(dynamic)` }
+         </code>
+      ) ;
+      ;
+      return {
+         valueArgument1 ,
+         vDisplay ,
+      } ;
+   }
+) ;
+
+
 
 
 
 export {
    CConstantValueSrc ,
+   numericOrRElement ,
 } ;
 
 

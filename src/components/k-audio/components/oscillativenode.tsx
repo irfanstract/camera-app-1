@@ -92,8 +92,7 @@ const CWaveTableImpl : (
 ) = (
    ({ type: waveShape , c: dest, aCtx, }) => {
       useInsertionEffect(() => {
-         const c = aCtx ;
-         const waveTable1 = c.createOscillator() ;
+         const waveTable1 = aCtx.createOscillator() ;
          identity<ACanConnectOrDisconnect>(waveTable1 ).connect(dest , ) ;
          (
             waveTableAssignPw((

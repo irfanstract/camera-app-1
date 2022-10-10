@@ -149,44 +149,7 @@ const CAmpCompImpl : (
       ) ;
    }
 ) ;
-const wrp1 = (
-   function <P extends { } >(...[displayName, F10, ] : [
-      displayName: string,
-      impl: (
-         React.FC<(
-            { [k in keyof P ] : P[k] ; } 
-            & 
-            { c : AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
-         ) >
-      ) ,
-   ] ) {
-      const F1 : (
-         React.FC<(
-            { [k in keyof P ] : P[k] ; }
-         )>
-      ) = (
-         (props ) => {
-            return (
-               <WithCurrentACtx>
-               { (aCtx) => (
-               <CACtxtualDestNodeRefUser>
-               { ({ dest, } ) => (
-                  <F10 
-                  {...props }
-                  c={dest }
-                  aCtx={aCtx }
-                  />
-               ) }
-               </CACtxtualDestNodeRefUser>
-               ) }
-               </WithCurrentACtx>
-            ) ;
-         }
-      ) ;
-      F1.displayName = displayName ;
-      return F1 ;
-   }
-) ;
+const wrp1 = currentAdestnoderefWrpcomp ;
 
 
 const CAmpComp = (

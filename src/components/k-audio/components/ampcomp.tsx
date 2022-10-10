@@ -105,35 +105,6 @@ function useAmpNode(aCtx : BaseAudioContext ) {
 } ;
 
 
-const CConstantValueSrcImpl : (
-   React.FC<(
-      { value : number ; }
-      &
-      { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
-   )>
-) = (
-   ({ c: dest, aCtx, value, }) => {
-      const g1 = (
-         useConstantSrcNde(aCtx, )
-      ) ;
-      useConnectDisconnect(g1, dest, ) ;
-      React["useInsertionEffect"](() => {
-         (
-            g1.offset
-            .setTargetAtTime(value, 0, 0.125, )
-         );
-      } , [value, ] , );
-      // TODO
-      return (
-         <div>
-            <p>
-               constant-source-node : {}
-               <code>{ value }</code> {}
-            </p>
-         </div>
-      ) ;
-   }
-) ;
 const CAmpCompImpl : (
    React.FC<(
       { children: React.ReactNode ; }

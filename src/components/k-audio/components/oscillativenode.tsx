@@ -47,6 +47,7 @@ import useMemoisedResource from "components/useMemoisedResource";
 import { CToGivenAudioCtxDest, CACtxtualDestNodeRefUser, } from "components/k-audio/ctx";
 import { WithGivenDestNd, } from "components/k-audio/ctx";
 import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
+import { numericOrRElement, } from "./constantparamsourcenode";
 
 type ACanConnectOrDisconnect = (
    { connect(dest: AudioNode | AudioParam , i?: number , ): void ; }

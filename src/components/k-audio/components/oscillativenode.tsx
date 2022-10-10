@@ -169,15 +169,11 @@ const CWaveTableImpl : (
                <ul>
                <li>
                <code>frequency</code>:
-               <WithGivenDestNd value={nd1.frequency } >
-                  { numericOrRElement(f ,).valueArgument1 }
-               </WithGivenDestNd>
+               { WRNDE(nd1.frequency , f , ) }
                </li>
                <li>
                <code>detune</code>:
-               <WithGivenDestNd value={nd1.detune } >
-                  { numericOrRElement(det ,).valueArgument1 }
-               </WithGivenDestNd>
+               { WRNDE(nd1.detune , det , ) }
                </li>
                </ul>
                </td>

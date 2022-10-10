@@ -91,7 +91,10 @@ const CWaveTableImpl : (
       { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
    )>
 ) = (
-   ({ type: waveShape , c: dest, aCtx, }) => {
+   ({ 
+      type: waveShape , 
+      c: dest, aCtx, 
+   }) => {
       const [nd1, ] = (
       useMemoisedResource<[OscillatorNode]>((
          (...[priorState, ] ) => {

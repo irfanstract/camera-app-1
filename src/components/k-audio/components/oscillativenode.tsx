@@ -74,6 +74,29 @@ type ACanConnectOrDisconnect = (
 
 
 
+/**   
+ * {@link numericOrRElement } ; {@link WithGivenDestNd } ;
+ * 
+ */
+const WRNDE = (
+   function (...[dest, v, ] : [
+      dest: AudioNode | AudioParam ,
+      v: number | React.ReactElement ,
+   ] ) {
+      const {
+         vDisplay ,
+         valueArgument1: vAsGraph ,
+      } = numericOrRElement(v, ) ;
+      return (
+         <div style={{ display: `flex`, flexDirection: `column`, }} >
+         { vDisplay }
+         <WithGivenDestNd value={dest } >
+            { vAsGraph }
+         </WithGivenDestNd>
+         </div >
+      ) ;
+   }
+) ;
 const waveTableAssignPw : (
    (...args: [
       OscillatorNode ,  

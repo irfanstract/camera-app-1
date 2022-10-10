@@ -87,14 +87,14 @@ const CWaveTableImpl : (
    React.FC<(
       { type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }
       &
-      { c: AudioNode ; }
+      { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
    )>
 ) = (
-   ({ type: waveShape , c: dest, }) => {
+   ({ type: waveShape , c: dest, aCtx, }) => {
       useInsertionEffect(() => {
-         const c = dest.context ;
+         const c = aCtx ;
          const waveTable1 = c.createOscillator() ;
-         waveTable1.connect(dest , ) ;
+         identity<ACanConnectOrDisconnect>(waveTable1 ).connect(dest , ) ;
          (
             waveTableAssignPw((
                waveTable1
@@ -102,7 +102,7 @@ const CWaveTableImpl : (
          ) ;
          waveTable1.start() ;
          return (): void => {
-            waveTable1.disconnect() ;
+            identity<ACanConnectOrDisconnect>(waveTable1 ).disconnect(dest ) ;
          } ;
       } , [dest, waveShape, ] , ) ;
       return (
@@ -124,25 +124,24 @@ const CWaveTableImpl : (
       ) ;
    }
 ) ;
+const CWaveTable1A : (
+   React.FC<(
+      { type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }
+   )>
+) = (
+   currentAdestnoderefWrpcomp(`CWaveTable` , CWaveTableImpl, )
+) ;
 const CWaveTable : (
    React.FC<(
       Partial<{ type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }>
    )>
 ) = (
-   ({ type: waveShape = "triangle", }) => {
-      return (
-         <CACtxtualDestNodeRefUser>
-         { ({ dest, } ) => (
-            (dest instanceof AudioNode ) 
-            &&
-            <CWaveTableImpl 
-            type={waveShape }
-            c={dest }
-            />
-         ) }
-         </CACtxtualDestNodeRefUser>
-      ) ;
-   }
+   ({ type = "triangle", ...otherProps }) => (
+      <CWaveTable1A 
+      type={type }
+      {...otherProps }
+      />
+   )
 ) ;
 
 

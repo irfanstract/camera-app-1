@@ -47,6 +47,12 @@ import { CToGivenAudioCtxDest, CACtxtualDestNodeRefUser, } from "components/k-au
 import { WithGivenDestNd, } from "components/k-audio/ctx";
 import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
 
+type ACanConnectOrDisconnect = (
+   { connect(dest: AudioNode | AudioParam , i?: number , ): void ; }
+   &
+   { disconnect(dest?: AudioNode | AudioParam , i?: number , ): void ; }
+) ;
+
 
 
 

@@ -54,6 +54,10 @@ import {
    WithCurrentACtx ,
 } from "components/k-audio/ctx";
 import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
+import { 
+   CConstantValueSrc, 
+   numericOrRElement ,
+} from "./constantparamsourcenode";
 
 type ComponentProps<A extends {} & Function > = (
    (A ) extends { (p: infer P ): unknown ; } ?
@@ -214,32 +218,8 @@ const wrp1 = (
 ) ;
 
 
-const numericOrRElement = (
-   (...[valueArgument0,] : [
-      number | ReactElement ,
-   ] ) => {
-      const valueArgument1 : ReactElement = (
-         typeof valueArgument0 === "number" ?
-         <CConstantValueSrc value={valueArgument0 } />
-         : valueArgument0
-      ) ;
-      const vDisplay = (
-         <code>
-         { (typeof valueArgument0 === "number" ) ? valueArgument0 : `(dynamic)` }
-         </code>
-      ) ;
-      ;
-      return {
-         valueArgument1 ,
-         vDisplay ,
-      } ;
-   }
-) ;
 const CAmpComp = (
    wrp1("CAmpCompC", CAmpCompImpl, )
-) ;
-const CConstantValueSrc = (
-   wrp1("CConstantValueSrcC", CConstantValueSrcImpl, )
 ) ;
 
 

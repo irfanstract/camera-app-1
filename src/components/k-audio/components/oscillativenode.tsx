@@ -135,6 +135,25 @@ const CWaveTableImpl : (
                <code>{ String(waveShape, ) }</code>
                </td>
             </tr>
+            <tr>
+               <td>Frequency</td>
+               <td>
+               <ul>
+               <li>
+               <code>frequency</code>:
+               <WithGivenDestNd value={nd1.frequency } >
+                  { numericOrRElement(f ,).valueArgument1 }
+               </WithGivenDestNd>
+               </li>
+               <li>
+               <code>detune</code>:
+               <WithGivenDestNd value={nd1.detune } >
+                  { numericOrRElement(det ,).valueArgument1 }
+               </WithGivenDestNd>
+               </li>
+               </ul>
+               </td>
+            </tr>
          </tbody>
          </table>
          </div>

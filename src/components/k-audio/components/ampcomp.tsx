@@ -162,7 +162,6 @@ const CAmpComp = (
 
 export {
    CAmpComp ,
-   CConstantValueSrc ,
 } ;
 
 

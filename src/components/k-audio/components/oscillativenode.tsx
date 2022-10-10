@@ -92,19 +92,29 @@ const CWaveTableImpl : (
    )>
 ) = (
    ({ type: waveShape , c: dest, aCtx, }) => {
-      useInsertionEffect(() => {
-         const waveTable1 = aCtx.createOscillator() ;
-         identity<ACanConnectOrDisconnect>(waveTable1 ).connect(dest , ) ;
-         (
+      const [nd1, ] = (
+      useMemoisedResource<[OscillatorNode]>((
+         (...[priorState, ] ) => {
+            if (priorState) {
+               const [
+                  oldPeer ,
+               ] = priorState ;
+               oldPeer.disconnect() ;
+            }
+            {
+               const waveTable1 = aCtx.createOscillator() ;
+               identity<ACanConnectOrDisconnect>(waveTable1 ).connect(dest , ) ;
+               waveTable1.start() ;
+               return [waveTable1, ] ;
+            }
+         }
+      ) , [aCtx , ] , )
+      ) ;
+      (
             waveTableAssignPw((
-               waveTable1
+               nd1
             ), waveShape, )
-         ) ;
-         waveTable1.start() ;
-         return (): void => {
-            identity<ACanConnectOrDisconnect>(waveTable1 ).disconnect(dest ) ;
-         } ;
-      } , [dest, waveShape, ] , ) ;
+      ) ;
       return (
          <div>
          <p>

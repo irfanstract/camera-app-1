@@ -143,6 +143,35 @@ const CWaveTableImpl : (
             {
                const waveTable1 = aCtx.createOscillator() ;
                identity<ACanConnectOrDisconnect>(waveTable1 ).connect(dest , ) ;
+               /**    
+                * all of the usages would be via {@link AudioNode.connect } ;
+                * therefore, 
+                * - the {@link OscillatorNode.frequency }'s intrinsic-value 
+                *   shall be set to `0` (or a value close-enough-to `0` )
+                * - {@link OscillatorNode.detune } already default to `0` ;
+                *   no explicit/manual treatment necessary
+                * 
+                */
+               {
+                  (
+                     [waveTable1.frequency, ]
+                     .map((aP: AudioParam, ) => {
+                        (
+                           aP.value = (
+                              clamp(0, aP.minValue, aP.maxValue, )
+                           )
+                        ) ;
+                     } )
+                  ) ;
+                  (
+                     [waveTable1.detune, ]
+                     .map((aP: AudioParam, ) => {
+                        (
+                           aP.value = 0
+                        ) ;
+                     } )
+                  ) ;
+               } 
                waveTable1.start() ;
                return [waveTable1, ] ;
             }

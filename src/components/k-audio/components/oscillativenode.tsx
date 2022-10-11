@@ -95,9 +95,13 @@ const WRNDE = (
          { vDisplay }
          {}
          </p>
+         <div>
+         graph: {}
          <WithGivenDestNd value={dest } >
             { vAsGraph }
          </WithGivenDestNd>
+         {}
+         </div>
          </div >
       ) ;
    }

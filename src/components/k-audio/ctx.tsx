@@ -19,6 +19,8 @@ import {
    SortedMap ,
 } from "components/util-immutable-datastructure" ;
 import { identity , } from "lodash";
+import { TAndTScale, } from "./TOffsetAndScaleProperties";
+import { PdMode, } from "./graph-modes";
 
 import React, { 
    // Callbacks
@@ -71,48 +73,6 @@ const ctx = (
       CtxValue
    )>(null , )
 ) ;
-class PdMode /* */ {}
-namespace PdMode {
-
-   export class OfToSendToDest extends PdMode {
-         constructor(public dest : AudioNode | AudioParam ,) {
-            super() ;
-         }
-   } ;
-   export const Stochastically = (
-      class StochasticMd extends PdMode.OfToSendToDest {}
-   ) ;
-   export const OfQuantity = (
-      class QuantityMd extends PdMode.OfToSendToDest {}
-   ) ;
-
-   // TODO
-   export class OfSequencer extends PdMode {} ;
-
-}  // TS-1205, TS-2702, 
-class TAndTScale {
-
-   withDurativeFactor(f: number ) {
-      return (
-         new TAndTScale(this.t, f * this.tScale, )
-      ) ;
-   }
-   withSpeedFactor(f: number ) {
-      return (
-         new TAndTScale(this.t, this.tScale / f , )
-      ) ;
-   }
-
-   constructor(
-      public t: number ,
-      public tScale: number ,
-   ) {}
-   static initially = () => (
-      new TAndTScale(0, 1, )
-   ) ;
-
-}
-namespace TAndTScale { ; }  // TS-1205, TS-2702, 
 export {
    PdMode ,
    TAndTScale ,

@@ -142,6 +142,7 @@ const CWaveTableImpl : (
    ({ 
       type: waveShape , 
       f = 440, det = 0 , 
+      editListeners = {} ,
       c: dest, aCtx, 
    }) => {
       const [nd1, ] = (
@@ -211,7 +212,21 @@ const CWaveTableImpl : (
             <tr>
                <td>OScillative Shape</td>
                <td>
-               <code>{ String(waveShape, ) }</code>
+               { (() => {
+               const editH = editListeners.wvShape ;
+               ;
+               return (
+                  <EnumValueDisplayElem 
+                  value={(typeof waveShape === "string") ? waveShape : undefined }
+                  options={[
+                     "sine" ,
+                     "triangle" ,
+                     "square" ,
+                  ]}
+                  onChange={editH && ((e) => editH(e.detail.value , ) ) }
+                  />
+               ) ;
+               })() }
                </td>
             </tr>
             <tr>

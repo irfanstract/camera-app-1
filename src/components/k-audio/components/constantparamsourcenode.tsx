@@ -77,7 +77,15 @@ type ComponentProps<A extends {} & Function > = (
 
 function useConstantSrcNde(aCtx : BaseAudioContext) {
    return (
-      useMemo(() => {
+      useMemoisedResource<ConstantSourceNode>((s, ) => {
+      ;
+      {
+         // TODO
+         if (s) {
+            s.stop() ;
+         }
+      }
+      {
          const nd = (
             aCtx
             .createConstantSource()
@@ -85,6 +93,7 @@ function useConstantSrcNde(aCtx : BaseAudioContext) {
          nd.start() ;
          nd.offset.value = 0 ;
          return nd ;
+      }
       } , [aCtx, ] , )
    ) ;
 } ;

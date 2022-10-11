@@ -400,3 +400,23 @@ const CACtxtualDestNodeRefUser : (
 export {
    CACtxtualDestNodeRefUser ,
 } ;
+/**    
+ * monitoring-or-visualisational only,
+ * not-at-all playing role in the main production
+ * 
+ */
+const CMereMonitoringElem : (
+   React.FC<(
+      Required<React.PropsWithChildren >
+   )>
+) = Fragment ;
+/**    
+ * playing role in the main production,
+ * not-at-all displaying any monitoring 
+ * 
+ */
+const CMereProductiveElem : (
+   React.FC<(
+      Required<React.PropsWithChildren >
+   )>
+) = Fragment ;

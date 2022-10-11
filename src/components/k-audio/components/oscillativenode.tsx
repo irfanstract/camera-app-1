@@ -61,6 +61,11 @@ type ACanConnectOrDisconnect = (
    &
    { disconnect(dest?: AudioNode | AudioParam , i?: number , ): void ; }
 ) ;
+type KWaveShape = (
+   never
+   | Exclude<OscillatorType, "custom" > 
+   | PeriodicWave
+) ;
 
 
 

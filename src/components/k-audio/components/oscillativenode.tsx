@@ -261,7 +261,7 @@ const CWaveTable : (
       )>
       &
       Partial<(
-         Pick<ComponentProps<typeof CWaveTable1A > , "f" | "det" >
+         Omit<ComponentProps<typeof CWaveTable1A > , "type" >
       )>
    )>
 ) = (

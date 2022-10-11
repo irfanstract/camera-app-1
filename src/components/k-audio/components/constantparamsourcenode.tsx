@@ -152,7 +152,9 @@ const numericOrRElement = (
       )) {
       ;
       const valueArgument1 : ReactElement = (
+         <div style={{ display: `none`, }} >
          <CConstantValueSrc value={valueArgument0 } />
+         </div>
       ) ;
       const vDisplay = (
          <code>

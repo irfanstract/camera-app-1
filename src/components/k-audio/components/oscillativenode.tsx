@@ -19,6 +19,7 @@
    SortedMap ,
 } from "components/util-immutable-datastructure" ;
 import { identity , } from "lodash";
+import { clamp, } from "lodash";
 
 import React, { 
    // Callbacks

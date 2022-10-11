@@ -76,11 +76,59 @@ type ComponentProps<A extends {} & Function > = (
 
 
 
+const CCPS_IMPL_1A : (
+   React.FC<(
+      { value : [{ (...args : [Pick<AudioParam, "setTargetAtTime" | "minValue" | "maxValue" | "value" >,] ): void ; } , React.DependencyList , ] ; }
+      &
+      { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
+   )>
+) = (
+   ({ c: dest, aCtx, value: [cb, cbDependencies, ], }) => {
+      const g1 = (
+         useConstantSrcNde(aCtx, )
+      ) ;
+      useConnectDisconnect(g1, dest, ) ;
+      React["useInsertionEffect"](() => {
+         g1.offset.cancelScheduledValues(0, ) ;
+         cb(...((p: AudioParam , ) : Parameters<typeof cb > => {
+            const {
+               minValue ,
+               maxValue ,
+            } = p ;
+            return [
+               {
+                  minValue ,
+                  maxValue ,
+                  get value() {
+                     return p.value ;
+                  } ,
+                  set value(newVal: number , ) {
+                     (
+                        p.value = newVal
+                     ) ;
+                  } ,
+                  // TODO
+                  setTargetAtTime() {
+                     return this as AudioParam ;
+                  } ,
+               } ,
+            ] ;
+         } )(g1.offset , ) ) ;
+      } , cbDependencies , ) ;
+      return (
+         <div />
+      ) ;
+   }
+) ;
+const CPlottedSourceNode1A = (
+   currentAdestnoderefWrpcomp("CPlottedSourceNode1A", CCPS_IMPL_1A, )
+) ;
 
 
 
 
 
 export {
+   CPlottedSourceNode1A ,
 } ;
 

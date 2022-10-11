@@ -91,6 +91,11 @@ function useConstantSrcNde(aCtx : BaseAudioContext) {
             .createConstantSource()
          ) ;
          nd.start() ;
+         /**    
+          * to avoid unexpected interleave,
+          * `t` should be specified-explicitly `0` .
+          * 
+          */
          nd.offset.setValueAtTime(0, 0, ) ;
          return nd ;
       }

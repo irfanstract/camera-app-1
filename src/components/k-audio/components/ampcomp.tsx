@@ -120,18 +120,18 @@ const CAmpCompImpl : (
             Amp By {}
             { vDisplay } {}
          </p>
-         <ol style={{ display: `flex`, flexDirection: `column-reverse`, }}>
-            <li>
+         <div style={{ display: `flex`, flexDirection: `column-reverse`, }}>
+            <div>
             <WithGivenDestNd value={g1 } >
                { payload }
             </WithGivenDestNd>
-            </li>
-            <li>
+            </div>
+            <div>
             <WithGivenDestNd value={g1.gain } >
                { valueArgument1 }
             </WithGivenDestNd>
-            </li>
-         </ol>
+            </div>
+         </div>
          </div>
       ) ;
    }

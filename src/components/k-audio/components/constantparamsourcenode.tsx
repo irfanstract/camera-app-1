@@ -161,7 +161,7 @@ const numericOrRElement = (
       )) {
       ;
       const valueArgument1 : ReactElement = (
-         <div style={{ display: `none`, }} >
+         <div style={{ display: undefined, }} >
          <CConstantValueSrc value={valueArgument0 } />
          </div>
       ) ;

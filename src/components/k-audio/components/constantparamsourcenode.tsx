@@ -91,7 +91,7 @@ function useConstantSrcNde(aCtx : BaseAudioContext) {
             .createConstantSource()
          ) ;
          nd.start() ;
-         nd.offset.value = 0 ;
+         nd.offset.setValueAtTime(0, 0, ) ;
          return nd ;
       }
       } , [aCtx, ] , )

@@ -55,6 +55,13 @@ const useIndependentACtx = (
          const aCtx = (
             new AudioContext()
          ) ;
+         /**    
+          * needs to initially be suspended per UX principles.
+          * 
+          */
+         if (aCtx.state === "running" ) {
+            aCtx.suspend() ;
+         }
          setACtx(() => aCtx ) ;
          return (): void => {
             setTimeout(() => {
@@ -75,7 +82,7 @@ const useIndependentACtx = (
  */
 const ACtxBoundary = (
    function ACtxBoundaryC(...[{ children: payload, }, ] : [
-      React.ConsumerProps<null | AudioContext > ,
+      React.ConsumerProps<AudioContext > ,
    ] ) : React.ReactElement {
       const aCtx = (
          useIndependentACtx()
@@ -83,7 +90,7 @@ const ACtxBoundary = (
       ;
       return (
          <>
-         { payload(aCtx ) }
+         { aCtx && payload(aCtx ) }
          </>
       ) ;
    }

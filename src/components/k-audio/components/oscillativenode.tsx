@@ -90,7 +90,11 @@ const WRNDE = (
       } = numericOrRElement(v, ) ;
       return (
          <div style={{ display: `flex`, flexDirection: `column`, }} >
+         <p>
+         value: {}
          { vDisplay }
+         {}
+         </p>
          <WithGivenDestNd value={dest } >
             { vAsGraph }
          </WithGivenDestNd>

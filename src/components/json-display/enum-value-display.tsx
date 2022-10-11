@@ -106,6 +106,8 @@ const EnumValueDisplayElem = (
                </IonSelectOption>
             ) )
          ) ;
+         if (onChange ) {
+         ;
          return (
             <IonSelect
             multiple={false }
@@ -116,6 +118,12 @@ const EnumValueDisplayElem = (
             >
                { children }
             </IonSelect>
+         ) ;
+         } 
+         return (
+            <>
+            { value && formatValue(value , ) }
+            </>
          ) ;
       }
    ))

@@ -47,6 +47,8 @@ import React, {
 
 import { useConnectDisconnect, } from "./uacd";
 import {
+   CtxValue ,
+   ctx ,
 } from "./ctx-1a" ;
 
 
@@ -63,18 +65,6 @@ import {
 
 
 
-type CtxValue = (
-   {} 
-   & { pd: PdMode ; } 
-   & { aCtx: BaseAudioContext ; } 
-   & { tCtx : TAndTScale ; }
-) ;
-const ctx = (
-   React.createContext<(
-      null | 
-      CtxValue
-   )>(null , )
-) ;
 export {
    PdMode ,
    TAndTScale ,

@@ -145,11 +145,13 @@ const CWaveTableImpl : (
          }
       ) , [aCtx , ] , )
       ) ;
-      (
+      React["useInsertionEffect"]((): void => {
+         (
             waveTableAssignPw((
                nd1
             ), waveShape, )
-      ) ;
+         ) ;
+      } , [nd1, waveShape, ] , ) ;
       return (
          <div>
          <p>

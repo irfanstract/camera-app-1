@@ -69,3 +69,49 @@ import {
 
 
 
+type EnumValueSelectItem = (
+   never
+   | null
+   | boolean  
+   | number
+   | string 
+) ;
+const EnumValueDisplayElem = (
+   identity<(
+      <Option extends EnumValueSelectItem >(...args : [
+         properties: (
+            {}
+            & { options : Iterable<Option> ; }
+            & { value ?: Option ; }
+            & { onChange ?: Required<ComponentProps<typeof IonSelect> >["onIonChange"] ; }
+         ) ,
+      ]) => ReactElement
+   )>((
+      function EnumValueDisplayC({ options, value, onChange, }, ) {
+         const children = (
+            [...options ]
+            .map((value ) => (
+               <IonSelectOption value={value } >
+                  <code>
+                  { JSON.stringify(value, ) }
+                  </code>
+               </IonSelectOption>
+            ) )
+         ) ;
+         return (
+            <IonSelect
+            multiple={false }
+            value={value }
+            disabled={children.length <= 0 }
+            onIonChange={onChange }
+            interface="popover"
+            >
+               { children }
+            </IonSelect>
+         ) ;
+      }
+   ))
+) ;
+
+
+

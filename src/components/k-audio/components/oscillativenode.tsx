@@ -134,6 +134,9 @@ const CWaveTableImpl : (
                const [
                   oldPeer ,
                ] = priorState ;
+               0 && (
+                  console.log(`OscillativeNode - Diconnecting`)
+               ) ;
                oldPeer.disconnect() ;
             }
             {

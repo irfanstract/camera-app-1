@@ -127,9 +127,11 @@ const CAmpCompImpl : (
             </WithGivenDestNd>
             </div>
             <div>
+            with <i>amp</i> : {}
             <WithGivenDestNd value={g1.gain } >
                { valueArgument1 }
             </WithGivenDestNd>
+            {}
             </div>
          </div>
          </div>

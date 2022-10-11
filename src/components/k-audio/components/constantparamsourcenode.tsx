@@ -116,7 +116,7 @@ const CConstantValueSrcImpl : (
             g1.offset
             .setTargetAtTime(value, 0, 0.125, )
          );
-      } , [value, ] , );
+      } , [g1, value, ] , );
       // TODO
       return (
          <div>

@@ -130,7 +130,7 @@ const waveTableAssignPw : (
 ) ;
 const CWaveTableImpl : (
    React.FC<(
-      { type : Exclude<OscillatorType, "custom" > | PeriodicWave ; }
+      { type : KWaveShape ; }
       &
       { [k in keyof { f?: true ; /** cents-of-semitones to detune */ det?: true ; } ] : number | React.ReactElement ; }
       &

@@ -143,15 +143,20 @@ const CConstantValueSrc = (
 const numericOrRElement = (
    (...[valueArgument0,] : [
       number | ReactElement ,
-   ] ) => {
+   ] ) => (() : {
+      valueArgument1 : ReactElement ;
+      vDisplay : ReactElement ;
+   } => {
+      if ((
+         (typeof valueArgument0 === "number" )
+      )) {
+      ;
       const valueArgument1 : ReactElement = (
-         typeof valueArgument0 === "number" ?
          <CConstantValueSrc value={valueArgument0 } />
-         : valueArgument0
       ) ;
       const vDisplay = (
          <code>
-         { (typeof valueArgument0 === "number" ) ? valueArgument0 : `(dynamic)` }
+         { valueArgument0 }
          </code>
       ) ;
       ;
@@ -159,7 +164,17 @@ const numericOrRElement = (
          valueArgument1 ,
          vDisplay ,
       } ;
-   }
+      } else {
+         return {
+            valueArgument1 : (
+               valueArgument0
+            ) ,
+            vDisplay : (
+               <i>variable</i>
+            ) ,
+         } ;
+      }
+   } )()
 ) ;
 
 

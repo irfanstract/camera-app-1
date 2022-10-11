@@ -47,6 +47,7 @@ import React, {
 import useMemoisedResource from "components/useMemoisedResource";
 
 import { useConnectDisconnect, } from "components/k-audio/uacd";
+import useConstantSrcNde from "components/k-audio/useConstantSrcNde";
 import { 
    CToGivenAudioCtxDest, 
    CWithGivenAFltImpl ,
@@ -75,33 +76,6 @@ type ComponentProps<A extends {} & Function > = (
 
 
 
-function useConstantSrcNde(aCtx : BaseAudioContext) {
-   return (
-      useMemoisedResource<ConstantSourceNode>((s, ) => {
-      ;
-      {
-         // TODO
-         if (s) {
-            s.stop() ;
-         }
-      }
-      {
-         const nd = (
-            aCtx
-            .createConstantSource()
-         ) ;
-         nd.start() ;
-         /**    
-          * to avoid unexpected interleave,
-          * `t` should be specified-explicitly `0` .
-          * 
-          */
-         nd.offset.setValueAtTime(0, 0, ) ;
-         return nd ;
-      }
-      } , [aCtx, ] , )
-   ) ;
-} ;
 
 
 const CConstantValueSrcImpl : (

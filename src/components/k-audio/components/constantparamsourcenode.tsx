@@ -144,7 +144,16 @@ const numericOrRElement = (
    (...[valueArgument0,] : [
       number | ReactElement ,
    ] ) => (() : {
+      /**    
+       * the one,
+       * to be the *payload* of the `<WithGivenDestNd>` usage
+       * 
+       */
       valueArgument1 : ReactElement ;
+      /**   
+       * the indicator
+       * 
+       */
       vDisplay : ReactElement ;
    } => {
       if ((

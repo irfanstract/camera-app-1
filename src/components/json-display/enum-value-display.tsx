@@ -88,13 +88,21 @@ const EnumValueDisplayElem = (
       ]) => ReactElement
    )>((
       function EnumValueDisplayC({ options, value, onChange, }, ) {
+         const formatValue: (
+            (value: EnumValueSelectItem ,)
+            => ReactElement
+         ) = (
+            (value, ) => (
+               <code>
+               { JSON.stringify(value, ) }
+               </code>
+            )
+         ) ;
          const children = (
             [...options ]
             .map((value ) => (
                <IonSelectOption value={value } >
-                  <code>
-                  { JSON.stringify(value, ) }
-                  </code>
+                  { formatValue(value, ) }
                </IonSelectOption>
             ) )
          ) ;

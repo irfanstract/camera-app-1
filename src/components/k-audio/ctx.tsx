@@ -306,7 +306,9 @@ const CMereProductiveElem : (
    React.FC<(
       Required<React.PropsWithChildren >
    )>
-) = Fragment ;
+) = (
+   Fragment
+) ;
 export {
    CMereMonitoringElem ,
    CMereProductiveElem ,

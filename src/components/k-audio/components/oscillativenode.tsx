@@ -230,7 +230,6 @@ const CWaveTableImpl : (
          ) ;
       } , [nd1, waveShape, ] , ) ;
       return (
-         <CMereMonitoringElem>
          <div>
          <p>
             Wave Table {}
@@ -261,7 +260,6 @@ const CWaveTableImpl : (
          </tbody>
          </table>
          </div>
-         </CMereMonitoringElem>
       ) ;
    }
 ) ;

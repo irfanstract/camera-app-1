@@ -68,4 +68,32 @@ import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
 
 
 
+
+
+
+
+namespace FiniteLoopingFromT {
+
+   export type StartPointProps = (
+      {}
+      & Partial<{ startT : number ; }>
+   ) ;
+   export type Periodic = (
+      {}
+      & { period : number ; }
+   ) ;
+   export type EndPointProps = (
+      {}
+      & EitherSetAndOthersUnset<(
+         {}
+         & { n : number ; }
+         & { totalDuration : number ; }
+         & { endT : number ; }
+      )>
+   ) ;
+   
+}
+
+
+
 export {} ;

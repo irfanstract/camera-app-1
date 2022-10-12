@@ -69,16 +69,14 @@ type CtxValue = (
    & { tCtx : TAndTScale ; }
 ) ;
 namespace CtxValue { ; } // TS-1205 
-const ctx = (
+const {
+ctx = (
    React.createContext<(
       null | 
       CtxValue
    )>(null , )
-) ;
-const useInitially1 : (
-   (...args : [aCtx : BaseAudioContext, ] ) 
-   => CtxValue
-) = (
+) ,
+useInitially1 = (
    (...[aCtx, ] ) => {
       return (
          useMemo((): CtxValue => ({
@@ -88,11 +86,8 @@ const useInitially1 : (
          }) , [aCtx, ], )
       ) ;
    }
-) ;
-const useIWithGivenDestNd1 : (
-   (...args : [AudioNode | AudioParam, ] ) 
-   => (CtxValue | null )
-) = (
+) ,
+useIWithGivenDestNd1 = (
    (...[dest, ] ) => {
       const presentlyCtxV = (
          React.useContext(ctx, )
@@ -130,12 +125,8 @@ const useIWithGivenDestNd1 : (
          } , [presentlyCtxV, dest, ], )
       ) ;
    }
-) ;
-/**   
- * all values for the point the call is made at.
- * 
- */
-const useCtxInferredValues = (
+) ,
+useCtxInferredValues = (
    () => {
       ;
       const ctxV = (
@@ -184,7 +175,11 @@ const useCtxInferredValues = (
          } , [ctxV, ], )
       ) ;
    }
-) ;
+) ,
+} : (
+   {}
+   & Partial<AUsable >
+) = { } ; //
 
 
 

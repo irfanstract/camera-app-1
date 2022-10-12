@@ -64,4 +64,32 @@ import { useConnectDisconnect, } from "./uacd";
 
 
 
+type CtxValue = (
+   {} 
+   & { pd: PdMode ; } 
+   & { aCtx: BaseAudioContext ; } 
+   & { tCtx : TAndTScale ; }
+) ;
+namespace CtxValue { ; } // TS-1205
+type CtxInferredValues = (
+   (
+      {  tCtxValue : null | CtxValue["tCtx"] ;  } 
+      &
+      (
+         {  aCtx : null ; dest : null ; } 
+         |
+         {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
+      )
+   )
+) ;
+namespace CtxInferredValues { ; } // TS-1205
 
+
+
+
+
+
+export { 
+   CtxValue , 
+   CtxInferredValues ,
+} ;

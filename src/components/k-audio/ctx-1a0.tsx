@@ -89,7 +89,41 @@ namespace CtxInferredValues { ; } // TS-1205
 
 
 
+interface AUsable {
+   
+   ctx ?: React.Context<CtxValue | null> ;
+
+   /**    
+    * top-level usage
+    * 
+    */
+   useInitially1 : (
+      (...args : [aCtx : BaseAudioContext, ] ) 
+      => CtxValue
+   ) ;
+
+   /**   
+    * with given `dest` .
+    * will likely amend {@link CtxValue.pd } and all implied/relevant vals, yet
+    * will leave others unchanged .
+    * 
+    */
+   useIWithGivenDestNd1 : (
+      (...args : [AudioNode | AudioParam, ] ) 
+      => (CtxValue | null )
+   ) ;
+
+} ;  
+namespace AUsable { ; } // TS-1205
+
+
+
+
+
+
+
 export { 
    CtxValue , 
    CtxInferredValues ,
 } ;
+export default AUsable ;

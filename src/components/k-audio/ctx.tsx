@@ -294,7 +294,9 @@ const CMereMonitoringElem : (
    React.FC<(
       Required<React.PropsWithChildren >
    )>
-) = Fragment ;
+) = (
+   Fragment
+) ;
 /**    
  * playing role in the main production,
  * not-at-all displaying any monitoring 

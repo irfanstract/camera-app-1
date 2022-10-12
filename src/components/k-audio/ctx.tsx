@@ -250,6 +250,10 @@ export const WithCurrentACtx = (
             React
             .useContext(ctx, )
          ) ;
+         const ctxvSpecific = (
+            ctxv &&
+            ctxv.aCtx
+         ) ;
          return (
             <>
             { ctxv && children(ctxv.aCtx, ) }

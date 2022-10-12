@@ -270,21 +270,20 @@ const CACtxtualDestNodeRefUser : (
    )>
 ) = (
    ({ children: payload , }) => {
-      const { Consumer, } = ctx ;
+      const ctxv = (
+         React
+         .useContext(ctx, )
+      ) ;
+      const ctxvSpecific = (
+         ctxv &&
+         ((e: PdMode ) => (e instanceof PdMode.OfToSendToDest && e ) )(ctxv.pd , )
+      ) ;
       return (
-         <Consumer>
-         { (c) => {
-            if (c) {
-               const { pd, } = c ;
-               if (pd instanceof PdMode.OfToSendToDest ) {
-                  return (
-                     payload(pd, )
-                  ) ;
-               }
-            } else {}
-            return null ;
-         } }
-         </Consumer>
+      React.useMemo(() => (
+         <>
+         { ctxvSpecific && payload(ctxvSpecific, ) }
+         </>
+      ) , [ctxvSpecific, ] , )
       ) ;
    }
 ) ;

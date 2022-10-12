@@ -180,6 +180,32 @@ useCtxInferredValues = (
    {}
    & Partial<AUsable >
 ) = { } ; //
+const useLAudioCtxTState1 = (
+   () => {
+      ;
+      const [cT , setCT , ] = (
+         useState<BaseAudioContext["currentTime"] >(0 )
+      ) ;
+      const [ , incrementCT, ] = (
+         useReducer((
+            (...[ , { periodSecs, } , ] : [
+               void, 
+               { periodSecs : number ; }, 
+            ]): void => {
+               setCT((v : number ) => (
+                  v + periodSecs 
+               ) ) ;
+            }
+         ) , void true , )
+      ) ;  
+      ;
+      return {
+         cT ,
+         setCT ,
+         incrementCT ,
+      } ;
+   }
+) ;
 
 
 

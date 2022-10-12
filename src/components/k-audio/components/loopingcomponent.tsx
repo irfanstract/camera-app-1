@@ -219,12 +219,6 @@ export const {
                // PAYLOADS
                children : payload ,
             } = cProps ;
-            const { 
-               // START T
-               startT = 0 ,
-               // PERIODS
-               period , 
-            } = cProps ;
             return (
                <div />
             ) ;

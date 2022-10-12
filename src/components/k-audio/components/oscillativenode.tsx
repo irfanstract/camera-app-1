@@ -121,11 +121,13 @@ const WRNDE = (
       } = numericOrRElement(v, ) ;
       return (
          <div style={{ display: `flex`, flexDirection: `column`, }} >
+         <CMereMonitoringElem>
          <p>
          value: {}
          { vDisplay }
          {}
          </p>
+         </CMereMonitoringElem>
          <div>
          graph: {}
          <WithGivenDestNd value={dest } >

@@ -213,11 +213,12 @@ const CWaveTableImpl : (
                <td>OScillative Shape</td>
                <td>
                { (() => {
+               const value = waveShape ;
                const editH = editListeners.wvShape ;
                ;
                return (
                   <EnumValueDisplayElem 
-                  value={(typeof waveShape === "string") ? waveShape : undefined }
+                  value={(typeof value === "string") ? value : undefined }
                   options={[
                      "sine" ,
                      "triangle" ,

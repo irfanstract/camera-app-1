@@ -206,6 +206,64 @@ const useLAudioCtxTState1 = (
       } ;
    }
 ) ;
+const useLAudioCtxT0 = (
+   (...[c, { periodSecs, }, ] : [BaseAudioContext, { periodSecs : number ; }, ] ) => {
+      const {
+         cT ,
+         setCT ,
+         incrementCT ,
+      } = useLAudioCtxTState1() ;
+      React.useEffect(() => {
+         let valid : boolean = true ;
+         (async () => {
+            ;
+            LOOP1 :
+            for (const { expectedCtxT, } of (
+               Range(c.currentTime , Number.MAX_SAFE_INTEGER , 1 , )
+               .map((expectedCtxT, ) => {
+                  return {
+                     expectedCtxT ,
+                  } ;
+               } )
+            ) ) {
+               /**   
+                * - check {@link valid } 
+                * - wait while ahead of {@link c.currentTime } ;
+                * 
+                */
+               LOOP2 :
+               for (;;) {
+                  if (!valid ) {
+                     break LOOP1 ;
+                  }
+                  ;
+                  if (c.currentTime < expectedCtxT ) {
+                     break LOOP2 ;
+                  }
+                  ;
+                  await (
+                     new Promise(R => (
+                        setTimeout(R, 8, ) // millis
+                     ) )
+                  ) ;
+               }
+               /**   
+                * run {@link incrementCT }
+                * 
+                */
+               incrementCT({ periodSecs, }, ) ;
+            }
+         } )() ;
+         return (): void => {
+            valid = false ;
+         } ;
+      } , [periodSecs, ] , ) ;
+      return {
+         c ,
+         cT ,
+      } ;
+   }
+) ;
 
 
 

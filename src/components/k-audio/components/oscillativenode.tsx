@@ -70,6 +70,27 @@ type KWaveShape = (
    | Exclude<OscillatorType, "custom" > 
    | PeriodicWave
 ) ;
+namespace KWaveShape {
+
+   export const renderEditor : (
+      (...args : [vl : KWaveShape, update ?: React.Dispatch<KWaveShape>, ] ) 
+      => React.ReactElement
+   ) = (
+      (value, editH, ) => (
+         <EnumValueDisplayElem 
+         value={(typeof value === "string") ? value : undefined }
+         options={[
+            "sine" ,
+            "triangle" ,
+            "square" ,
+            "sawtooth" ,
+         ]}
+         onChange={editH && ((e) => editH(e.detail.value , ) ) }
+         />
+      )
+   ) ;
+
+}
 
 
 

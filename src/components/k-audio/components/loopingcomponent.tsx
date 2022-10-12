@@ -219,6 +219,14 @@ export const {
                // PAYLOADS
                children : payload ,
             } = cProps ;
+            const {
+               startT ,
+               period ,
+               endT ,
+               n ,
+            } = (
+               CFLFT_PROPS_PARSE(cProps , )
+            ) ;
             return (
                <div />
             ) ;

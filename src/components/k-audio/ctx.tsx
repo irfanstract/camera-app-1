@@ -282,8 +282,31 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
+const CTCtxCurrentValueUser : (
+   React.FC<(
+      React.ConsumerProps<TAndTScale >
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { tCtx, } = c ;
+               return (
+                  payload(tCtx , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 export {
    CACtxtualDestNodeRefUser ,
+   CTCtxCurrentValueUser ,
 } ;
 /**    
  * monitoring-or-visualisational only,

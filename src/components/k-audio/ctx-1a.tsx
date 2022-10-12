@@ -78,6 +78,9 @@ ctx = (
 ) ,
 useInitially1 = (
    (...[aCtx, ] ) => {
+      const aCtxExpectedT = (
+         useLAudioCtxT(aCtx , { periodSecs : 0.55 , } , )
+      ) ;
       return (
          useMemo((): CtxValue => ({
             pd: new PdMode.Stochastically(aCtx.destination, ) ,

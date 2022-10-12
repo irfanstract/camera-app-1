@@ -219,7 +219,7 @@ const useLAudioCtxT0 = (
             ;
             LOOP1 :
             for (const { expectedCtxT, } of (
-               Range(c.currentTime , Number.MAX_SAFE_INTEGER , 1 , )
+               Range(c.currentTime , Number.MAX_SAFE_INTEGER , periodSecs , )
                .map((expectedCtxT, ) => {
                   return {
                      expectedCtxT ,
@@ -237,7 +237,7 @@ const useLAudioCtxT0 = (
                      break LOOP1 ;
                   }
                   ;
-                  if (c.currentTime < expectedCtxT ) {
+                  if (expectedCtxT <= c.currentTime ) {
                      break LOOP2 ;
                   }
                   ;

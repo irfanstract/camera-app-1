@@ -264,6 +264,12 @@ const useLAudioCtxT0 = (
       } ;
    }
 ) ;
+const useLAudioCtxT = (
+   (...args : Parameters<typeof useLAudioCtxT0 > ) => (
+      useLAudioCtxT0(...args, )
+      .cT
+   )
+) ;
 
 
 
@@ -281,6 +287,7 @@ export {
    useIWithGivenDestNd1 ,
    
    useCtxInferredValues ,
+   useLAudioCtxT ,
 
 } ;
 

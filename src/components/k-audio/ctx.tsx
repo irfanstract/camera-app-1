@@ -255,11 +255,9 @@ export const WithCurrentACtx = (
             ctxv.aCtx
          ) ;
          return (
-         React.useMemo(() => (
             <>
-            { ctxvSpecific && children(ctxvSpecific, ) }
+            { ctxv && children(ctxv.aCtx, ) }
             </>
-         ) , [ctxvSpecific, ] , )
          ) ;
       }
    ))

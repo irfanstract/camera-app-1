@@ -96,4 +96,61 @@ namespace FiniteLoopingFromT {
 
 
 
+
+
+
+
+type ExportedComponentsProps = {
+   
+   /**    
+    * given `startT` and-then `period` and-then (either of the three) ;
+    * 
+    */
+   CFiniteLoopingFromT : (
+      {}
+      & FiniteLoopingFromT.StartPointProps
+      & FiniteLoopingFromT.Periodic
+      & FiniteLoopingFromT.EndPointProps
+   ) ;
+
+} ;
+type ExportedComponents = {
+   
+   [componentName in keyof ExportedComponentsProps ] : (
+      React.FC<(
+         {}
+         & Required<React.PropsWithChildren>
+         & ExportedComponentsProps[componentName ]
+      )>
+   ) ;
+
+} ;
+export const {
+   CFiniteLoopingFromT ,
+   
+} = (() : ExportedComponents => {
+   return {
+      CFiniteLoopingFromT : (
+         (cProps , ) => {
+            const { 
+               // PAYLOADS
+               children : payload ,
+            } = cProps ;
+            const { 
+               // START T
+               startT = 0 ,
+               // PERIODS
+               period , 
+            } = cProps ;
+            return (
+               <div />
+            ) ;
+         } 
+      ) ,
+   } ;
+})() ;
+
+
+
+
 export {} ;

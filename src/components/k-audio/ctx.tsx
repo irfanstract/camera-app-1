@@ -311,7 +311,11 @@ const CMereProductiveElem : (
       Required<React.PropsWithChildren >
    )>
 ) = (
-   Fragment
+   ({ children, }) => (
+      <div style={{ border: `0.1em solid red` }} >
+         { children }
+      </div> 
+   )
 ) ;
 export {
    CMereMonitoringElem ,

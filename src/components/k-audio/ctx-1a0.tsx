@@ -113,6 +113,15 @@ interface AUsable {
       => (CtxValue | null )
    ) ;
 
+   /**   
+    * all values for the point the call is made at.
+    * 
+    */
+   useCtxInferredValues : (
+      ()
+      => CtxInferredValues
+   ) ;
+
 } ;  
 namespace AUsable { ; } // TS-1205
 

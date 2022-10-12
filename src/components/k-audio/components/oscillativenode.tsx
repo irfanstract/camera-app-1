@@ -233,22 +233,7 @@ const CWaveTableImpl : (
             <tr>
                <td>OScillative Shape</td>
                <td>
-               { (() => {
-               const value = waveShape ;
-               const editH = editListeners.wvShape ;
-               ;
-               return (
-                  <EnumValueDisplayElem 
-                  value={(typeof value === "string") ? value : undefined }
-                  options={[
-                     "sine" ,
-                     "triangle" ,
-                     "square" ,
-                  ]}
-                  onChange={editH && ((e) => editH(e.detail.value , ) ) }
-                  />
-               ) ;
-               })() }
+               { KWaveShape.renderEditor(waveShape, editListeners.wvShape, ) }
                </td>
             </tr>
             <tr>

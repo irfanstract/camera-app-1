@@ -228,7 +228,23 @@ export const {
                CFLFT_PROPS_PARSE(cProps , )
             ) ;
             return (
-               <div />
+               <div >
+                  <p>
+                     Looping
+                  </p>
+                  <CMereMonitoringElem>
+                     <pre>
+                     { (
+                        JSON.stringify({
+                           startT ,
+                           period ,
+                           endT ,
+                           n ,
+                        } , null , 2 , )
+                     ) }
+                     </pre>
+                  </CMereMonitoringElem>
+               </div>
             ) ;
          } 
       ) ,

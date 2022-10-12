@@ -295,7 +295,11 @@ const CMereMonitoringElem : (
       Required<React.PropsWithChildren >
    )>
 ) = (
-   Fragment
+   ({ children, }) => (
+      <div style={{ border: `0.1em solid black` }} >
+         { children }
+      </div> 
+   )
 ) ;
 /**    
  * playing role in the main production,

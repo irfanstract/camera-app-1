@@ -79,7 +79,7 @@ ctx = (
 useInitially1 = (
    (...[aCtx, ] ) => {
       const aCtxExpectedT = (
-         useLAudioCtxT(aCtx , { periodSecs : 0.55 , } , )
+         useLAudioCtxT(aCtx , { periodSecs : 0.125 , } , )
       ) ;
       return (
          useMemo((): CtxValue => ({

@@ -58,8 +58,6 @@ import {
 
 } from "components/k-audio/uaCtxExpectedTLoopState" ;
 
-import AUsable from "./ctx-1a0";
-import { CtxValue, } from "./ctx-1a0";
 
 
 
@@ -72,6 +70,54 @@ import { CtxValue, } from "./ctx-1a0";
 
 
 
+
+type CtxValue = (
+   {} 
+   & { pd: PdMode ; } 
+   & { aCtx: BaseAudioContext ; } 
+   & { aCtxExpectedT: number ; } 
+   & { tCtx : TAndTScale ; }
+) ;
+namespace CtxValue { ; } // TS-1205
+type CtxInferredValues = (
+   (
+      {  tCtxValue : null | CtxValue["tCtx"] ;  } 
+      &
+      (
+         {  aCtx : null ; dest : null ; } 
+         |
+         {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
+      )
+      & 
+      { aCtxExpectedT: null | number ; } 
+   )
+) ;
+namespace CtxInferredValues { ; } // TS-1205
+interface AUsable {
+   
+   ctx ?: React.Context<CtxValue | null> ;
+
+   /**    
+    * top-level usage
+    * 
+    */
+   useInitially1 : (
+      (...args : [aCtx : BaseAudioContext, ] ) 
+      => CtxValue
+   ) ;
+
+   /**   
+    * with given `dest` .
+    * will likely amend {@link CtxValue.pd } and all implied/relevant vals, yet
+    * will leave others unchanged .
+    * 
+    */
+   useIWithGivenDestNd1 : (
+      (...args : [AudioNode | AudioParam, ] ) 
+      => (CtxValue | null )
+   ) ;
+
+} ;  
 
 const {
 ctx = (
@@ -122,7 +168,11 @@ useIWithGivenDestNd1 = (
       ) ;
    }
 ) ,
-useCtxInferredValues = (
+} : (
+   {}
+   & Partial<AUsable >
+) = { } ; //
+const useCtxInferredValues = (
    () => {
       ;
       const ctxV = (
@@ -131,17 +181,12 @@ useCtxInferredValues = (
       ;
       return (
          useMemo((): (
-            (
-               {  tCtxValue : null | ((typeof ctxV ) & object )["tCtx"] ;  } 
-               &
-               (
-                  {  aCtx : null ; dest : null ; } 
-                  |
-                  {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
-               )
-            )
+            (CtxInferredValues )
          ) => {
             if (ctxV ) {
+               const { // `aCtxExpectedT`
+                  aCtxExpectedT ,
+               } = ctxV ;
                const { 
                   pd: pdMode , 
                   aCtx: aCtx ,
@@ -155,27 +200,26 @@ useCtxInferredValues = (
                      tCtxValue ,
                      dest ,
                      aCtx ,
+                     aCtxExpectedT ,
                   } ;
                }
                return { 
                   tCtxValue , 
                   dest : null ,
                   aCtx : null , 
+                  aCtxExpectedT ,
                } ;
             } 
             return { 
                tCtxValue : null , 
                dest : null ,
                aCtx : null , 
+               aCtxExpectedT : null ,
             } ;
          } , [ctxV, ], )
       ) ;
    }
-) ,
-} : (
-   {}
-   & Partial<AUsable >
-) = { } ; //
+) ;
 
 
 

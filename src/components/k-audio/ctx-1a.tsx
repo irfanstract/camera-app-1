@@ -108,7 +108,7 @@ useIWithGivenDestNd1 = (
                   ) ,
                } ;  
             }
-            return null ;
+            throw TypeError(`not within initialised ctx. (use 'useInitially()' first ). `) ;
          } , [presentlyCtxV, dest, ], )
       ) ;
    }

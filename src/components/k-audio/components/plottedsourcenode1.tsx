@@ -160,7 +160,19 @@ const CCPS_IMPL_1A : (
          )
       ) , cbDependencies , ) ;
       return (
+         <Fragment>
+         <aside style={{ display: `none`, }} >
+            <CTCtxCurrentValueUser>
+               { (value) => (
+                  <CCPS_CTXTVALREAD 
+                  ref={setTCtxVal } 
+                  value={value } 
+                  />
+               ) }
+            </CTCtxCurrentValueUser>
+         </aside>
          <div />
+         </Fragment>
       ) ;
    }
 ) ;

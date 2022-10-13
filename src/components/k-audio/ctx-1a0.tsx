@@ -68,6 +68,7 @@ type CtxValue = (
    {} 
    & { pd: PdMode ; } 
    & { aCtx: BaseAudioContext ; } 
+   & { aCtxExpectedT: number ; } 
    & { tCtx : TAndTScale ; }
 ) ;
 namespace CtxValue { ; } // TS-1205

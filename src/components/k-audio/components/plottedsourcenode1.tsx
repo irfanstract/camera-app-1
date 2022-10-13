@@ -102,7 +102,7 @@ const CCPS_CTXTVALREAD = (() => {
             function CCPS_CTXTVALREAD_COMP({ value, }, ref1, ) {
                React.useImperativeHandle((
                   ref1
-               ) , () => value , );
+               ) , () => value , [value.t, value.tScale, ] , );
                return (
                   <Fragment />
                ) ;

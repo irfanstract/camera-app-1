@@ -265,6 +265,32 @@ export const WithCurrentACtx = (
       }
    ))
 ) ;
+const CACtxExpectedCurrentStateValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         {}
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { 
+               } = c ;
+               return (
+                  payload({
+                  } , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 const CACtxtualDestNodeRefUser : (
    React.FC<(
       React.ConsumerProps<PdMode.OfToSendToDest >

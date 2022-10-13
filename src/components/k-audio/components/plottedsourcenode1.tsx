@@ -124,7 +124,17 @@ const CCPS_IMPL_1A : (
       ) ;
       useConnectDisconnect(g1, dest, ) ;
       const [tCtxVal, setTCtxVal, ] = (
-         useState<null | PsTAndTScale >(null , )
+         useReducer((
+            (...[val0, val1, ] : [
+               PsTAndTScale, 
+               null | PsTAndTScale, 
+            ] ): PsTAndTScale => {
+               return (
+                  val1 ?
+                  val1 : val0
+               ) ;
+            }
+         ) , PsTAndTScale.initially() , )
       ) ;
       const [ , refresh, ] = (
       useReducer(() => {
@@ -146,8 +156,26 @@ const CCPS_IMPL_1A : (
                         p.value = newVal
                      ) ;
                   } ,
-                  // TODO
-                  setTargetAtTime() {
+                  setTargetAtTime(...[targetedValue, specifiedStartT, specifiedTConstant, ]) {
+                     if (tCtxVal ) {
+                        (
+                           p
+                           .setTargetAtTime((
+                              targetedValue
+                           ), (
+                              tCtxVal.t 
+                              + (specifiedStartT * tCtxVal.tScale )
+                           ), (
+                              specifiedTConstant 
+                              * tCtxVal.tScale
+                           ), )
+                        ) ;
+                     } else {
+                        ; // TODO possible logging
+                        console["debug"]((
+                           `PlottedAutomativeSourceNode - skipping ; not enough info `
+                        ) , { tCtxVal, } , ) ;
+                     }
                      return this as AudioParam ;
                   } ,
                } ,
@@ -163,14 +191,14 @@ const CCPS_IMPL_1A : (
       return (
          <Fragment>
          <aside style={{ display: `none`, }} >
-            <CTCtxCurrentValueUser>
-               { (value) => (
+            <CACtxExpectedCurrentStateValuesUser>
+               { ({ expectedT: expectedACtxT, }) => (
                   <CCPS_CTXTVALREAD 
                   ref={setTCtxVal } 
-                  value={value } 
+                  value={new PsTAndTScale(expectedACtxT, 1, ) } 
                   />
                ) }
-            </CTCtxCurrentValueUser>
+            </CACtxExpectedCurrentStateValuesUser>
          </aside>
          <div />
          </Fragment>

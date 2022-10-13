@@ -291,7 +291,10 @@ const CACtxtualDestNodeRefUser : (
 ) ;
 const CTCtxCurrentValueUser : (
    React.FC<(
-      React.ConsumerProps<TAndTScale >
+      React.ConsumerProps<(
+         {}
+         & TAndTScale 
+      )>
    )>
 ) = (
    ({ children: payload , }) => {

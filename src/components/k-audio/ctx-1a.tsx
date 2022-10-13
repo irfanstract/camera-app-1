@@ -97,14 +97,9 @@ useIWithGivenDestNd1 = (
       ) ;
       return (
          useMemo((): null | CtxValue => {
-            const tCtxNew = (
-               presentlyCtxV ?
-               presentlyCtxV.tCtx
-               : TAndTScale.initially()
-            ) ;
             if (presentlyCtxV ) {
                return {
-                  tCtx: tCtxNew ,
+                  tCtx: presentlyCtxV.tCtx ,
                   aCtx: (
                      presentlyCtxV.aCtx
                   ) ,

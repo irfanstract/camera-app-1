@@ -86,12 +86,8 @@ type ComponentProps<A extends {} & Function > = (
 
 
 
-type PsTAndTScale = (
-   Parameters<(
-      ComponentProps<typeof CTCtxCurrentValueUser >["children"]
-      & object
-   )>[0]
-) ;
+// eslint-disable-next-line import/first
+import PsTAndTScale = TAndTScale ;
 /**   
  * 
  */

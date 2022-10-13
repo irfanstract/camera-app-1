@@ -81,6 +81,12 @@ type ComponentProps<A extends {} & Function > = (
 
 
 
+type PsTAndTScale = (
+   Parameters<(
+      ComponentProps<typeof CTCtxCurrentValueUser >["children"]
+      & object
+   )>[0]
+) ;
 const CCPS_IMPL_1A : (
    React.FC<(
       { value : [{ (...args : [Pick<AudioParam, "setTargetAtTime" | "minValue" | "maxValue" | "value" >,] ): void ; } , React.DependencyList , ] ; }

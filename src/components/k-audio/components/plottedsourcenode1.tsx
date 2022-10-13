@@ -87,6 +87,29 @@ type PsTAndTScale = (
       & object
    )>[0]
 ) ;
+/**   
+ * 
+ */
+const CCPS_CTXTVALREAD = (() => {
+   return (
+      React.forwardRef((
+         identity<(
+            React.ForwardRefRenderFunction<(
+               PsTAndTScale
+            ) , { value : PsTAndTScale, } >
+         ) >((
+            function CCPS_CTXTVALREAD_COMP({ value, }, ref1, ) {
+               React.useImperativeHandle((
+                  ref1
+               ) , () => value , );
+               return (
+                  <Fragment />
+               ) ;
+            }
+         ))
+      ))
+   ) ;
+} )() ;
 const CCPS_IMPL_1A : (
    React.FC<(
       { value : [{ (...args : [Pick<AudioParam, "setTargetAtTime" | "minValue" | "maxValue" | "value" >,] ): void ; } , React.DependencyList , ] ; }

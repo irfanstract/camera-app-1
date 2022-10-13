@@ -113,7 +113,22 @@ const CCPS_CTXTVALREAD = (() => {
 } )() ;
 const CCPS_IMPL_1A : (
    React.FC<(
-      { value : [{ (...args : [Pick<AudioParam, "setTargetAtTime" | "minValue" | "maxValue" | "value" >,] ): void ; } , React.DependencyList , ] ; }
+      Required<Record<"value" , (
+         [
+            (...args : [
+               (
+                  {}
+                  & (
+                     {}
+                     & Pick<AudioParam,  "setTargetAtTime"  >
+                     & Pick<AudioParam,  "value" >
+                  )
+                  & Pick<AudioParam, "minValue" | "maxValue"  >
+               ),
+            ] ) => void , 
+            React.DependencyList , 
+         ]
+      ) >>
       &
       { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
    )>

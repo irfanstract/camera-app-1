@@ -47,8 +47,19 @@ import React, {
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 
 import { useConnectDisconnect, } from "./uacd";
+import {
+
+   // THE MAIN EXPORTS
+   useLAudioCtxT0 ,
+   useLAudioCtxT ,
+   
+   // THE UTILITy EXPORTS
+   useLAudioCtxTState1 ,
+
+} from "components/k-audio/uaCtxExpectedTLoopState" ;
 
 import AUsable from "./ctx-1a0";
+import { CtxValue, } from "./ctx-1a0";
 
 
 
@@ -62,13 +73,6 @@ import AUsable from "./ctx-1a0";
 
 
 
-type CtxValue = (
-   {} 
-   & { pd: PdMode ; } 
-   & { aCtx: BaseAudioContext ; } 
-   & { tCtx : TAndTScale ; }
-) ;
-namespace CtxValue { ; } // TS-1205 
 const {
 ctx = (
    React.createContext<(
@@ -78,12 +82,16 @@ ctx = (
 ) ,
 useInitially1 = (
    (...[aCtx, ] ) => {
+      const aCtxExpectedT = (
+         useLAudioCtxT(aCtx , { periodSecs : 0.125 , } , )
+      ) ;
       return (
          useMemo((): CtxValue => ({
             pd: new PdMode.Stochastically(aCtx.destination, ) ,
             aCtx: aCtx ,
+            aCtxExpectedT ,
             tCtx: TAndTScale.initially() ,
-         }) , [aCtx, ], )
+         }) , [aCtx, aCtxExpectedT, ], )
       ) ;
    }
 ) ,
@@ -94,34 +102,22 @@ useIWithGivenDestNd1 = (
       ) ;
       return (
          useMemo((): null | CtxValue => {
-            const tCtxNew = (
-               presentlyCtxV ?
-               presentlyCtxV.tCtx
-               : TAndTScale.initially()
-            ) ;
-            if (dest instanceof AudioNode ) {
-               return {
-                  tCtx: tCtxNew ,
-                  aCtx : (
-                     dest.context
-                  ) ,
-                  pd : (
-                     new PdMode.Stochastically(dest, )
-                  ) ,
-               } ;
-            }
             if (presentlyCtxV ) {
+               const {
+                  aCtxExpectedT ,
+               } = presentlyCtxV ;
                return {
-                  tCtx: tCtxNew ,
+                  tCtx: presentlyCtxV.tCtx ,
                   aCtx: (
                      presentlyCtxV.aCtx
                   ) ,
+                  aCtxExpectedT ,
                   pd : (
                      new PdMode.Stochastically(dest, )
                   ) ,
                } ;  
             }
-            return null ;
+            throw TypeError(`not within initialised ctx. (use 'useInitially()' first ). `) ;
          } , [presentlyCtxV, dest, ], )
       ) ;
    }
@@ -197,6 +193,7 @@ export {
    useIWithGivenDestNd1 ,
    
    useCtxInferredValues ,
+   useLAudioCtxT ,
 
 } ;
 

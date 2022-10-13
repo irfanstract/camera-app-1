@@ -107,6 +107,7 @@ const useANodeFltCallback1 : (
        */
       const {
          aCtx ,
+         aCtxExpectedT ,
          dest ,
          tCtxValue ,
       } = (
@@ -153,10 +154,16 @@ const useANodeFltCallback1 : (
        */
       return (
          useMemo((): (null | CtxValue) => {
-            if (introducedNode1 && tCtxValue ) {
+            if ((
+               true 
+               && introducedNode1 
+               && tCtxValue
+               && aCtxExpectedT 
+            )) {
                return {
                   pd: new PdMode.Stochastically(introducedNode1 , ) ,
                   aCtx: introducedNode1.context ,
+                  aCtxExpectedT ,
                   tCtx: tCtxValue ,
                } ;
             } else {
@@ -258,6 +265,41 @@ export const WithCurrentACtx = (
       }
    ))
 ) ;
+const CACtxExpectedCurrentStateValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         {}
+         & {
+            /**    
+             * the expected `t`
+             */
+            expectedT : number ;
+         }
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { 
+               } = c ;
+               return (
+                  payload({
+                     expectedT : (
+                        c.aCtxExpectedT
+                     ) ,
+                  } , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 const CACtxtualDestNodeRefUser : (
    React.FC<(
       React.ConsumerProps<PdMode.OfToSendToDest >
@@ -284,7 +326,10 @@ const CACtxtualDestNodeRefUser : (
 ) ;
 const CTCtxCurrentValueUser : (
    React.FC<(
-      React.ConsumerProps<TAndTScale >
+      React.ConsumerProps<(
+         {}
+         & TAndTScale 
+      )>
    )>
 ) = (
    ({ children: payload , }) => {
@@ -306,6 +351,7 @@ const CTCtxCurrentValueUser : (
 ) ; 
 export {
    CACtxtualDestNodeRefUser ,
+   CACtxExpectedCurrentStateValuesUser ,
    CTCtxCurrentValueUser ,
 } ;
 /**    

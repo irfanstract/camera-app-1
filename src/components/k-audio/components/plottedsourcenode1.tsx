@@ -122,6 +122,9 @@ const CCPS_IMPL_1A : (
          useConstantSrcNde(aCtx, )
       ) ;
       useConnectDisconnect(g1, dest, ) ;
+      const [tCtxVal, setTCtxVal, ] = (
+         useState<null | PsTAndTScale >(null , )
+      ) ;
       const [ , refresh, ] = (
       useReducer(() => {
          g1.offset.cancelScheduledValues(0, ) ;

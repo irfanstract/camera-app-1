@@ -102,17 +102,6 @@ useIWithGivenDestNd1 = (
                presentlyCtxV.tCtx
                : TAndTScale.initially()
             ) ;
-            if (dest instanceof AudioNode ) {
-               return {
-                  tCtx: tCtxNew ,
-                  aCtx : (
-                     dest.context
-                  ) ,
-                  pd : (
-                     new PdMode.Stochastically(dest, )
-                  ) ,
-               } ;
-            }
             if (presentlyCtxV ) {
                return {
                   tCtx: tCtxNew ,

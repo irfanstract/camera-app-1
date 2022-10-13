@@ -187,6 +187,15 @@ namespace CCPS_IMPL {
                   }
                   return this as AudioParam ;
                },
+               exponentialRampToValueAtTime(targetedValue, specifiedEndT, ) {
+                  if ((
+                     true
+                     && STVT("exponentialRampToValueAtTime" , { value: targetedValue, t: specifiedEndT, } , )
+                  )) {
+                  } else {
+                  }
+                  return this as AudioParam ;
+               },
             } ;
          }
       ))

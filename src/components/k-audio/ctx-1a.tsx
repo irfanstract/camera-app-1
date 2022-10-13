@@ -236,6 +236,7 @@ export {
    useInitially1 ,
    useIWithGivenDestNd1 ,
    
+   useCtxInferredValues ,
    useLAudioCtxT ,
 
 } ;

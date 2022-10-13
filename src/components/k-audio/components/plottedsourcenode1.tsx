@@ -138,9 +138,6 @@ namespace CCPS_IMPL {
                      ) ;
                   } else {
                      ; // TODO possible logging
-                     console["debug"]((
-                        `PlottedAutomativeSourceNode - skipping ; not enough info `
-                     ) , { tCtxVal, } , ) ;
                   }
                   return this as AudioParam ;
                } ,

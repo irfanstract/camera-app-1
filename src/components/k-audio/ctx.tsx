@@ -153,7 +153,11 @@ const useANodeFltCallback1 : (
        */
       return (
          useMemo((): (null | CtxValue) => {
-            if (introducedNode1 && tCtxValue ) {
+            if ((
+               true 
+               && introducedNode1 
+               && tCtxValue
+            )) {
                return {
                   pd: new PdMode.Stochastically(introducedNode1 , ) ,
                   aCtx: introducedNode1.context ,

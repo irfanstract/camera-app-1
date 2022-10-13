@@ -111,6 +111,67 @@ const CCPS_CTXTVALREAD = (() => {
       ))
    ) ;
 } )() ;
+namespace CCPS_IMPL {
+   
+   export const apTAndTScaleTranslatedForm = (
+      identity<(
+         (...args : [AudioParam, PsTAndTScale, ] )
+         =>
+         (
+            {}
+            & (
+               {}
+               & Pick<AudioParam,  "setTargetAtTime"  >
+               & Pick<AudioParam,  "value" >
+            )
+            & Pick<AudioParam, "minValue" | "maxValue"  >
+         )
+      )>((
+         (...[p, tCtxVal, ] ) => {
+            const {
+               minValue ,
+               maxValue ,
+            } = p ;
+            ;
+            return {
+               minValue ,
+               maxValue ,
+               get value() {
+                  return p.value ;
+               } ,
+               set value(newVal: number , ) {
+                  (
+                     p.value = newVal
+                  ) ;
+               } ,
+               setTargetAtTime(...[targetedValue, specifiedStartT, specifiedTConstant, ]) {
+                  if (tCtxVal ) {
+                     (
+                        p
+                        .setTargetAtTime((
+                           targetedValue
+                        ), (
+                           tCtxVal.t 
+                           + (specifiedStartT * tCtxVal.tScale )
+                        ), (
+                           specifiedTConstant 
+                           * tCtxVal.tScale
+                        ), )
+                     ) ;
+                  } else {
+                     ; // TODO possible logging
+                     console["debug"]((
+                        `PlottedAutomativeSourceNode - skipping ; not enough info `
+                     ) , { tCtxVal, } , ) ;
+                  }
+                  return this as AudioParam ;
+               } ,
+            } ;
+         }
+      ))
+   ) ;
+
+}
 const CCPS_IMPL_1A : (
    React.FC<(
       Required<Record<"value" , (

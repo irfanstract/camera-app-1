@@ -124,7 +124,17 @@ const CCPS_IMPL_1A : (
       ) ;
       useConnectDisconnect(g1, dest, ) ;
       const [tCtxVal, setTCtxVal, ] = (
-         useState<null | PsTAndTScale >(null , )
+         useReducer((
+            (...[val0, val1, ] : [
+               PsTAndTScale, 
+               null | PsTAndTScale, 
+            ] ): PsTAndTScale => {
+               return (
+                  val1 ?
+                  val1 : val0
+               ) ;
+            }
+         ) , PsTAndTScale.initially() , )
       ) ;
       const [ , refresh, ] = (
       useReducer(() => {

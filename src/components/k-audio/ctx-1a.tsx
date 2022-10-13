@@ -179,15 +179,7 @@ const useCtxInferredValues = (
       ;
       return (
          useMemo((): (
-            (
-               {  tCtxValue : null | ((typeof ctxV ) & object )["tCtx"] ;  } 
-               &
-               (
-                  {  aCtx : null ; dest : null ; } 
-                  |
-                  {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
-               )
-            )
+            (CtxInferredValues )
          ) => {
             if (ctxV ) {
                const { 

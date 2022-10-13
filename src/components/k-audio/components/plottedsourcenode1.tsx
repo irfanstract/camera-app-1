@@ -46,6 +46,9 @@ import React, {
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 import useMemoisedResource from "components/useMemoisedResource";
 
+import { TAndTScale, } from "components/k-audio/TOffsetAndScaleProperties";
+import { PdMode, } from "components/k-audio/graph-modes";
+
 import { useConnectDisconnect, } from "components/k-audio/uacd";
 import useConstantSrcNde from "../useConstantSrcNde";
 import { 

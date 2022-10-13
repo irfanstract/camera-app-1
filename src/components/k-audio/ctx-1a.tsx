@@ -88,6 +88,8 @@ type CtxInferredValues = (
          |
          {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
       )
+      & 
+      { aCtxExpectedT: null | number ; } 
    )
 ) ;
 namespace CtxInferredValues { ; } // TS-1205

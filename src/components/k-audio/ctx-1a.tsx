@@ -79,6 +79,7 @@ useInitially1 = (
          useMemo((): CtxValue => ({
             pd: new PdMode.Stochastically(aCtx.destination, ) ,
             aCtx: aCtx ,
+            aCtxExpectedT ,
             tCtx: TAndTScale.initially() ,
          }) , [aCtx, aCtxExpectedT, ], )
       ) ;

@@ -179,30 +179,11 @@ const CCPS_IMPL_1A : (
       const [ , refresh, ] = (
       useReducer(() => {
          g1.offset.cancelScheduledValues(0, ) ;
-         cb(...((p: AudioParam , ) : Parameters<typeof cb > => {
-            const {
-               minValue ,
-               maxValue ,
-            } = p ;
-            return [
-               {
-                  minValue ,
-                  maxValue ,
-                  get value() {
-                     return p.value ;
-                  } ,
-                  set value(newVal: number , ) {
-                     (
-                        p.value = newVal
-                     ) ;
-                  } ,
-                  // TODO
-                  setTargetAtTime() {
-                     return this as AudioParam ;
-                  } ,
-               } ,
-            ] ;
-         } )(g1.offset , ) ) ;
+         cb((
+            CCPS_IMPL.apTAndTScaleTranslatedForm((
+               g1.offset
+            ), tCtxVal, )
+         ) ) ;
       } , void 0 , )
       ) ;
       React["useLayoutEffect"](() => (

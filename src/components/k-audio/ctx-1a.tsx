@@ -80,7 +80,7 @@ useInitially1 = (
             pd: new PdMode.Stochastically(aCtx.destination, ) ,
             aCtx: aCtx ,
             tCtx: TAndTScale.initially() ,
-         }) , [aCtx, ], )
+         }) , [aCtx, aCtxExpectedT, ], )
       ) ;
    }
 ) ,

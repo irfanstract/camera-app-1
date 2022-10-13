@@ -175,56 +175,6 @@ useIWithGivenDestNd1 = (
       ) ;
    }
 ) ,
-useCtxInferredValues = (
-   () => {
-      ;
-      const ctxV = (
-         React.useContext(ctx, )
-      ) ;
-      ;
-      return (
-         useMemo((): (
-            (
-               {  tCtxValue : null | ((typeof ctxV ) & object )["tCtx"] ;  } 
-               &
-               (
-                  {  aCtx : null ; dest : null ; } 
-                  |
-                  {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
-               )
-            )
-         ) => {
-            if (ctxV ) {
-               const { 
-                  pd: pdMode , 
-                  aCtx: aCtx ,
-                  tCtx: tCtxValue, 
-               } = ctxV ;
-               if (pdMode instanceof PdMode.OfToSendToDest ) {
-                  const {
-                     dest
-                  } = pdMode ;
-                  return {
-                     tCtxValue ,
-                     dest ,
-                     aCtx ,
-                  } ;
-               }
-               return { 
-                  tCtxValue , 
-                  dest : null ,
-                  aCtx : null , 
-               } ;
-            } 
-            return { 
-               tCtxValue : null , 
-               dest : null ,
-               aCtx : null , 
-            } ;
-         } , [ctxV, ], )
-      ) ;
-   }
-) ,
 } : (
    {}
    & Partial<AUsable >

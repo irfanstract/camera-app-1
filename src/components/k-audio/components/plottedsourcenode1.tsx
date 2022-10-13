@@ -146,8 +146,26 @@ const CCPS_IMPL_1A : (
                         p.value = newVal
                      ) ;
                   } ,
-                  // TODO
-                  setTargetAtTime() {
+                  setTargetAtTime(...[targetedValue, specifiedStartT, specifiedTConstant, ]) {
+                     if (tCtxVal ) {
+                        (
+                           p
+                           .setTargetAtTime((
+                              targetedValue
+                           ), (
+                              tCtxVal.t 
+                              + (specifiedStartT * tCtxVal.tScale )
+                           ), (
+                              specifiedTConstant 
+                              * tCtxVal.tScale
+                           ), )
+                        ) ;
+                     } else {
+                        ; // TODO possible logging
+                        console["debug"]((
+                           `PlottedAutomativeSourceNode - skipping ; not enough info `
+                        ) , { tCtxVal, } , ) ;
+                     }
                      return this as AudioParam ;
                   } ,
                } ,

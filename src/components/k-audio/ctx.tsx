@@ -158,6 +158,7 @@ const useANodeFltCallback1 : (
                true 
                && introducedNode1 
                && tCtxValue
+               && aCtxExpectedT 
             )) {
                return {
                   pd: new PdMode.Stochastically(introducedNode1 , ) ,

@@ -230,6 +230,15 @@ namespace CCPS_IMPL {
                   }
                   return this as AudioParam ;
                },
+               cancelScheduledValues(specifiedT, ) {
+                  if ((
+                     true
+                     && CANCELSCHEDULEDVLS("cancelScheduledValues" , { t: specifiedT, } , )
+                  )) {
+                  } else {
+                  }
+                  return this as AudioParam ;
+               },
             } ;
          }
       ))

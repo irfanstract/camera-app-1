@@ -63,13 +63,6 @@ import { CtxValue, } from "./ctx-1a0";
 
 
 
-type CtxValue = (
-   {} 
-   & { pd: PdMode ; } 
-   & { aCtx: BaseAudioContext ; } 
-   & { tCtx : TAndTScale ; }
-) ;
-namespace CtxValue { ; } // TS-1205 
 const {
 ctx = (
    React.createContext<(

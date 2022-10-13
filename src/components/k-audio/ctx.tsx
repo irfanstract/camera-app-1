@@ -163,6 +163,7 @@ const useANodeFltCallback1 : (
                return {
                   pd: new PdMode.Stochastically(introducedNode1 , ) ,
                   aCtx: introducedNode1.context ,
+                  aCtxExpectedT ,
                   tCtx: tCtxValue ,
                } ;
             } else {

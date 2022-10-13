@@ -93,6 +93,9 @@ useIWithGivenDestNd1 = (
       return (
          useMemo((): null | CtxValue => {
             if (presentlyCtxV ) {
+               const {
+                  aCtxExpectedT ,
+               } = presentlyCtxV ;
                return {
                   tCtx: presentlyCtxV.tCtx ,
                   aCtx: (

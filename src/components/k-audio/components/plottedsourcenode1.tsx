@@ -111,6 +111,42 @@ namespace CCPS_IMPL {
                maxValue ,
             } = p ;
             ;
+            /**   
+             * `setValueAtTime` and other methods with equivalent sgn.
+             * 
+             */
+            const STVT : (
+               (...args : [
+                  (
+                     keyof (
+                        {}
+                        & Pick<AudioParam, "setValueAtTime">
+                        & Pick<AudioParam, "linearRampToValueAtTime" | "exponentialRampToValueAtTime" >
+                     )
+                  ) ,
+                  { value : number ; t : number ; } ,
+               ] ) 
+               => 
+               (never | false | true )
+            ) = (
+               (which, { value: targetedValue, t: specifiedT, } , ) => {
+                  if (tCtxVal ) {
+                     (
+                        p
+                        [which ]((
+                           targetedValue
+                        ), (
+                           tCtxVal.t 
+                           + (specifiedT * tCtxVal.tScale )
+                        ), )
+                     ) ;
+                     return true ;
+                  } else {
+                     ; // TODO possible logging
+                     return false ;
+                  }
+               }
+            ) ;
             return {
                minValue ,
                maxValue ,

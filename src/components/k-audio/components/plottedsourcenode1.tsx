@@ -191,14 +191,14 @@ const CCPS_IMPL_1A : (
       return (
          <Fragment>
          <aside style={{ display: `none`, }} >
-            <CACtxExpectedCurrentStateValuesUser>
-               { ({ expectedT: expectedACtxT, }) => (
+            <CTCtxCurrentValueUser>
+               { (value) => (
                   <CCPS_CTXTVALREAD 
                   ref={setTCtxVal } 
-                  value={new PsTAndTScale(expectedACtxT, 1, ) } 
+                  value={value } 
                   />
                ) }
-            </CACtxExpectedCurrentStateValuesUser>
+            </CTCtxCurrentValueUser>
          </aside>
          <div />
          </Fragment>

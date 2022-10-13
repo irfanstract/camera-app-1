@@ -148,6 +148,39 @@ namespace CCPS_IMPL {
                   }
                }
             ) ;
+            /**   
+             * `cancelScheduledValues` and other methods with equivalent sgn.
+             * 
+             */
+             const CANCELSCHEDULEDVLS : (
+               (...args : [
+                  (
+                     keyof (
+                        {}
+                        & Pick<AudioParam, never | "cancelScheduledValues" >
+                     )
+                  ) ,
+                  { t : number ; } ,
+               ] ) 
+               => 
+               (never | false | true )
+            ) = (
+               (which, { t: specifiedT, } , ) => {
+                  if (tCtxVal ) {
+                     (
+                        p
+                        [which ]((
+                           tCtxVal.t 
+                           + (specifiedT * tCtxVal.tScale )
+                        ), )
+                     ) ;
+                     return true ;
+                  } else {
+                     ; // TODO possible logging
+                     return false ;
+                  }
+               }
+            ) ;
             return {
                minValue ,
                maxValue ,

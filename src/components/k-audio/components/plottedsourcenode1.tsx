@@ -156,13 +156,7 @@ const CCPS_IMPL_1A : (
          [
             (...args : [
                (
-                  {}
-                  & (
-                     {}
-                     & Pick<AudioParam,  "setTargetAtTime"  >
-                     & Pick<AudioParam,  "value" >
-                  )
-                  & Pick<AudioParam, "minValue" | "maxValue"  >
+                  ReturnType<typeof CCPS_IMPL.apTAndTScaleTranslatedForm >
                ),
             ] ) => void , 
             React.DependencyList , 

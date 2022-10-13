@@ -179,18 +179,11 @@ namespace CCPS_IMPL {
                   return this as AudioParam ;
                } ,
                linearRampToValueAtTime(targetedValue, specifiedEndT, ) {
-                  if (tCtxVal ) {
-                     (
-                        p
-                        .linearRampToValueAtTime((
-                           targetedValue
-                        ), (
-                           tCtxVal.t 
-                           + (specifiedEndT * tCtxVal.tScale )
-                        ), )
-                     ) ;
+                  if ((
+                     true
+                     && STVT("linearRampToValueAtTime" , { value: targetedValue, t: specifiedEndT, } , )
+                  )) {
                   } else {
-                     ; // TODO possible logging
                   }
                   return this as AudioParam ;
                },

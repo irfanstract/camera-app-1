@@ -123,6 +123,7 @@ namespace CCPS_IMPL {
                {}
                & Pick<AudioParam,  "setTargetAtTime"  >
                & Pick<AudioParam,  "value" >
+               & Pick<AudioParam,  "linearRampToValueAtTime"  >
             )
             & Pick<AudioParam, "minValue" | "maxValue"  >
          )

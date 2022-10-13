@@ -269,6 +269,12 @@ const CACtxExpectedCurrentStateValuesUser : (
    React.FC<(
       React.ConsumerProps<(
          {}
+         & {
+            /**    
+             * the expected `t`
+             */
+            expectedT : number ;
+         }
       )>
    )>
 ) = (

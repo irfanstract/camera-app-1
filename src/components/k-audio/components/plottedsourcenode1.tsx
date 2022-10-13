@@ -93,7 +93,8 @@ const CCPS_IMPL_1A : (
          useConstantSrcNde(aCtx, )
       ) ;
       useConnectDisconnect(g1, dest, ) ;
-      React["useInsertionEffect"](() => {
+      const [ , refresh, ] = (
+      useReducer(() => {
          g1.offset.cancelScheduledValues(0, ) ;
          cb(...((p: AudioParam , ) : Parameters<typeof cb > => {
             const {
@@ -119,7 +120,13 @@ const CCPS_IMPL_1A : (
                } ,
             ] ;
          } )(g1.offset , ) ) ;
-      } , cbDependencies , ) ;
+      } , void 0 , )
+      ) ;
+      React["useLayoutEffect"](() => (
+         void (
+            refresh()
+         )
+      ) , cbDependencies , ) ;
       return (
          <div />
       ) ;

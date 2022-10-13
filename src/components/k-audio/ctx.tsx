@@ -342,6 +342,7 @@ const CTCtxCurrentValueUser : (
 ) ; 
 export {
    CACtxtualDestNodeRefUser ,
+   CACtxExpectedCurrentStateValuesUser ,
    CTCtxCurrentValueUser ,
 } ;
 /**    

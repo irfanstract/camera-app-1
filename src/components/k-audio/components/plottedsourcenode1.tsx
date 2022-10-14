@@ -179,11 +179,14 @@ const CCPS_IMPL_1A : (
       const [ , refresh, ] = (
       useReducer(() => {
          g1.offset.cancelScheduledValues(0, ) ;
+         if (tCtxVal ) {
+         ;
          cb((
             CCPS_IMPL.apTAndTScaleTranslatedForm((
                g1.offset
             ), tCtxVal, )
          ) ) ;
+         }
       } , void 0 , )
       ) ;
       React["useLayoutEffect"](() => (

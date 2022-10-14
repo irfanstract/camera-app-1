@@ -391,6 +391,7 @@ export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
    ANFC ,
+   useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
 } ;
@@ -437,6 +438,30 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
+const CInferredValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         ReturnType<(
+            typeof useCtxInferredValues
+         )>
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const ctxInferredValues = (
+         useCtxInferredValues()
+      ) ;
+      return (
+         <>
+         { (
+            payload((
+               ctxInferredValues
+            ) , )
+         ) }
+         </>
+      ) ;
+   }
+) ;
 const CTCtxCurrentValueUser : (
    React.FC<(
       React.ConsumerProps<TAndTScale >
@@ -460,6 +485,7 @@ const CTCtxCurrentValueUser : (
    }
 ) ; 
 export {
+   CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,
    CTCtxCurrentValueUser ,
 } ;

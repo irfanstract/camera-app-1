@@ -144,6 +144,11 @@ const CCPS_IMPL_1A : (
 const CPlottedSourceNode1A = (
    currentAdestnoderefWrpcomp("CPlottedSourceNode1A", CCPS_IMPL_1A, )
 ) ;
+const CPlottedSourceNode1C = (() => {
+   return {
+      //
+   } ;
+})() ;
 
 
 

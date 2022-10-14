@@ -249,6 +249,29 @@ const CPlottedSourceNode1C = (() => {
          ))
       ) ,
 
+      CLinearRampToValueAtTime : (
+         identity<(
+            React.FC<(
+               {}
+               & TAndNewValue
+            )>
+         )>((
+            function CLinearRampToValueAtTime({ t: specifiedEndT, newValue, }, ) {
+               useXADestParamEffect((
+                  (dest, ) => {
+                     (
+                        dest
+                        .linearRampToValueAtTime(newValue, specifiedEndT, )
+                     ) ;
+                  }
+               ));
+               return (
+                  <div />
+               ) ;
+            }
+         ))
+      ) ,
+      
       //
    } ;
 })() ;

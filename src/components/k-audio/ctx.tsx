@@ -243,6 +243,7 @@ export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
    ANFC ,
+   useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
 } ;

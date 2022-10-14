@@ -145,6 +145,57 @@ const CPlottedSourceNode1A = (
    currentAdestnoderefWrpcomp("CPlottedSourceNode1A", CCPS_IMPL_1A, )
 ) ;
 const CPlottedSourceNode1C = (() => {
+   const useXADestParamEffect: (
+      {
+         (...args : [
+            callback : {
+               (...args : [
+                  dest : (
+                     /** the mockup type */ 
+                     ReturnType<typeof CCPS_IMPL.apTAndTScaleTranslatedForm > 
+                  ),
+               ] ) : void ;
+            } , 
+         ]): {} ;
+      }
+   ) = (
+      (callback, ) => {
+         const {
+            tCtxValue : tCtxVal ,
+            dest : destNdRef ,
+         } = (
+            useCtxInferredValues()
+         ) ;
+         ;
+         (
+            React["useLayoutEffect"](() => {
+               if ((
+                  true
+                  && destNdRef instanceof AudioParam
+                  && tCtxVal
+               ) ) {
+                  (
+                     callback((
+                        CCPS_IMPL.apTAndTScaleTranslatedForm((
+                           destNdRef
+                        ), tCtxVal, )
+                     ) , )
+                  ) ;
+                  return (): void => {
+                     (
+                        destNdRef
+                        .cancelScheduledValues(0, )
+                     ) ;
+                  } ;
+               }
+               ;
+            } , [destNdRef, ] , )
+         ) ;
+         ;
+         return {
+         } ;
+      }
+   ) ;
    return {
       //
    } ;

@@ -52,6 +52,9 @@ import { PdMode, } from "components/k-audio/graph-modes";
 import { useConnectDisconnect, } from "components/k-audio/uacd";
 import useConstantSrcNde from "../useConstantSrcNde";
 import { 
+   // All Values
+   CInferredValuesUser ,
+   useCtxInferredValues ,
    /**   ref to the {@link BaseAudioContext } */
    WithCurrentACtx ,
    /**  the expected {@link BaseAudioContext } state values */
@@ -88,29 +91,6 @@ type ComponentProps<A extends {} & Function > = (
 
 // eslint-disable-next-line import/first
 import PsTAndTScale = TAndTScale ;
-/**   
- * 
- */
-const CCPS_CTXTVALREAD = (() => {
-   return (
-      React.forwardRef((
-         identity<(
-            React.ForwardRefRenderFunction<(
-               PsTAndTScale
-            ) , { value : PsTAndTScale, } >
-         ) >((
-            function CCPS_CTXTVALREAD_COMP({ value, }, ref1, ) {
-               React.useImperativeHandle((
-                  ref1
-               ) , () => value , [value.t, value.tScale, ] , );
-               return (
-                  <Fragment />
-               ) ;
-            }
-         ))
-      ))
-   ) ;
-} )() ;
 namespace CCPS_IMPL {
    
    export const apTAndTScaleTranslatedForm = (
@@ -289,27 +269,22 @@ const CCPS_IMPL_1A : (
          useConstantSrcNde(aCtx, )
       ) ;
       useConnectDisconnect(g1, dest, ) ;
-      const [tCtxVal, setTCtxVal, ] = (
-         useReducer((
-            (...[val0, val1, ] : [
-               PsTAndTScale, 
-               null | PsTAndTScale, 
-            ] ): PsTAndTScale => {
-               return (
-                  val1 ?
-                  val1 : val0
-               ) ;
-            }
-         ) , PsTAndTScale.initially() , )
+      const {
+         tCtxValue : tCtxVal ,
+      } = (
+         useCtxInferredValues()
       ) ;
       const [ , refresh, ] = (
       useReducer(() => {
          g1.offset.cancelScheduledValues(0, ) ;
+         if (tCtxVal ) {
+         ;
          cb((
             CCPS_IMPL.apTAndTScaleTranslatedForm((
                g1.offset
             ), tCtxVal, )
          ) ) ;
+         }
       } , void 0 , )
       ) ;
       React["useLayoutEffect"](() => (
@@ -318,19 +293,7 @@ const CCPS_IMPL_1A : (
          )
       ) , cbDependencies , ) ;
       return (
-         <Fragment>
-         <aside style={{ display: `none`, }} >
-            <CTCtxCurrentValueUser>
-               { (value) => (
-                  <CCPS_CTXTVALREAD 
-                  ref={setTCtxVal } 
-                  value={value } 
-                  />
-               ) }
-            </CTCtxCurrentValueUser>
-         </aside>
          <div />
-         </Fragment>
       ) ;
    }
 ) ;

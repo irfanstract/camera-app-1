@@ -49,10 +49,12 @@ const apTAndTScaleTranslatedForm = (
          & (
             {}
             & Pick<AudioParam,  "setTargetAtTime"  >
+            & Pick<AudioParam,  "setValueAtTime"  >
             & Pick<AudioParam,  "value" >
             & Pick<AudioParam,  "linearRampToValueAtTime"  >
             & Pick<AudioParam,  "exponentialRampToValueAtTime"  >
             & Pick<AudioParam,  "cancelScheduledValues"  >
+            & Pick<AudioParam,  "cancelAndHoldAtTime"  >
          )
          & Pick<AudioParam, "minValue" | "maxValue"  >
       )
@@ -109,6 +111,7 @@ const apTAndTScaleTranslatedForm = (
                   keyof (
                      {}
                      & Pick<AudioParam, never | "cancelScheduledValues" >
+                     & Pick<AudioParam, never | "cancelAndHoldAtTime" >
                   )
                ) ,
                { t : number ; } ,
@@ -120,7 +123,7 @@ const apTAndTScaleTranslatedForm = (
                if (tCtxVal ) {
                   (
                      p
-                     [which ]((
+                     [which ]?.((
                         tCtxVal.t 
                         + (specifiedT * tCtxVal.tScale )
                      ), )
@@ -180,10 +183,28 @@ const apTAndTScaleTranslatedForm = (
                }
                return this as AudioParam ;
             },
+            setValueAtTime(targetedValue, specifiedEndT, ) {
+               if ((
+                  true
+                  && STVT("setValueAtTime" , { value: targetedValue, t: specifiedEndT, } , )
+               )) {
+               } else {
+               }
+               return this as AudioParam ;
+            },
             cancelScheduledValues(specifiedT, ) {
                if ((
                   true
                   && CANCELSCHEDULEDVLS("cancelScheduledValues" , { t: specifiedT, } , )
+               )) {
+               } else {
+               }
+               return this as AudioParam ;
+            },
+            cancelAndHoldAtTime(specifiedT, ) {
+               if ((
+                  true
+                  && CANCELSCHEDULEDVLS("cancelAndHoldAtTime" , { t: specifiedT, } , )
                )) {
                } else {
                }

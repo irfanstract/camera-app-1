@@ -109,6 +109,7 @@ const apTAndTScaleTranslatedForm = (
                   keyof (
                      {}
                      & Pick<AudioParam, never | "cancelScheduledValues" >
+                     & Pick<AudioParam, never | "cancelAndHoldAtTime" >
                   )
                ) ,
                { t : number ; } ,

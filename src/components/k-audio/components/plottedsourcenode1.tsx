@@ -196,6 +196,11 @@ const CPlottedSourceNode1C = (() => {
          } ;
       }
    ) ;
+   type TAndNewValue = (
+      {}
+      & { t : number ; }
+      & { newValue : number ; }
+   ) ;
    return {
       //
    } ;

@@ -283,4 +283,7 @@ const CPlottedSourceNode1C = (() => {
 export {
    CPlottedSourceNode1A ,
 } ;
+export {
+   CPlottedSourceNode1C ,
+} ;
 

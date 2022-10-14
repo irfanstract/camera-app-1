@@ -53,6 +53,7 @@ const apTAndTScaleTranslatedForm = (
             & Pick<AudioParam,  "linearRampToValueAtTime"  >
             & Pick<AudioParam,  "exponentialRampToValueAtTime"  >
             & Pick<AudioParam,  "cancelScheduledValues"  >
+            & Pick<AudioParam,  "cancelAndHoldAtTime"  >
          )
          & Pick<AudioParam, "minValue" | "maxValue"  >
       )

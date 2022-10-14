@@ -254,5 +254,6 @@ const CInferredValuesUser : (
    }
 ) ;
 export {
+   CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,
 } ;

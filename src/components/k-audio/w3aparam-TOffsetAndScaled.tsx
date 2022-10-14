@@ -183,6 +183,15 @@ const apTAndTScaleTranslatedForm = (
                }
                return this as AudioParam ;
             },
+            setValueAtTime(targetedValue, specifiedEndT, ) {
+               if ((
+                  true
+                  && STVT("setValueAtTime" , { value: targetedValue, t: specifiedEndT, } , )
+               )) {
+               } else {
+               }
+               return this as AudioParam ;
+            },
             cancelScheduledValues(specifiedT, ) {
                if ((
                   true

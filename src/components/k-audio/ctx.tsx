@@ -350,6 +350,31 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
+const CInferredValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         ReturnType<(
+            typeof useCtxInferredValues
+         )>
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const ctxInferredValues = (
+         useCtxInferredValues()
+      ) ;
+      return (
+         <>
+         { (
+            payload((
+               ctxInferredValues
+            ) , )
+         ) }
+         </>
+      ) ;
+   }
+) ;
 export {
+   CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,
 } ;

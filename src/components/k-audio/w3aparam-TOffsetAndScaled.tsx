@@ -191,6 +191,15 @@ const apTAndTScaleTranslatedForm = (
                }
                return this as AudioParam ;
             },
+            cancelAndHoldAtTime(specifiedT, ) {
+               if ((
+                  true
+                  && CANCELSCHEDULEDVLS("cancelAndHoldAtTime" , { t: specifiedT, } , )
+               )) {
+               } else {
+               }
+               return this as AudioParam ;
+            },
          } ;
       }
    ))

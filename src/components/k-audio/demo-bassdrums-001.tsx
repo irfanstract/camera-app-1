@@ -45,7 +45,15 @@ import React, {
 import IRefreshible from "components/RefreshibleComponent";
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 
-import { CToGivenAudioCtxDest, CACtxtualDestNodeRefUser, } from "./ctx";
+import { TAndTScale, } from "./ctx";
+
+import { useCtxInferredValues,        } from "components/k-audio/ctx";
+import { CInferredValuesUser,         } from "components/k-audio/ctx";
+import { CTCtxCurrentValueUser,       } from "components/k-audio/ctx";
+import { WithGivenDelayOrSlowdown,    } from "components/k-audio/ctx";
+import { WithCurrentACtx,             } from "components/k-audio/ctx";
+import { CACtxtualDestNodeRefUser,    } from "components/k-audio/ctx";
+import { WithGivenDestNd,             } from "components/k-audio/ctx";
 import { useIndependentACtx, ACtxBoundary, } from "./actx-base";
 import { ACtxBoundary as ACtxBoundaryCc, } from "./ctxcroot";
 import {
@@ -86,15 +94,67 @@ const {
 
 
 
+const XMountTimeRefable = (
+   React.forwardRef((
+      identity<(
+         React.ForwardRefRenderFunction<(
+            null
+            |
+            TAndTScale
+         ) , {} >
+      )>((
+         function XMountTimeRefableC({}, ref1, ) {
+            const {
+               aCtxExpectedT: tCtxValue0 ,
+            } = useCtxInferredValues() ;
+            const tCtxValue = (
+               (typeof tCtxValue0 === "number") ?
+               new TAndTScale(tCtxValue0 , 1 , )
+               : null
+            ) ;
+            React.useImperativeHandle((
+               identity<(
+                  React.Ref<null | object>
+               )>(ref1)
+            ) , () => (
+               tCtxValue
+            ) , [!!tCtxValue, ] , ) ;
+            return (
+               <Fragment >
+                  <pre>
+                     { JSON.stringify(tCtxValue, null, 2, ) }
+                  </pre>
+               </Fragment>
+            ) ;
+         }
+      ))
+   ))
+) ;
 export default (
    identity<React.FC<{}> >((
       () => {
       ;
+      const [xt0 , ref1 , ] = (
+         useState<null | TAndTScale >(null, )
+      ) ;
       return (
          <IRefreshible>
          <ACtxBoundaryCc 
          children={(
             <IRefreshible>
+            <Fragment key={xt0 && xt0.t }>
+            <XMountTimeRefable ref={ref1} />
+            </Fragment>
+            { (
+            ( true && xt0 )
+            &&
+            <Fragment>
+            <WithGivenDelayOrSlowdown
+            value={{ delay: xt0.t , }}
+            >
+            <pre>
+               { JSON.stringify({ xt0, } , null , 2 , ) }
+            </pre>
             <div style={{ display: `flex`, flexDirection: `column-reverse`, }}>
             <CAmpComp value={2 ** -2 } >   
                <CFiniteLoopingFromT
@@ -110,6 +170,9 @@ export default (
                </p>
             </div>
             </div>
+            </WithGivenDelayOrSlowdown>
+            </Fragment>
+            ) }
             </IRefreshible>
          ) }
          />

@@ -51,6 +51,7 @@ import {
    ctx ,
    useInitially1 ,
    useIWithGivenDestNd1 ,
+   useIWithDelayOrSlowdown ,
    useCtxInferredValues ,
 } from "./ctx-1a" ;
 
@@ -107,6 +108,7 @@ const useANodeFltCallback1 : (
        */
       const {
          aCtx ,
+         aCtxExpectedT ,
          dest ,
          tCtxValue ,
       } = (
@@ -153,10 +155,16 @@ const useANodeFltCallback1 : (
        */
       return (
          useMemo((): (null | CtxValue) => {
-            if (introducedNode1 && tCtxValue ) {
+            if ((
+               true 
+               && introducedNode1 
+               && tCtxValue
+               && aCtxExpectedT 
+            )) {
                return {
                   pd: new PdMode.Stochastically(introducedNode1 , ) ,
                   aCtx: introducedNode1.context ,
+                  aCtxExpectedT ,
                   tCtx: tCtxValue ,
                } ;
             } else {
@@ -232,12 +240,39 @@ const WithGivenDestNd = (
       }
    ))
 ) ;
+const WithGivenDelayOrSlowdown = (
+   identity<(
+      React.FC<(
+         { value : Parameters<typeof useIWithDelayOrSlowdown >[0] ; }
+         &
+         Required<React.PropsWithChildren >
+      )>
+   )>((
+      function WithGivenDestNdC({ value: dest, children: payload, }) {
+         ;
+         const { Provider, } = ctx ;
+         const prvv1 = (
+            useIWithDelayOrSlowdown(dest, )
+         ) ;
+         ;
+         return (
+            prvv1 ?
+            <Provider value={prvv1 } >
+               { payload }
+            </Provider>
+            : null
+         ) ;
+      }
+   ))
+) ;
 export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
    ANFC ,
+   useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
+   WithGivenDelayOrSlowdown ,
 } ;
 export const WithCurrentACtx = (
    identity<(
@@ -258,6 +293,41 @@ export const WithCurrentACtx = (
       }
    ))
 ) ;
+const CACtxExpectedCurrentStateValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         {}
+         & {
+            /**    
+             * the expected `t`
+             */
+            expectedT : number ;
+         }
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { 
+               } = c ;
+               return (
+                  payload({
+                     expectedT : (
+                        c.aCtxExpectedT
+                     ) ,
+                  } , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 const CACtxtualDestNodeRefUser : (
    React.FC<(
       React.ConsumerProps<PdMode.OfToSendToDest >
@@ -282,8 +352,60 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
+const CTCtxCurrentValueUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         {}
+         & TAndTScale 
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { tCtx, } = c ;
+               return (
+                  payload(tCtx , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
+const CInferredValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         ReturnType<(
+            typeof useCtxInferredValues
+         )>
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const ctxInferredValues = (
+         useCtxInferredValues()
+      ) ;
+      return (
+         <>
+         { (
+            payload((
+               ctxInferredValues
+            ) , )
+         ) }
+         </>
+      ) ;
+   }
+) ;
 export {
+   CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,
+   CACtxExpectedCurrentStateValuesUser ,
+   CTCtxCurrentValueUser ,
 } ;
 /**    
  * monitoring-or-visualisational only,

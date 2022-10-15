@@ -44,8 +44,10 @@ import React, {
 
 } from "react";      
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
+import useMemoisedResource from "components/useMemoisedResource";
 
 import { useConnectDisconnect, } from "components/k-audio/uacd";
+import useConstantSrcNde from "components/k-audio/useConstantSrcNde";
 import { 
    CToGivenAudioCtxDest, 
    CWithGivenAFltImpl ,
@@ -74,19 +76,6 @@ type ComponentProps<A extends {} & Function > = (
 
 
 
-function useConstantSrcNde(aCtx : BaseAudioContext) {
-   return (
-      useMemo(() => {
-         const nd = (
-            aCtx
-            .createConstantSource()
-         ) ;
-         nd.start() ;
-         nd.offset.value = 0 ;
-         return nd ;
-      } , [aCtx, ] , )
-   ) ;
-} ;
 
 
 const CConstantValueSrcImpl : (
@@ -106,7 +95,7 @@ const CConstantValueSrcImpl : (
             g1.offset
             .setTargetAtTime(value, 0, 0.125, )
          );
-      } , [value, ] , );
+      } , [g1, value, ] , );
       // TODO
       return (
          <div>
@@ -128,15 +117,31 @@ const CConstantValueSrc = (
 const numericOrRElement = (
    (...[valueArgument0,] : [
       number | ReactElement ,
-   ] ) => {
+   ] ) => (() : {
+      /**    
+       * the one,
+       * to be the *payload* of the `<WithGivenDestNd>` usage
+       * 
+       */
+      valueArgument1 : ReactElement ;
+      /**   
+       * the indicator
+       * 
+       */
+      vDisplay : ReactElement ;
+   } => {
+      if ((
+         (typeof valueArgument0 === "number" )
+      )) {
+      ;
       const valueArgument1 : ReactElement = (
-         typeof valueArgument0 === "number" ?
+         <div style={{ display: undefined, }} >
          <CConstantValueSrc value={valueArgument0 } />
-         : valueArgument0
+         </div>
       ) ;
       const vDisplay = (
          <code>
-         { (typeof valueArgument0 === "number" ) ? valueArgument0 : `(dynamic)` }
+         { valueArgument0 }
          </code>
       ) ;
       ;
@@ -144,7 +149,17 @@ const numericOrRElement = (
          valueArgument1 ,
          vDisplay ,
       } ;
-   }
+      } else {
+         return {
+            valueArgument1 : (
+               valueArgument0
+            ) ,
+            vDisplay : (
+               <i>variable</i>
+            ) ,
+         } ;
+      }
+   } )()
 ) ;
 
 

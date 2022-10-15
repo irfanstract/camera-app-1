@@ -257,9 +257,14 @@ const WithGivenDelayOrSlowdown = (
          ;
          return (
             prvv1 ?
+            <div>
+            <p>
+               { JSON.stringify(dest, null, 2, ) }
+            </p>
             <Provider value={prvv1 } >
                { payload }
             </Provider>
+            </div>
             : null
          ) ;
       }

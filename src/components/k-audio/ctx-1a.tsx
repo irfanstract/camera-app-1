@@ -289,6 +289,7 @@ export {
    ctx ,
    useInitially1 ,
    useIWithGivenDestNd1 ,
+   useIWithDelayOrSlowdown ,
    
    useCtxInferredValues ,
    useLAudioCtxT ,

@@ -89,7 +89,7 @@ const apTAndTScaleTranslatedForm = (
                      p
                      [which ]((
                         targetedValue
-                     ), Math.max((
+                     ), Math.max(0, (
                         tCtxVal.t 
                         + (specifiedT * tCtxVal.tScale )
                      )), )
@@ -152,10 +152,10 @@ const apTAndTScaleTranslatedForm = (
                      p
                      .setTargetAtTime((
                         targetedValue
-                     ), (
+                     ), Math.max(0, (
                         tCtxVal.t 
                         + (specifiedStartT * tCtxVal.tScale )
-                     ), (
+                     )), (
                         specifiedTConstant 
                         * tCtxVal.tScale
                      ), )

@@ -146,6 +146,11 @@ const CPlottedSourceNode1A = (
    currentAdestnoderefWrpcomp("CPlottedSourceNode1A", CCPS_IMPL_1A, )
 ) ;
 const CPlottedSourceNode1C = (() => {
+   /**   
+    * exercies `const { dest : destNdRef, } = useCtxInferredValues()`, and then
+    * returns a dispatcher which will (...)
+    * 
+    */
    const useXADestParamAutoDispatch1A = (
       () => {
          ;

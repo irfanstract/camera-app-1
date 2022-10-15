@@ -201,13 +201,6 @@ const CPlottedSourceNode1C = (() => {
                ;
             } , void true , )
          ) ;
-         (
-            React["useLayoutEffect"](() => (
-               void (
-                  apply1()
-               )
-            ) , [apply1, ] , )
-         ) ;
          ;
          return [
          (

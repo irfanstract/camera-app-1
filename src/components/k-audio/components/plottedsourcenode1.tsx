@@ -156,7 +156,7 @@ const CPlottedSourceNode1C = (() => {
                   ),
                ] ) : void ;
             } , 
-         ]): {} ;
+         ]): [ null | ReactElement , {} , ] ;
       }
    ) = (
       (callback, ) => {

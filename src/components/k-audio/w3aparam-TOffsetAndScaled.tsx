@@ -152,10 +152,10 @@ const apTAndTScaleTranslatedForm = (
                      p
                      .setTargetAtTime((
                         targetedValue
-                     ), (
+                     ), Math.max(0, (
                         tCtxVal.t 
                         + (specifiedStartT * tCtxVal.tScale )
-                     ), (
+                     )), (
                         specifiedTConstant 
                         * tCtxVal.tScale
                      ), )

@@ -218,6 +218,36 @@ const CPlottedSourceNode1C = (() => {
          } ;
       }
    ) ;
+   const useXADestParamAutoDispatch1ACA = (
+      () => {
+         const {
+            update ,
+         } = useXADestParamAutoDispatch1A() ;
+         const [eH, setEH, ] = (
+            useState<null | HTMLElement>(null, )
+         ) ;
+         const refresh = (
+            (): void => {
+               const natvElems = (
+                  List((
+                     eH ?
+                     eH.querySelectorAll(`.CPlottedSourceNode1C-main`)
+                     : []
+                  ))
+                  .filter((e): e is HTMLElement => (
+                     e instanceof HTMLElement 
+                  ))
+               ) ;
+               update(natvElems, ) ;
+            }
+         ) ;
+         return [
+            void true ,
+            setEH ,
+            { refresh, } ,
+         ] as const ;
+      }
+   ) ;
    const CAsXADestParamEffectRoot = (
       identity<(
          React.FC<(

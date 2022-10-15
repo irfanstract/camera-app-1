@@ -92,8 +92,9 @@ export default (
                value={[
                   (c, ): void => {
                      c.setTargetAtTime(0, -1E+5 /** note the sign ! */ , 1E-5, ) ;
-                     c.setValueAtTime(1, 0  , ) ;
-                     c.linearRampToValueAtTime(0, 1, ) ;
+                     c.setValueAtTime(0, 0  , ) ;
+                     c.linearRampToValueAtTime(1, 0.002, ) ;
+                     c.linearRampToValueAtTime(0, 1.5, ) ;
                   } ,
                   [] ,
                ]}

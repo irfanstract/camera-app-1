@@ -233,62 +233,14 @@ const CPlottedSourceNode1C = (() => {
          } ;
       }
    ) ;
-   const useXADestParamAutoDispatch1ACA = (
-      () => {
-         const {
-            update ,
-         } = useXADestParamAutoDispatch1A() ;
-         const [eH, setEH, ] = (
-            useState<null | HTMLElement>(null, )
-         ) ;
-         const [ , refresh, ] = (
-            useReducer((): void => {
-               const natvElems = (
-                  List((
-                     eH ?
-                     eH.querySelectorAll(`.CPlottedSourceNode1C-main`)
-                     : []
-                  ))
-                  .filter((e): e is HTMLElement => (
-                     e instanceof HTMLElement 
-                  ))
-               ) ;
-               update(natvElems, ) ;
-            } , void true , )
-         ) ;
-         return [
-            void true ,
-            setEH ,
-            { refresh, } ,
-         ] as const ;
-      }
-   ) ;
-   const useXADestParamAutoDispatch1ACB = (
-      () => {
-         ;
-         const [
-            ,
-            ref1 ,
-            { refresh, } ,
-         ] = useXADestParamAutoDispatch1ACA() ;
-         React["useEffect"](() => {
-            const tmoutId = (
-               setInterval(() => (
-                  void (
-                     refresh()
-                  )
-               ) , 80 , )
-            ) ;
-            return () => void (
-               clearInterval(tmoutId, )
-            ) ;
-         } , [] , ) ;
-         ;
-         return [
-            void true ,
-            ref1 ,
-         ] as const ;
-      }
+   const {
+      useRefAndDispatcher1 : useXADestParamAutoDispatch1ACA ,
+      useRefAndPeriodicDispatch : useXADestParamAutoDispatch1ACB ,
+   } = (
+      usingQuerySelectorAllAndUpdate1A({
+         useSelector : () => `CPlottedSourceNode1C-main` ,
+         useDispatcher1A : useXADestParamAutoDispatch1A ,
+      } , )
    ) ;
    const CAsXADestParamEffectRoot = (
       identity<(

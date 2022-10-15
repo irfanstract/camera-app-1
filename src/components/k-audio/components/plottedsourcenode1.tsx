@@ -226,8 +226,8 @@ const CPlottedSourceNode1C = (() => {
          const [eH, setEH, ] = (
             useState<null | HTMLElement>(null, )
          ) ;
-         const refresh = (
-            (): void => {
+         const [ , refresh, ] = (
+            useReducer((): void => {
                const natvElems = (
                   List((
                      eH ?
@@ -239,7 +239,7 @@ const CPlottedSourceNode1C = (() => {
                   ))
                ) ;
                update(natvElems, ) ;
-            }
+            } , void true , )
          ) ;
          return [
             void true ,

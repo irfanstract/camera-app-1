@@ -171,6 +171,9 @@ export const {
                      ) }
                      </pre>
                   </CMereMonitoringElem>
+                  <div>
+                     { lRendered1 }
+                  </div>
                </div>
             ) ;
          } 

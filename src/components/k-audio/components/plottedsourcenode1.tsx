@@ -178,6 +178,8 @@ const CPlottedSourceNode1C = (() => {
                       * skip
                       */
                   } else {
+                     try {
+                     ;
                      ;
                      /**    
                       * RESET
@@ -200,6 +202,15 @@ const CPlottedSourceNode1C = (() => {
                            )
                         ) )
                      ) ;
+                     } catch (z) {
+                        console.error((
+                           z instanceof Error
+                           ?
+                           z.message : z
+                        ) , { z, } , ) ;
+                        // TODO
+                        ;
+                     }
                   }
                   ;
                   /**   

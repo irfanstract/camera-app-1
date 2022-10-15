@@ -272,6 +272,7 @@ export {
    useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
+   WithGivenDelayOrSlowdown ,
 } ;
 export const WithCurrentACtx = (
    identity<(

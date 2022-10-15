@@ -47,6 +47,17 @@ import React, {
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 
 import { useConnectDisconnect, } from "./uacd";
+import {
+
+   // THE MAIN EXPORTS
+   useLAudioCtxT0 ,
+   useLAudioCtxT ,
+   
+   // THE UTILITy EXPORTS
+   useLAudioCtxTState1 ,
+
+} from "components/k-audio/uaCtxExpectedTLoopState" ;
+
 
 
 
@@ -64,75 +75,103 @@ type CtxValue = (
    {} 
    & { pd: PdMode ; } 
    & { aCtx: BaseAudioContext ; } 
+   & { aCtxExpectedT: number ; } 
    & { tCtx : TAndTScale ; }
 ) ;
-namespace CtxValue { ; } // TS-1205 
-const ctx = (
+namespace CtxValue { ; } // TS-1205
+type CtxInferredValues = (
+   (
+      {  tCtxValue : null | CtxValue["tCtx"] ;  } 
+      &
+      (
+         {  aCtx : null ; dest : null ; } 
+         |
+         {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
+      )
+      & 
+      { aCtxExpectedT: null | number ; } 
+   )
+) ;
+namespace CtxInferredValues { ; } // TS-1205
+interface AUsable {
+   
+   ctx ?: React.Context<CtxValue | null> ;
+
+   /**    
+    * top-level usage
+    * 
+    */
+   useInitially1 : (
+      (...args : [aCtx : BaseAudioContext, ] ) 
+      => CtxValue
+   ) ;
+
+   /**   
+    * with given `dest` .
+    * will likely amend {@link CtxValue.pd } and all implied/relevant vals, yet
+    * will leave others unchanged .
+    * 
+    */
+   useIWithGivenDestNd1 : (
+      (...args : [AudioNode | AudioParam, ] ) 
+      => (CtxValue | null )
+   ) ;
+
+} ;  
+
+const {
+ctx = (
    React.createContext<(
       null | 
       CtxValue
    )>(null , )
-) ;
-const useInitially1 : (
-   (...args : [aCtx : BaseAudioContext, ] ) 
-   => CtxValue
-) = (
+) ,
+useInitially1 = (
    (...[aCtx, ] ) => {
+      const aCtxExpectedT = (
+         useLAudioCtxT(aCtx , { periodSecs : 0.125 , } , )
+      ) ;
       return (
          useMemo((): CtxValue => ({
             pd: new PdMode.Stochastically(aCtx.destination, ) ,
             aCtx: aCtx ,
+            aCtxExpectedT ,
             tCtx: TAndTScale.initially() ,
-         }) , [aCtx, ], )
+         }) , [aCtx, aCtxExpectedT, ], )
       ) ;
    }
-) ;
-const useIWithGivenDestNd1 : (
-   (...args : [AudioNode | AudioParam, ] ) 
-   => (CtxValue | null )
-) = (
+) ,
+useIWithGivenDestNd1 = (
    (...[dest, ] ) => {
       const presentlyCtxV = (
          React.useContext(ctx, )
       ) ;
       return (
          useMemo((): null | CtxValue => {
-            const tCtxNew = (
-               presentlyCtxV ?
-               presentlyCtxV.tCtx
-               : TAndTScale.initially()
-            ) ;
-            if (dest instanceof AudioNode ) {
-               return {
-                  tCtx: tCtxNew ,
-                  aCtx : (
-                     dest.context
-                  ) ,
-                  pd : (
-                     new PdMode.Stochastically(dest, )
-                  ) ,
-               } ;
-            }
             if (presentlyCtxV ) {
+               const {
+                  aCtxExpectedT ,
+               } = presentlyCtxV ;
                return {
-                  tCtx: tCtxNew ,
+                  tCtx: presentlyCtxV.tCtx ,
                   aCtx: (
                      presentlyCtxV.aCtx
                   ) ,
+                  aCtxExpectedT ,
                   pd : (
                      new PdMode.Stochastically(dest, )
                   ) ,
                } ;  
             }
-            return null ;
+            throw TypeError(`not within initialised ctx. (use 'useInitially()' first ). `) ;
          } , [presentlyCtxV, dest, ], )
       ) ;
    }
-) ;
-/**   
- * all values for the point the call is made at.
- * 
- */
+) ,
+} : (
+   {}
+   & Partial<AUsable >
+) = { } ; //
 const useCtxInferredValues = (
    () => {
       ;
@@ -142,17 +181,12 @@ const useCtxInferredValues = (
       ;
       return (
          useMemo((): (
-            (
-               {  tCtxValue : null | ((typeof ctxV ) & object )["tCtx"] ;  } 
-               &
-               (
-                  {  aCtx : null ; dest : null ; } 
-                  |
-                  {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
-               )
-            )
+            (CtxInferredValues )
          ) => {
             if (ctxV ) {
+               const { // `aCtxExpectedT`
+                  aCtxExpectedT ,
+               } = ctxV ;
                const { 
                   pd: pdMode , 
                   aCtx: aCtx ,
@@ -166,18 +200,21 @@ const useCtxInferredValues = (
                      tCtxValue ,
                      dest ,
                      aCtx ,
+                     aCtxExpectedT ,
                   } ;
                }
                return { 
                   tCtxValue , 
                   dest : null ,
                   aCtx : null , 
+                  aCtxExpectedT ,
                } ;
             } 
             return { 
                tCtxValue : null , 
                dest : null ,
                aCtx : null , 
+               aCtxExpectedT : null ,
             } ;
          } , [ctxV, ], )
       ) ;
@@ -200,6 +237,7 @@ export {
    useIWithGivenDestNd1 ,
    
    useCtxInferredValues ,
+   useLAudioCtxT ,
 
 } ;
 

@@ -137,6 +137,9 @@ export default (
    identity<React.FC<{}> >((
       () => {
       ;
+      const [xt0 , ref1 , ] = (
+         useState<null | TAndTScale >(null, )
+      ) ;
       return (
          <IRefreshible>
          <ACtxBoundaryCc 

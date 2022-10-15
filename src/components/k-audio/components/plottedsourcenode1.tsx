@@ -290,9 +290,9 @@ const CPlottedSourceNode1C = (() => {
                useXADestParamAutoDispatch1ACB()
             ) ;
             return (
-               <Fragment>
+               <div ref={ref1 } >
                   { payload }
-               </Fragment>
+               </div>
             ) ;
          }
       ))

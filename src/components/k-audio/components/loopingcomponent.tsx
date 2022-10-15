@@ -134,6 +134,26 @@ export const {
             } = (
                CFLFT_PROPS_PARSE(cProps , )
             ) ;
+            const lRendered1 = (
+               Range()
+               .map(i => ({
+                  t : (
+                     startT 
+                     + 
+                     (i * period )
+                  ) ,
+               }) )
+               .take(n , )
+               .map(({ t, }) => (
+                  <Fragment key={t } >
+                  <WithGivenDelayOrSlowdown
+                  value={{ delay: t, }}
+                  >
+                     { payload }
+                  </WithGivenDelayOrSlowdown>
+                  </Fragment>
+               ) )
+            ) ;
             return (
                <div >
                   <p>

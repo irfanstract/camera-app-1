@@ -138,7 +138,10 @@ const CCPS_IMPL_1A : (
          )
       ) , cbDependencies , ) ;
       return (
-         <div />
+         <p>
+            Plotted Source Node ;
+            at {JSON.stringify(tCtxVal, null, 0, ) }
+         </p>
       ) ;
    }
 ) ;

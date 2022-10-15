@@ -105,11 +105,11 @@ const XMountTimeRefable = (
       )>((
          function XMountTimeRefableC({}, ref1, ) {
             const {
-               aCtxExpectedT: tCtxValue0 ,
+               aCtxExpectedT: aCtxExpectedT ,
             } = useCtxInferredValues() ;
-            const tCtxValue = (
-               (typeof tCtxValue0 === "number") ?
-               new TAndTScale(tCtxValue0 , 1 , )
+            const aCtxExpectedT1 = (
+               (typeof aCtxExpectedT === "number") ?
+               new TAndTScale(aCtxExpectedT , 1 , )
                : null
             ) ;
             React.useImperativeHandle((
@@ -117,14 +117,17 @@ const XMountTimeRefable = (
                   React.Ref<null | object>
                )>(ref1)
             ) , () => (
-               tCtxValue
-            ) , [!!tCtxValue, ] , ) ;
+               aCtxExpectedT1
+            ) , [!!aCtxExpectedT1, ] , ) ;
             return (
-               <Fragment >
+               <div >
+                  <p>
+                     <code>XMountTimeRefableC</code>
+                  </p>
                   <pre>
-                     { JSON.stringify(tCtxValue, null, 2, ) }
+                     { JSON.stringify({ aCtxExpectedT1 , }, null, 2, ) }
                   </pre>
-               </Fragment>
+               </div >
             ) ;
          }
       ))

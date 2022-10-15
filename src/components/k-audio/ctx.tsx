@@ -240,6 +240,31 @@ const WithGivenDestNd = (
       }
    ))
 ) ;
+const WithGivenDelayOrSlowdown = (
+   identity<(
+      React.FC<(
+         { value : Parameters<typeof useIWithDelayOrSlowdown >[0] ; }
+         &
+         Required<React.PropsWithChildren >
+      )>
+   )>((
+      function WithGivenDestNdC({ value: dest, children: payload, }) {
+         ;
+         const { Provider, } = ctx ;
+         const prvv1 = (
+            useIWithDelayOrSlowdown(dest, )
+         ) ;
+         ;
+         return (
+            prvv1 ?
+            <Provider value={prvv1 } >
+               { payload }
+            </Provider>
+            : null
+         ) ;
+      }
+   ))
+) ;
 export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,

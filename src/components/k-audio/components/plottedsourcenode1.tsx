@@ -145,6 +145,22 @@ const CPlottedSourceNode1A = (
    currentAdestnoderefWrpcomp("CPlottedSourceNode1A", CCPS_IMPL_1A, )
 ) ;
 const CPlottedSourceNode1C = (() => {
+   const CAsXADestParamEffectRoot = (
+      identity<(
+         React.FC<(
+            {} 
+            & Required<React.PropsWithChildren >
+         )>
+      )>((
+         ({ children: payload, }) => {
+            return (
+               <Fragment>
+                  { payload }
+               </Fragment>
+            ) ;
+         }
+      ))
+   ) ;
    const useXADestParamEffect: (
       {
          (...args : [

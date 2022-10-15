@@ -257,9 +257,25 @@ const WithGivenDelayOrSlowdown = (
          ;
          return (
             prvv1 ?
+            <div>
+            <p>
+               { JSON.stringify(dest, null, 2, ) }
+            </p>
             <Provider value={prvv1 } >
+               <div style={{ display: `flex`, flexDirection: `column`, }} >
+               <aside>
+               <CTCtxCurrentValueUser>
+               { ({ t: absoluteT, tScale, }) => (
+                  <pre>
+                     { JSON.stringify({ absoluteT, tScale, }, null, ) }
+                  </pre>
+               ) }
+               </CTCtxCurrentValueUser>
+               </aside>
                { payload }
+               </div>
             </Provider>
+            </div>
             : null
          ) ;
       }

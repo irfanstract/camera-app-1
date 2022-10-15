@@ -248,6 +248,33 @@ const CPlottedSourceNode1C = (() => {
          ] as const ;
       }
    ) ;
+   const useXADestParamAutoDispatch1ACB = (
+      () => {
+         ;
+         const [
+            ,
+            ref1 ,
+            { refresh, } ,
+         ] = useXADestParamAutoDispatch1ACA() ;
+         React["useEffect"](() => {
+            const tmoutId = (
+               setInterval(() => (
+                  void (
+                     refresh()
+                  )
+               ) , 80 , )
+            ) ;
+            return () => void (
+               clearInterval(tmoutId, )
+            ) ;
+         } , [] , ) ;
+         ;
+         return [
+            void true ,
+            ref1 ,
+         ] as const ;
+      }
+   ) ;
    const CAsXADestParamEffectRoot = (
       identity<(
          React.FC<(

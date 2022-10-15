@@ -145,6 +145,19 @@ export default (
          <ACtxBoundaryCc 
          children={(
             <IRefreshible>
+            <Fragment key={xt0 && xt0.t }>
+            <XMountTimeRefable ref={ref1} />
+            </Fragment>
+            { (
+            ( true && xt0 )
+            &&
+            <Fragment>
+            <WithGivenDelayOrSlowdown
+            value={{ delay: xt0.t , }}
+            >
+            <pre>
+               { JSON.stringify({ xt0, } , null , 2 , ) }
+            </pre>
             <div style={{ display: `flex`, flexDirection: `column-reverse`, }}>
             <CAmpComp value={2 ** -2 } >   
                <CFiniteLoopingFromT
@@ -160,6 +173,9 @@ export default (
                </p>
             </div>
             </div>
+            </WithGivenDelayOrSlowdown>
+            </Fragment>
+            ) }
             </IRefreshible>
          ) }
          />

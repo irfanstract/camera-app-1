@@ -293,7 +293,7 @@ const CPlottedSourceNode1C = (() => {
             & Required<React.PropsWithChildren >
          )>
       )>((
-         ({ children: payload, }) => {
+         function CADestParamAutoDescendantsClickall({ children: payload, }) {
             const [
                ,
                ref1,

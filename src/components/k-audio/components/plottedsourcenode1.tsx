@@ -192,8 +192,14 @@ const CPlottedSourceNode1C = (() => {
             } , [destNdRef, ] , )
          ) ;
          ;
-         return {
-         } ;
+         return [
+         (
+            <Fragment>
+            </Fragment>
+         ) ,
+         {
+         } ,
+         ] ;
       }
    ) ;
    type TAndNewValue = (

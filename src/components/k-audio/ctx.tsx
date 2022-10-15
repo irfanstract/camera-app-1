@@ -51,6 +51,7 @@ import {
    ctx ,
    useInitially1 ,
    useIWithGivenDestNd1 ,
+   useIWithDelayOrSlowdown ,
    useCtxInferredValues ,
 } from "./ctx-1a" ;
 
@@ -239,6 +240,31 @@ const WithGivenDestNd = (
       }
    ))
 ) ;
+const WithGivenDelayOrSlowdown = (
+   identity<(
+      React.FC<(
+         { value : Parameters<typeof useIWithDelayOrSlowdown >[0] ; }
+         &
+         Required<React.PropsWithChildren >
+      )>
+   )>((
+      function WithGivenDestNdC({ value: dest, children: payload, }) {
+         ;
+         const { Provider, } = ctx ;
+         const prvv1 = (
+            useIWithDelayOrSlowdown(dest, )
+         ) ;
+         ;
+         return (
+            prvv1 ?
+            <Provider value={prvv1 } >
+               { payload }
+            </Provider>
+            : null
+         ) ;
+      }
+   ))
+) ;
 export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
@@ -246,6 +272,7 @@ export {
    useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
+   WithGivenDelayOrSlowdown ,
 } ;
 export const WithCurrentACtx = (
    identity<(
@@ -325,30 +352,6 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
-const CInferredValuesUser : (
-   React.FC<(
-      React.ConsumerProps<(
-         ReturnType<(
-            typeof useCtxInferredValues
-         )>
-      )>
-   )>
-) = (
-   ({ children: payload , }) => {
-      const ctxInferredValues = (
-         useCtxInferredValues()
-      ) ;
-      return (
-         <>
-         { (
-            payload((
-               ctxInferredValues
-            ) , )
-         ) }
-         </>
-      ) ;
-   }
-) ;
 const CTCtxCurrentValueUser : (
    React.FC<(
       React.ConsumerProps<(
@@ -374,6 +377,30 @@ const CTCtxCurrentValueUser : (
       ) ;
    }
 ) ; 
+const CInferredValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         ReturnType<(
+            typeof useCtxInferredValues
+         )>
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const ctxInferredValues = (
+         useCtxInferredValues()
+      ) ;
+      return (
+         <>
+         { (
+            payload((
+               ctxInferredValues
+            ) , )
+         ) }
+         </>
+      ) ;
+   }
+) ;
 export {
    CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,

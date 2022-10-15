@@ -117,6 +117,20 @@ interface AUsable {
       => (CtxValue | null )
    ) ;
 
+   /**   
+    * 
+    */
+   useIWithDelayOrSlowdown : (
+      (...args : [
+         (
+            never
+            | { delay  : number ; durativeFactor ?: never  ; }
+            | { delay ?: never  ; durativeFactor  : number ; }
+         ) , 
+      ] ) 
+      => (CtxValue | null )
+   ) ;
+
 } ;  
 
 const {
@@ -165,6 +179,46 @@ useIWithGivenDestNd1 = (
             }
             throw TypeError(`not within initialised ctx. (use 'useInitially()' first ). `) ;
          } , [presentlyCtxV, dest, ], )
+      ) ;
+   }
+) ,
+useIWithDelayOrSlowdown = (
+   (...[config , ] ) => {
+      const {
+         delay: specifiedDelay = 0 ,
+         durativeFactor: specifiedDurativeFac = 1 ,
+      } = config ;
+      const presentlyCtxV = (
+         React.useContext(ctx, )
+      ) ;
+      return (
+         useMemo((): null | CtxValue => {
+            if (presentlyCtxV ) {
+               return {
+                  tCtx: (
+                     new TAndTScale((
+                        presentlyCtxV.tCtx.t
+                        + 
+                        (specifiedDelay * presentlyCtxV.tCtx.tScale )
+                     ) , (
+                        specifiedDurativeFac 
+                        *
+                        presentlyCtxV.tCtx.tScale
+                     ) , )
+                  ) ,
+                  aCtx: (
+                     presentlyCtxV.aCtx
+                  ) ,
+                  aCtxExpectedT: (
+                     presentlyCtxV.aCtxExpectedT
+                  ) ,
+                  pd : (
+                     presentlyCtxV.pd
+                  ) ,
+               } ;  
+            }
+            throw TypeError(`not within initialised ctx. (use 'useInitially()' first ). `) ;
+         } , [presentlyCtxV, specifiedDelay, specifiedDurativeFac, ], )
       ) ;
    }
 ) ,
@@ -235,6 +289,7 @@ export {
    ctx ,
    useInitially1 ,
    useIWithGivenDestNd1 ,
+   useIWithDelayOrSlowdown ,
    
    useCtxInferredValues ,
    useLAudioCtxT ,

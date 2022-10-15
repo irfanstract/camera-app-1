@@ -237,6 +237,34 @@ const CPlottedSourceNode1C = (() => {
          ))
       ) ,
       
+      CJumpToValueAtTime : (
+         identity<(
+            React.FC<(
+               {}
+               & TAndNewValue
+            )>
+         )>((
+            function CJumpToValueAtTime({ t: specifiedEndT, newValue, }, ) {
+               const [
+                  necessaryMount, 
+                  {}, 
+               ] = (
+                  useXADestParamEffect((
+                     (dest, ) => {
+                        (
+                           dest
+                           .setValueAtTime(newValue, specifiedEndT, )
+                        ) ;
+                     }
+                  ))
+               ) ;
+               return (
+                  necessaryMount
+               ) ;
+            }
+         ))
+      ) ,
+
       //
    } ;
 })() ;

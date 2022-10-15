@@ -183,8 +183,8 @@ const CPlottedSourceNode1C = (() => {
             useCtxInferredValues()
          ) ;
          ;
-         (
-            React["useLayoutEffect"](() => {
+         const [ , apply1, ] = (
+            useReducer(() => {
                if ((
                   true
                   && destNdRef instanceof AudioParam
@@ -197,15 +197,16 @@ const CPlottedSourceNode1C = (() => {
                         ), tCtxVal, )
                      ) , )
                   ) ;
-                  return (): void => {
-                     (
-                        destNdRef
-                        .cancelScheduledValues(0, )
-                     ) ;
-                  } ;
                }
                ;
-            } , [destNdRef, ] , )
+            } , void true , )
+         ) ;
+         (
+            React["useLayoutEffect"](() => (
+               void (
+                  apply1()
+               )
+            ) , [apply1, ] , )
          ) ;
          ;
          return [

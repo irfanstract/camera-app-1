@@ -117,6 +117,20 @@ interface AUsable {
       => (CtxValue | null )
    ) ;
 
+   /**   
+    * 
+    */
+   useIWithDelayOrSlowdown : (
+      (...args : [
+         (
+            never
+            | { delay  : number ; durativeFactor ?: never  ; }
+            | { delay ?: never  ; durativeFactor  : number ; }
+         ) , 
+      ] ) 
+      => (CtxValue | null )
+   ) ;
+
 } ;  
 
 const {

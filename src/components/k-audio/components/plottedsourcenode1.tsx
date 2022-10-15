@@ -304,8 +304,10 @@ const CPlottedSourceNode1C = (() => {
                useXADestParamAutoDispatch1ACB()
             ) ;
             return (
+               <div style={{ display: "none", }}>
                <div ref={ref1 } >
                   { payload }
+               </div>
                </div>
             ) ;
          }

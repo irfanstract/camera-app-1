@@ -243,6 +243,7 @@ export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
    ANFC ,
+   useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
 } ;
@@ -265,6 +266,41 @@ export const WithCurrentACtx = (
       }
    ))
 ) ;
+const CACtxExpectedCurrentStateValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         {}
+         & {
+            /**    
+             * the expected `t`
+             */
+            expectedT : number ;
+         }
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { 
+               } = c ;
+               return (
+                  payload({
+                     expectedT : (
+                        c.aCtxExpectedT
+                     ) ,
+                  } , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 const CACtxtualDestNodeRefUser : (
    React.FC<(
       React.ConsumerProps<PdMode.OfToSendToDest >
@@ -289,9 +325,36 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
+const CInferredValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         ReturnType<(
+            typeof useCtxInferredValues
+         )>
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const ctxInferredValues = (
+         useCtxInferredValues()
+      ) ;
+      return (
+         <>
+         { (
+            payload((
+               ctxInferredValues
+            ) , )
+         ) }
+         </>
+      ) ;
+   }
+) ;
 const CTCtxCurrentValueUser : (
    React.FC<(
-      React.ConsumerProps<TAndTScale >
+      React.ConsumerProps<(
+         {}
+         & TAndTScale 
+      )>
    )>
 ) = (
    ({ children: payload , }) => {
@@ -312,7 +375,9 @@ const CTCtxCurrentValueUser : (
    }
 ) ; 
 export {
+   CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,
+   CACtxExpectedCurrentStateValuesUser ,
    CTCtxCurrentValueUser ,
 } ;
 /**    

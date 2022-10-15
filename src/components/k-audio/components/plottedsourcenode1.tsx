@@ -283,6 +283,12 @@ const CPlottedSourceNode1C = (() => {
          )>
       )>((
          ({ children: payload, }) => {
+            const [
+               ,
+               ref1,
+            ] = (
+               useXADestParamAutoDispatch1ACB()
+            ) ;
             return (
                <Fragment>
                   { payload }

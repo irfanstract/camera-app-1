@@ -92,8 +92,9 @@ export default (
                value={[
                   (c, ): void => {
                      c.setTargetAtTime(0, -1E+5 /** note the sign ! */ , 1E-5, ) ;
-                     c.setValueAtTime(1, 0  , ) ;
-                     c.linearRampToValueAtTime(0, 1, ) ;
+                     c.setValueAtTime(0, 0  , ) ;
+                     c.linearRampToValueAtTime(1, 0.002, ) ;
+                     c.linearRampToValueAtTime(0, 1.5, ) ;
                   } ,
                   [] ,
                ]}
@@ -109,8 +110,8 @@ export default (
                   value={[
                      (c, ): void => {
                         ;
-                        c.setTargetAtTime( 12 * 100, -1E+5 /** note the sign ! */  , 1E-5, ) ;
-                        c.setTargetAtTime( 12 * 100, 0        , 1E-5, ) ;
+                        c.setTargetAtTime(  6 * 100, -1E+5 /** note the sign ! */  , 1E-5, ) ;
+                        c.setTargetAtTime(  6 * 100, 0        , 1E-5, ) ;
                         c.linearRampToValueAtTime(-12 * 100, 0.5,   ) ;
                      } ,
                      [] ,
@@ -118,6 +119,7 @@ export default (
                   />
                   </Fragment>
                )}
+               type="sine"
                />
             </CAmpComp>
             </Fragment>

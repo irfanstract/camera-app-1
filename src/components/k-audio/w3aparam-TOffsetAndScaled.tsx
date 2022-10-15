@@ -89,10 +89,10 @@ const apTAndTScaleTranslatedForm = (
                      p
                      [which ]((
                         targetedValue
-                     ), (
+                     ), Math.max(0, (
                         tCtxVal.t 
                         + (specifiedT * tCtxVal.tScale )
-                     ), )
+                     )), )
                   ) ;
                   return true ;
                } else {

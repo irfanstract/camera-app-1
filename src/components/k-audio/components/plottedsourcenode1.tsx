@@ -145,6 +145,79 @@ const CPlottedSourceNode1A = (
    currentAdestnoderefWrpcomp("CPlottedSourceNode1A", CCPS_IMPL_1A, )
 ) ;
 const CPlottedSourceNode1C = (() => {
+   const useXADestParamAutoDispatch1A = (
+      () => {
+         ;
+         const {
+            dest : destNdRef ,
+         } = (
+            useCtxInferredValues()
+         ) ;
+         const [
+            ,
+            update ,
+         ] = (
+         useReducer((() => {
+            type XNativeElems = (
+               List<(
+                  never
+                  | HTMLElement
+               )>
+            ) ;
+            ;
+            return (
+               (...[oldNtElems, newNtElems, ] : [
+                  oldValues : XNativeElems, 
+                  newValues : XNativeElems,
+               ] ): XNativeElems => {
+                  ;
+                  // TODO
+                  if (newNtElems.equals(oldNtElems, ) ) {
+                     /**    
+                      * it remains unchanged ;
+                      * skip
+                      */
+                  } else {
+                     ;
+                     /**    
+                      * RESET
+                      */
+                     if ((
+                        true 
+                        && destNdRef instanceof AudioParam
+                     )) {
+                        destNdRef.cancelScheduledValues(0, ) ;
+                     }
+                     ;
+                     /**    
+                      * (RE)INIT
+                      */
+                     (
+                        newNtElems
+                        .forEach((e) => (
+                           void (
+                              e.click()
+                           )
+                        ) )
+                     ) ;
+                  }
+                  ;
+                  /**   
+                   * in either case,
+                   * return {@link newNtElems }
+                   * 
+                   */
+                  return newNtElems ;
+               }
+            ) ;
+         } )() , List<never>() , )
+         ) ;
+         ;
+         return {
+            update ,
+         } ;
+      }
+   ) ;
    const CAsXADestParamEffectRoot = (
       identity<(
          React.FC<(

@@ -178,6 +178,8 @@ const CPlottedSourceNode1C = (() => {
                       * skip
                       */
                   } else {
+                     setTimeout(() => {
+                     ;
                      try {
                      ;
                      ;
@@ -211,6 +213,7 @@ const CPlottedSourceNode1C = (() => {
                         // TODO
                         ;
                      }
+                     } , 0, )
                   }
                   ;
                   /**   

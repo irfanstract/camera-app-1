@@ -218,6 +218,8 @@ const CPlottedSourceNode1C = (() => {
       & { newValue : number ; }
    ) ;
    return {
+      CAsXADestParamEffectRoot ,
+      
       CStartExponentialApproachAtTime : (
          identity<(
             React.FC<(

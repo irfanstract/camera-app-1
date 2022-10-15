@@ -89,10 +89,10 @@ const apTAndTScaleTranslatedForm = (
                      p
                      [which ]((
                         targetedValue
-                     ), (
+                     ), Math.max(0, (
                         tCtxVal.t 
                         + (specifiedT * tCtxVal.tScale )
-                     ), )
+                     )), )
                   ) ;
                   return true ;
                } else {
@@ -123,10 +123,10 @@ const apTAndTScaleTranslatedForm = (
                if (tCtxVal ) {
                   (
                      p
-                     [which ]?.((
+                     [which ]?.(Math.max(0, (
                         tCtxVal.t 
                         + (specifiedT * tCtxVal.tScale )
-                     ), )
+                     )), )
                   ) ;
                   return true ;
                } else {
@@ -152,10 +152,10 @@ const apTAndTScaleTranslatedForm = (
                      p
                      .setTargetAtTime((
                         targetedValue
-                     ), (
+                     ), Math.max(0, (
                         tCtxVal.t 
                         + (specifiedStartT * tCtxVal.tScale )
-                     ), (
+                     )), (
                         specifiedTConstant 
                         * tCtxVal.tScale
                      ), )

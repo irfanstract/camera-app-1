@@ -94,6 +94,42 @@ const {
 
 
 
+const XMountTimeRefable = (
+   React.forwardRef((
+      identity<(
+         React.ForwardRefRenderFunction<(
+            null
+            |
+            TAndTScale
+         ) , {} >
+      )>((
+         function XMountTimeRefableC({}, ref1, ) {
+            const {
+               aCtxExpectedT: tCtxValue0 ,
+            } = useCtxInferredValues() ;
+            const tCtxValue = (
+               (typeof tCtxValue0 === "number") ?
+               new TAndTScale(tCtxValue0 , 1 , )
+               : null
+            ) ;
+            React.useImperativeHandle((
+               identity<(
+                  React.Ref<null | object>
+               )>(ref1)
+            ) , () => (
+               tCtxValue
+            ) , [!!tCtxValue, ] , ) ;
+            return (
+               <Fragment >
+                  <pre>
+                     { JSON.stringify(tCtxValue, null, 2, ) }
+                  </pre>
+               </Fragment>
+            ) ;
+         }
+      ))
+   ))
+) ;
 export default (
    identity<React.FC<{}> >((
       () => {

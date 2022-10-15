@@ -53,6 +53,11 @@ import {
    WithGivenDestNd ,
    WithCurrentACtx ,
 } from "components/k-audio/ctx";
+import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
+import { 
+   CConstantValueSrc, 
+   numericOrRElement ,
+} from "./constantparamsourcenode";
 
 type ComponentProps<A extends {} & Function > = (
    (A ) extends { (p: infer P ): unknown ; } ?
@@ -73,19 +78,6 @@ type ComponentProps<A extends {} & Function > = (
 
 
 
-function useConstantSrcNde(aCtx : BaseAudioContext) {
-   return (
-      useMemo(() => {
-         const nd = (
-            aCtx
-            .createConstantSource()
-         ) ;
-         nd.start() ;
-         nd.offset.value = 0 ;
-         return nd ;
-      } , [aCtx, ] , )
-   ) ;
-} ;
 function useAmpNode(aCtx : BaseAudioContext ) {
    return (
       useMemo(() => {
@@ -100,35 +92,6 @@ function useAmpNode(aCtx : BaseAudioContext ) {
 } ;
 
 
-const CConstantValueSrcImpl : (
-   React.FC<(
-      { value : number ; }
-      &
-      { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
-   )>
-) = (
-   ({ c: dest, aCtx, value, }) => {
-      const g1 = (
-         useConstantSrcNde(aCtx, )
-      ) ;
-      useConnectDisconnect(g1, dest, ) ;
-      React["useInsertionEffect"](() => {
-         (
-            g1.offset
-            .setTargetAtTime(value, 0, 0.125, )
-         );
-      } , [value, ] , );
-      // TODO
-      return (
-         <div>
-            <p>
-               constant-source-node : {}
-               <code>{ value }</code> {}
-            </p>
-         </div>
-      ) ;
-   }
-) ;
 const CAmpCompImpl : (
    React.FC<(
       { children: React.ReactNode ; }
@@ -157,88 +120,29 @@ const CAmpCompImpl : (
             Amp By {}
             { vDisplay } {}
          </p>
-         <ol style={{ display: `flex`, flexDirection: `column-reverse`, }}>
-            <li>
+         <div style={{ display: `flex`, flexDirection: `column-reverse`, }}>
+            <div>
             <WithGivenDestNd value={g1 } >
                { payload }
             </WithGivenDestNd>
-            </li>
-            <li>
+            </div>
+            <div>
+            with <i>amp</i> : {}
             <WithGivenDestNd value={g1.gain } >
                { valueArgument1 }
             </WithGivenDestNd>
-            </li>
-         </ol>
+            {}
+            </div>
+         </div>
          </div>
       ) ;
    }
 ) ;
-const wrp1 = (
-   function <P extends { } >(...[displayName, F10, ] : [
-      displayName: string,
-      impl: (
-         React.FC<(
-            { [k in keyof P ] : P[k] ; } 
-            & 
-            { c : AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
-         ) >
-      ) ,
-   ] ) {
-      const F1 : (
-         React.FC<(
-            { [k in keyof P ] : P[k] ; }
-         )>
-      ) = (
-         (props ) => {
-            return (
-               <WithCurrentACtx>
-               { (aCtx) => (
-               <CACtxtualDestNodeRefUser>
-               { ({ dest, } ) => (
-                  <F10 
-                  {...props }
-                  c={dest }
-                  aCtx={aCtx }
-                  />
-               ) }
-               </CACtxtualDestNodeRefUser>
-               ) }
-               </WithCurrentACtx>
-            ) ;
-         }
-      ) ;
-      F1.displayName = displayName ;
-      return F1 ;
-   }
-) ;
+const wrp1 = currentAdestnoderefWrpcomp ;
 
 
-const numericOrRElement = (
-   (...[valueArgument0,] : [
-      number | ReactElement ,
-   ] ) => {
-      const valueArgument1 : ReactElement = (
-         typeof valueArgument0 === "number" ?
-         <CConstantValueSrc value={valueArgument0 } />
-         : valueArgument0
-      ) ;
-      const vDisplay = (
-         <code>
-         { (typeof valueArgument0 === "number" ) ? valueArgument0 : `(dynamic)` }
-         </code>
-      ) ;
-      ;
-      return {
-         valueArgument1 ,
-         vDisplay ,
-      } ;
-   }
-) ;
 const CAmpComp = (
    wrp1("CAmpCompC", CAmpCompImpl, )
-) ;
-const CConstantValueSrc = (
-   wrp1("CConstantValueSrcC", CConstantValueSrcImpl, )
 ) ;
 
 
@@ -247,7 +151,6 @@ const CConstantValueSrc = (
 
 export {
    CAmpComp ,
-   CConstantValueSrc ,
 } ;
 
 

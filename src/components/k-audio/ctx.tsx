@@ -19,6 +19,8 @@ import {
    SortedMap ,
 } from "components/util-immutable-datastructure" ;
 import { identity , } from "lodash";
+import { TAndTScale, } from "./TOffsetAndScaleProperties";
+import { PdMode, } from "./graph-modes";
 
 import React, { 
    // Callbacks
@@ -44,6 +46,13 @@ import React, {
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 
 import { useConnectDisconnect, } from "./uacd";
+import {
+   CtxValue ,
+   ctx ,
+   useInitially1 ,
+   useIWithGivenDestNd1 ,
+   useCtxInferredValues ,
+} from "./ctx-1a" ;
 
 
 
@@ -59,174 +68,10 @@ import { useConnectDisconnect, } from "./uacd";
 
 
 
-type CtxValue = (
-   {} 
-   & { pd: PdMode ; } 
-   & { aCtx: BaseAudioContext ; } 
-   & { tCtx : TAndTScale ; }
-) ;
-const ctx = (
-   React.createContext<(
-      null | 
-      CtxValue
-   )>(null , )
-) ;
-class PdMode /* */ {}
-namespace PdMode {
-
-   export class OfToSendToDest extends PdMode {
-         constructor(public dest : AudioNode | AudioParam ,) {
-            super() ;
-         }
-   } ;
-   export const Stochastically = (
-      class StochasticMd extends PdMode.OfToSendToDest {}
-   ) ;
-   export const OfQuantity = (
-      class QuantityMd extends PdMode.OfToSendToDest {}
-   ) ;
-
-   // TODO
-   export class OfSequencer extends PdMode {} ;
-
-}  // TS-1205, TS-2702, 
-class TAndTScale {
-
-   withDurativeFactor(f: number ) {
-      return (
-         new TAndTScale(this.t, f * this.tScale, )
-      ) ;
-   }
-   withSpeedFactor(f: number ) {
-      return (
-         new TAndTScale(this.t, this.tScale / f , )
-      ) ;
-   }
-
-   constructor(
-      public t: number ,
-      public tScale: number ,
-   ) {}
-   static initially = () => (
-      new TAndTScale(0, 1, )
-   ) ;
-
-}
-namespace TAndTScale { ; }  // TS-1205, TS-2702, 
 export {
    PdMode ,
    TAndTScale ,
 } ;
-const useInitially1 : (
-   (...args : [aCtx : BaseAudioContext, ] ) 
-   => CtxValue
-) = (
-   (...[aCtx, ] ) => {
-      return (
-         useMemo((): CtxValue => ({
-            pd: new PdMode.Stochastically(aCtx.destination, ) ,
-            aCtx: aCtx ,
-            tCtx: TAndTScale.initially() ,
-         }) , [aCtx, ], )
-      ) ;
-   }
-) ;
-const useIWithGivenDestNd1 : (
-   (...args : [AudioNode | AudioParam, ] ) 
-   => (CtxValue | null )
-) = (
-   (...[dest, ] ) => {
-      const presentlyCtxV = (
-         React.useContext(ctx, )
-      ) ;
-      return (
-         useMemo((): null | CtxValue => {
-            const tCtxNew = (
-               presentlyCtxV ?
-               presentlyCtxV.tCtx
-               : TAndTScale.initially()
-            ) ;
-            if (dest instanceof AudioNode ) {
-               return {
-                  tCtx: tCtxNew ,
-                  aCtx : (
-                     dest.context
-                  ) ,
-                  pd : (
-                     new PdMode.Stochastically(dest, )
-                  ) ,
-               } ;
-            }
-            if (presentlyCtxV ) {
-               return {
-                  tCtx: tCtxNew ,
-                  aCtx: (
-                     presentlyCtxV.aCtx
-                  ) ,
-                  pd : (
-                     new PdMode.Stochastically(dest, )
-                  ) ,
-               } ;  
-            }
-            return null ;
-         } , [presentlyCtxV, dest, ], )
-      ) ;
-   }
-) ;
-/**   
- * all values for the point the call is made at.
- * 
- */
-const useCtxInferredValues = (
-   () => {
-      ;
-      const ctxV = (
-         React.useContext(ctx, )
-      ) ;
-      ;
-      return (
-         useMemo((): (
-            (
-               {  tCtxValue : null | ((typeof ctxV ) & object )["tCtx"] ;  } 
-               &
-               (
-                  {  aCtx : null ; dest : null ; } 
-                  |
-                  {  aCtx : BaseAudioContext ; dest : AudioNode | AudioParam ; } 
-               )
-            )
-         ) => {
-            if (ctxV ) {
-               const { 
-                  pd: pdMode , 
-                  aCtx: aCtx ,
-                  tCtx: tCtxValue, 
-               } = ctxV ;
-               if (pdMode instanceof PdMode.OfToSendToDest ) {
-                  const {
-                     dest
-                  } = pdMode ;
-                  return {
-                     tCtxValue ,
-                     dest ,
-                     aCtx ,
-                  } ;
-               }
-               return { 
-                  tCtxValue , 
-                  dest : null ,
-                  aCtx : null , 
-               } ;
-            } 
-            return { 
-               tCtxValue : null , 
-               dest : null ,
-               aCtx : null , 
-            } ;
-         } , [ctxV, ], )
-      ) ;
-   }
-) ;
 type ANFC<A extends AudioNode > = (
    { 
       init : (
@@ -262,6 +107,7 @@ const useANodeFltCallback1 : (
        */
       const {
          aCtx ,
+         aCtxExpectedT ,
          dest ,
          tCtxValue ,
       } = (
@@ -308,10 +154,16 @@ const useANodeFltCallback1 : (
        */
       return (
          useMemo((): (null | CtxValue) => {
-            if (introducedNode1 && tCtxValue ) {
+            if ((
+               true 
+               && introducedNode1 
+               && tCtxValue
+               && aCtxExpectedT 
+            )) {
                return {
                   pd: new PdMode.Stochastically(introducedNode1 , ) ,
                   aCtx: introducedNode1.context ,
+                  aCtxExpectedT ,
                   tCtx: tCtxValue ,
                } ;
             } else {
@@ -391,6 +243,7 @@ export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
    ANFC ,
+   useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
 } ;
@@ -413,6 +266,41 @@ export const WithCurrentACtx = (
       }
    ))
 ) ;
+const CACtxExpectedCurrentStateValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         {}
+         & {
+            /**    
+             * the expected `t`
+             */
+            expectedT : number ;
+         }
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { 
+               } = c ;
+               return (
+                  payload({
+                     expectedT : (
+                        c.aCtxExpectedT
+                     ) ,
+                  } , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 const CACtxtualDestNodeRefUser : (
    React.FC<(
       React.ConsumerProps<PdMode.OfToSendToDest >
@@ -437,6 +325,94 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
+const CInferredValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         ReturnType<(
+            typeof useCtxInferredValues
+         )>
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const ctxInferredValues = (
+         useCtxInferredValues()
+      ) ;
+      return (
+         <>
+         { (
+            payload((
+               ctxInferredValues
+            ) , )
+         ) }
+         </>
+      ) ;
+   }
+) ;
+const CTCtxCurrentValueUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         {}
+         & TAndTScale 
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { tCtx, } = c ;
+               return (
+                  payload(tCtx , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 export {
+   CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,
+   CACtxExpectedCurrentStateValuesUser ,
+   CTCtxCurrentValueUser ,
+} ;
+/**    
+ * monitoring-or-visualisational only,
+ * not-at-all playing role in the main production
+ * 
+ */
+const CMereMonitoringElem : (
+   React.FC<(
+      Required<React.PropsWithChildren >
+   )>
+) = (
+   ({ children, }) => (
+      <div style={{ border: `0.1em solid black` }} >
+         { children }
+      </div> 
+   )
+) ;
+/**    
+ * playing role in the main production,
+ * not-at-all displaying any monitoring 
+ * 
+ */
+const CMereProductiveElem : (
+   React.FC<(
+      Required<React.PropsWithChildren >
+   )>
+) = (
+   ({ children, }) => (
+      <div style={{ border: `0.1em solid red` }} >
+         { children }
+      </div> 
+   )
+) ;
+export {
+   CMereMonitoringElem ,
+   CMereProductiveElem ,
 } ;

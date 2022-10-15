@@ -48,7 +48,7 @@ const useConnectDisconnect : (
 ) = (
    (introducedNode1, dest, ) => {
       ;
-      React["useLayoutEffect"](() => {
+      React["useInsertionEffect"](() => {
          ;
          if (introducedNode1 && dest ) {
             if (dest instanceof AudioParam ) {

@@ -204,8 +204,15 @@ const CPlottedSourceNode1C = (() => {
          ;
          return [
          (
-            <Fragment>
-            </Fragment>
+            <div hidden >
+               <button  
+               className="CPlottedSourceNode1C-main"
+               type="button"
+               onClick={() => void apply1() }
+               >
+                  p  
+               </button>
+            </div>
          ) ,
          {
          } ,

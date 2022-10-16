@@ -67,9 +67,9 @@ type ACanConnectOrDisconnect = (
 
 const aparamIntrinsicValueZeroify = (
    (aP: AudioParam, ) => {
-      aP.value = (
+      aP.setValueAtTime((
          clamp(0, aP.minValue, aP.maxValue, )
-      ) ;
+      ) , 0 , ) ;
    }
 ) ;
 const useScheduledSrcNodeAlloc = (

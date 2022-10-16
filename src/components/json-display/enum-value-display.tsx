@@ -101,9 +101,17 @@ const EnumValueDisplayElem = (
          const children = (
             [...options ]
             .map((value ) => (
+               <Fragment 
+               key={(
+                  (typeof value === "number" ) ? 
+                  value 
+                  : `${typeof value } "${ value }"` 
+               )}
+               >
                <IonSelectOption value={value } >
                   { formatValue(value, ) }
                </IonSelectOption>
+               </Fragment>
             ) )
          ) ;
          if (onChange ) {

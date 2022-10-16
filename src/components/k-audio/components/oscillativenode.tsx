@@ -314,7 +314,10 @@ const CWaveTable1ByAudioBuffer = (
 const CWaveTable : (
    React.FC<(
       Partial<(
-         Pick<ComponentProps<typeof CWaveTable1A > , "type" >
+         { [k in keyof Pick<ComponentProps<typeof CWaveTable1A > , "type" > ] : (
+            never
+            | KWaveShape
+         ) ; }
       )>
       &
       Partial<(

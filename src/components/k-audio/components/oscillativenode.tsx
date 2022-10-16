@@ -157,6 +157,9 @@ const waveTableAssignPw : (
       ) ;
    }
 ) ;
+
+
+
 const CWaveTableImpl : (
    React.FC<(
       { type : KWaveShape ; }

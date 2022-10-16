@@ -157,9 +157,7 @@ identity((
                      {
                         (
                            [waveTable1.detune, ]
-                           .map((aP: AudioParam, ) => {
-                              aP.value = 0 ;
-                           } )
+                           .map(aparamIntrinsicValueZeroify )
                         ) ;
                      } 
                   }

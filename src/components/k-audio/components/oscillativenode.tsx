@@ -227,6 +227,7 @@ const CWaveTableImpl : (
 const CWaveTable1A = (
    currentAdestnoderefWrpcomp(`CWaveTable` , CWaveTableImpl, )
 ) ;
+
 const CWaveTable : (
    React.FC<(
       Partial<(

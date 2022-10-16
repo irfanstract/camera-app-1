@@ -107,6 +107,7 @@ const useANodeFltCallback1 : (
        */
       const {
          aCtx ,
+         aCtxExpectedT ,
          dest ,
          tCtxValue ,
       } = (
@@ -153,10 +154,16 @@ const useANodeFltCallback1 : (
        */
       return (
          useMemo((): (null | CtxValue) => {
-            if (introducedNode1 && tCtxValue ) {
+            if ((
+               true 
+               && introducedNode1 
+               && tCtxValue
+               && aCtxExpectedT 
+            )) {
                return {
                   pd: new PdMode.Stochastically(introducedNode1 , ) ,
                   aCtx: introducedNode1.context ,
+                  aCtxExpectedT ,
                   tCtx: tCtxValue ,
                } ;
             } else {
@@ -282,8 +289,31 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
+const CTCtxCurrentValueUser : (
+   React.FC<(
+      React.ConsumerProps<TAndTScale >
+   )>
+) = (
+   ({ children: payload , }) => {
+      const { Consumer, } = ctx ;
+      return (
+         <Consumer>
+         { (c) => {
+            if (c) {
+               const { tCtx, } = c ;
+               return (
+                  payload(tCtx , )
+               ) ;
+            } else {}
+            return null ;
+         } }
+         </Consumer>
+      ) ;
+   }
+) ; 
 export {
    CACtxtualDestNodeRefUser ,
+   CTCtxCurrentValueUser ,
 } ;
 /**    
  * monitoring-or-visualisational only,

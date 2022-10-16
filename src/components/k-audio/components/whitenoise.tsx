@@ -127,9 +127,6 @@ currentAdestnoderefWrpcomp("CWhiteNoise", (
 
 
 
-export default (
-   CWhiteNoise
-) ;
 export { CWhiteNoise, } ;
 
 

@@ -161,7 +161,7 @@ identity((
                         ) ;
                      } 
                   }
-                  waveTable1.start() ;
+                  (typeof startTime === "number" ) && waveTable1.start(startTime, ) ;
                   return [waveTable1, ] ;
                }
             }

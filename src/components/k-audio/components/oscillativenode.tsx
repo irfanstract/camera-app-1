@@ -160,6 +160,12 @@ const waveTableAssignPw : (
 
 
 
+type WFreqAndDetuneProperties = (
+   {}
+   &
+   { [k in keyof { f?: true ; /** cents-of-semitones to detune */ det?: true ; } ] : number | React.ReactElement ; }
+) ;
+
 const CWaveTableImpl : (
    React.FC<(
       { type : KWaveShape ; }

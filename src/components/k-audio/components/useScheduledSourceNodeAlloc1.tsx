@@ -75,7 +75,11 @@ const aparamIntrinsicValueZeroify = (
 const useScheduledSrcNodeAlloc = (
 identity((
    function useIMplOscillativeNodeAllocC<A extends AudioScheduledSourceNode >(...a : [
-      { ctx : BaseAudioContext ; dest : AudioNode | AudioParam ; } ,
+      (
+         {}
+         & { ctx : BaseAudioContext ; }
+         & { dest : AudioNode | AudioParam ; }
+      ) ,
       (ctx : BaseAudioContext, ) => A ,
    ] ) {
       const [{ ctx: aCtx, dest, }, makeRawAlloc, ] = a ;

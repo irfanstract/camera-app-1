@@ -290,7 +290,9 @@ const CWaveTableImplByAudioBuffer : (
          ) ;
       } , [nd1, waveShape, ] , ) ;
       {
+         React["useInsertionEffect"](() => {
          nd1.loop = true ;
+         } , [nd1, ] , ) ;
       }
       return (
          <div>

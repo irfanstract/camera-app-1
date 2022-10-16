@@ -353,6 +353,15 @@ const CWaveTable : (
             />
          ) ;
       }
+      if (type instanceof AudioBuffer ) {
+         ;
+         return (
+            <CWaveTable1ByAudioBuffer
+            type={type }
+            {...otherProps }
+            />
+         ) ;
+      }
       throw TypeError(`invalid 'type' : ${type }`) ;
    }
 ) ;

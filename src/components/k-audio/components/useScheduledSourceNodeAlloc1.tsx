@@ -82,7 +82,13 @@ identity((
       ) ,
       (ctx : BaseAudioContext, ) => A ,
    ] ) {
-      const [{ ctx: aCtx, dest, }, makeRawAlloc, ] = a ;
+      const [
+         { 
+            ctx: aCtx, 
+            dest, 
+         }, 
+         makeRawAlloc, 
+      ] = a ;
       return (
          useMemoisedResource<[A , ]>((
             (...[priorState, ] ) => {

@@ -210,6 +210,26 @@ const CBandPassFiltered = (
                   />
                </td>
             </tr>
+            <tr >
+               <td>Q-Factor</td>
+               <td>
+                  <WithGivenDestNd 
+                  value={nd1.Q } 
+                  children={(
+                     <Fragment>  
+                        { (
+                           numericOrRElement(0 - clamp(0, nd1.Q.minValue, nd1.Q.maxValue, ) , )
+                           .valueArgument1
+                        ) }
+                        { (
+                           numericOrRElement(specifiedQValue0 ?? 0.5 , )
+                           .valueArgument1
+                        ) }
+                     </Fragment>
+                  )}
+                  />
+               </td>
+            </tr>
             <tr>
                <td>PAYLOAD</td>
                <td>

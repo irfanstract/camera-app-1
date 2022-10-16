@@ -62,6 +62,19 @@ type ComponentProps<A extends {} & Function > = (
    P : never
 ) ;
  
+/**    
+ * {@link PeriodicWave } built-in has no members .
+ * this has enabled unchecked type-mismatches as-well-as strange type-checking effects.
+ * by adding a member,
+ * such an (unsafe) op will no longer compile.
+ * 
+ */
+declare global {
+   interface PeriodicWave {
+      "src\\components\\k-audio\\components\\oscillativenode.tsx" : never ;
+   }
+}
+ 
 type ACanConnectOrDisconnect = (
    { connect(dest: AudioNode | AudioParam , i?: number , ): void ; }
    &

@@ -79,6 +79,7 @@ identity((
          {}
          & { ctx : BaseAudioContext ; }
          & { dest : AudioNode | AudioParam ; }
+         & { startTime ?: false | number ; }
       ) ,
       (ctx : BaseAudioContext, ) => A ,
    ] ) {

@@ -61,6 +61,7 @@ import {
    numericOrRElement ,
    CConstantValueSrc ,
 } from "./constantparamsourcenode";
+import { FreqAndDetuneProperties, } from "./freqAndDetuneProperties";
 
 
 

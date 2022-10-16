@@ -142,10 +142,13 @@ const WRNDE = (
    }
 ) ;
 const waveTableAssignPw : (
-   (...args: [
+   (...args: (
+   never
+   | [
       OscillatorNode ,  
       Exclude<OscillatorType, "custom" > | PeriodicWave , 
-   ] ) => void
+   ]
+   ) ) => void
 ) = (
    (waveTable1, waveShape, ) => {
       ;

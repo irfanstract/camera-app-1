@@ -56,6 +56,9 @@ import {
 } from "components/k-audio/ctx";
 import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
 import { numericOrRElement, } from "./constantparamsourcenode";
+import { 
+   FreqAndDetuneProperties as WFreqAndDetuneProperties,
+} from "./freqAndDetuneProperties";
 
 type ComponentProps<A extends {} & Function > = (
    (A ) extends { (p: infer P ): unknown ; } ?

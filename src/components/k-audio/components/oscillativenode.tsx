@@ -338,12 +338,22 @@ const CWaveTable : (
       )>
    )>
 ) = (
-   ({ type = "triangle", ...otherProps }) => (
-      <CWaveTable1A 
-      type={type }
-      {...otherProps }
-      />
-   )
+   (props, ) => {
+      const { 
+         type = "triangle", 
+         ...otherProps 
+      } = props ;
+      if (type instanceof PeriodicWave ) {
+         ;
+         return (
+            <CWaveTable1A 
+            type={type }
+            {...otherProps }
+            />
+         ) ;
+      }
+      throw TypeError(`invalid 'type' : ${type }`) ;
+   }
 ) ;
 
 

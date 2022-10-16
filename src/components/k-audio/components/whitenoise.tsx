@@ -65,6 +65,12 @@ BaseAudioContext.prototype[AUDIOCTX_WHITENOISEBUF ] = (
       ) ;
       fillWithWhiteNoise(buf1.getChannelData(0, ) , ) ;
       this[AUDIOCTX_WHITENOISEBUF] = (
+         console.log((
+            TypeError((
+               `WhiteNoise . initialisation done. next time will reuse the instance.`
+            ))
+         ))
+         ,
          () => buf1
       ) ;
       return buf1 ;

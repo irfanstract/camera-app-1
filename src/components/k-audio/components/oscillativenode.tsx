@@ -330,6 +330,7 @@ const CWaveTable : (
          { [k in keyof Pick<ComponentProps<typeof CWaveTable1A > , "type" > ] : (
             never
             | KWaveShape
+            | AudioBuffer
          ) ; }
       )>
       &

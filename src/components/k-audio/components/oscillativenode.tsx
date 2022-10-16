@@ -243,6 +243,74 @@ const CWaveTable1A = (
    currentAdestnoderefWrpcomp(`CWaveTable` , CWaveTableImpl, )
 ) ;
 
+const CWaveTableImplByAudioBuffer : (
+   React.FC<(
+      {}
+      &
+      { [k in keyof Pick<ComponentProps<typeof CWaveTableImpl > , "type" > ] : AudioBuffer ; }
+      &
+      WFreqAndDetuneProperties
+      &
+      (
+         (
+            typeof currentAdestnoderefWrpcomp
+         ) extends { (name : never, impl : (props : infer Props) => never ): unknown } ?
+         Props
+         : never
+      )
+   )>
+) = (
+   ({ 
+      type: waveShape , 
+      f = 1, det = 0 , 
+      c: dest, aCtx, 
+   }) => {
+      const [nd1, ] = (
+      useScheduledSrcNodeAlloc({ 
+         ctx: aCtx ,
+         dest: dest ,
+      } , (c) => c.createBufferSource() , )
+      ) ;
+      React["useInsertionEffect"]((): void => {
+         (
+            nd1.buffer = waveShape
+         ) ;
+      } , [nd1, waveShape, ] , ) ;
+      {
+         nd1.loop = true ;
+      }
+      return (
+         <div>
+         <p>
+            Wave Table {}
+         </p>
+         <table>
+         <tbody>
+            <tr>
+               <td>Speed</td>
+               <td>
+               <ul>
+               <li>
+               <code>playbackRate</code>:
+               { WRNDE(nd1.playbackRate , f , ) }
+               </li>
+               <li>
+               <code>detune</code>:
+               { WRNDE(nd1.detune , det , ) }
+               </li>
+               </ul>
+               </td>
+            </tr>
+         </tbody>
+         </table>
+         </div>
+      ) ;
+   }
+) ;
+const CWaveTable1ByAudioBuffer = (
+   currentAdestnoderefWrpcomp(`CWaveTableByAudioBuffer` , CWaveTableImplByAudioBuffer, )
+) ;
+
 const CWaveTable : (
    React.FC<(
       Partial<(

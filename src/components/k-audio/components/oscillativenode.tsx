@@ -361,6 +361,12 @@ const CWaveTable : (
             />
          ) ;
       }
+      return (
+         <CWaveTable1A 
+         type={type }
+         {...otherProps }
+         />
+      ) ;
       throw TypeError(`invalid 'type' : ${type }`) ;
    }
 ) ;

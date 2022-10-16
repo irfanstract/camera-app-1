@@ -237,7 +237,7 @@ const CBandPassFiltered = (
 
 
 
-export {} ;
+export { CBandPassFiltered, } ;
 
 
 

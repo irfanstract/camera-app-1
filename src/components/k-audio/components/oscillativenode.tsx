@@ -166,7 +166,13 @@ const CWaveTableImpl : (
       &
       { [k in keyof { f?: true ; /** cents-of-semitones to detune */ det?: true ; } ] : number | React.ReactElement ; }
       &
-      { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
+      (
+         (
+            typeof currentAdestnoderefWrpcomp
+         ) extends { (name : never, impl : (props : infer Props) => never ): unknown } ?
+         Props
+         : never
+      )
       &
       { editListeners ?: { wvShape ?: React.Dispatch<KWaveShape> ; } ; }
    )>

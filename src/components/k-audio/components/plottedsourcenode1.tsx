@@ -510,6 +510,10 @@ const CPlottedSourceNode1C = (() => {
          cForWhichEndingAtTime("exponentialRampToValueAtTime", )
       ) ,
       
+      CCancelAndHoldAtTime : (
+         cWhichOnlyTakesTimeInfo("cancelAndHoldAtTime", )
+      ) ,
+      
       //
    } ;
 })() ;

@@ -311,6 +311,9 @@ const CPlottedSourceNode1C = (() => {
             useCtxInferredValues()
          ) ;
          ;
+         const key = (
+            useMemo(() => Math.random() , dependencies, )
+         ) ;
          const [ , apply1, ] = (
             useReducer(() => {
                if ((

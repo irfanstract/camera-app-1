@@ -458,6 +458,10 @@ const CPlottedSourceNode1C = (() => {
          cForWhichEndingAtTime("linearRampToValueAtTime", )
       ) ,
       
+      CExponentialRampToValueAtTime : (
+         cForWhichEndingAtTime("exponentialRampToValueAtTime", )
+      ) ,
+      
       //
    } ;
 })() ;

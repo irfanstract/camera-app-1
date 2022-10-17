@@ -164,6 +164,7 @@ export default (
             <pre>
                { JSON.stringify({ xt0, } , null , 2 , ) }
             </pre>
+            <IRefreshible>
             <div style={{ display: `flex`, flexDirection: `column-reverse`, }}>
             <CAmpComp value={2 ** -2 } >   
                <CFiniteLoopingFromT
@@ -179,6 +180,7 @@ export default (
                </p>
             </div>
             </div>
+            </IRefreshible>
             </WithGivenDelayOrSlowdown>
             </Fragment>
             ) }

@@ -357,6 +357,56 @@ const CPlottedSourceNode1C = (() => {
       & { t : number ; }
       & { newValue : number ; }
    ) ;
+   const cForWhichEndingAtTime = (
+      function <P extends (
+         never
+         | keyof Pick<AudioParam, "setValueAtTime">
+         | keyof Pick<AudioParam, "linearRampToValueAtTime">
+         | keyof Pick<AudioParam, "exponentialRampToValueAtTime">
+      )>(...[evtCls , ] : [
+         P ,
+      ] ) {
+      ;
+      const C = (
+         identity<(
+            React.FC<(
+               {}
+               & TAndNewValue
+            )>
+         )>((
+            function ({ t: specifiedEndT, newValue, }, ) {
+               const [
+                  necessaryMount, 
+                  {}, 
+               ] = (
+                  useXADestParamEffect((
+                     (dest, ) => {
+                        (
+                           dest
+                           [evtCls ](newValue, specifiedEndT, )
+                        ) ;
+                     }
+                  ) , {
+                     dependencies : [
+                        newValue ,
+                        specifiedEndT ,
+                     ] ,
+                  })
+               ) ;
+               return (
+                  necessaryMount
+               ) ;
+            }
+         ))
+      ) ;
+      C.displayName = (
+         `C_${evtCls.toUpperCase() }`
+      ) ;
+      return (
+         C
+      ) ;
+      }
+   ) ;
    return {
       CAsXADestParamEffectRoot ,
       

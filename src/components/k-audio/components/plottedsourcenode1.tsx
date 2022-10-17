@@ -447,32 +447,7 @@ const CPlottedSourceNode1C = (() => {
       CAsXADestParamEffectRoot ,
       
       CStartExponentialApproachAtTime : (
-         identity<(
-            React.FC<(
-               {}
-               & TAndNewValue
-               & { tConstant1 : number ; }
-            )>
-         )>((
-            function CStartExponentialApproachAtTime({ t: specifiedEndT, newValue, tConstant1, }, ) {
-               const [
-                  necessaryMount, 
-                  {}, 
-               ] = (
-                  useXADestParamEffect((
-                     (dest, ) => {
-                        (
-                           dest
-                           .setTargetAtTime(newValue, specifiedEndT, tConstant1, )
-                        ) ;
-                     }
-                  ))
-               ) ;
-               return (
-                  necessaryMount
-               ) ;
-            }
-         ))
+         cToSetTargetAtTime()
       ) ,
       
       CJumpToValueAtTime : (

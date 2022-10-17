@@ -117,6 +117,31 @@ export default (
                   <CBassDrum1A 
                   />
                </CFiniteLoopingFromT>
+               { (
+               // ACCENT
+               <CAmpComp value={2 ** -2 } >
+               <CBandPassFiltered
+               type="lowpass"
+               f={27.5 }
+               det={
+                  <Fragment>
+                  <CPlottedSourceNode1A 
+                  value={[
+                     (c, ) => {
+                        c.setValueAtTime(0, -1E+4, ) ;
+                        c.setValueAtTime(0, 0, ) ;
+                        c.linearRampToValueAtTime(12 * 12 * 100 , 32 , ) ;
+                     } ,
+                     [] ,
+                  ]}
+                  />
+                  </Fragment>
+               }
+               >
+               <CWhiteNoise />
+               </CBandPassFiltered>
+               </CAmpComp>
+               ) }
             </CAmpComp>
             <div>
                <p> 

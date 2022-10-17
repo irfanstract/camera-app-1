@@ -2,6 +2,14 @@
 
 
 
+import { 
+   EitherBothSetOrBothUnset, 
+   EitherSetAndOthersUnset,
+   EitherSetOrBothUnset ,
+} from "components/util/dicts-allOrNothing";
+import { 
+   OptionsCouldBeOmittedAltogether,
+} from "components/util/dict-argument-couldbeomitted";
 /**  
  * obscure the built-in mutable Collections, by design
  * 
@@ -138,7 +146,10 @@ const CCPS_IMPL_1A : (
          )
       ) , cbDependencies , ) ;
       return (
-         <div />
+         <p>
+            Plotted Source Node ;
+            at {JSON.stringify(tCtxVal, null, 0, ) }
+         </p>
       ) ;
    }
 ) ;
@@ -282,10 +293,17 @@ const CPlottedSourceNode1C = (() => {
                   ),
                ] ) : void ;
             } , 
+            ...options : OptionsCouldBeOmittedAltogether<(
+               {}
+               & { dependencies : React.DependencyList ; }
+            )> ,
          ]): [ null | ReactElement , {} , ] ;
       }
    ) = (
-      (callback, ) => {
+      (callback, options, ) => {
+         const { // OPTIONS
+            dependencies ,
+         } = options || {} ;
          const {
             tCtxValue : tCtxVal ,
             dest : destNdRef ,
@@ -293,6 +311,9 @@ const CPlottedSourceNode1C = (() => {
             useCtxInferredValues()
          ) ;
          ;
+         const key = (
+            useMemo(() => Math.random() , dependencies, )
+         ) ;
          const [ , apply1, ] = (
             useReducer(() => {
                if ((
@@ -314,6 +335,7 @@ const CPlottedSourceNode1C = (() => {
          ;
          return [
          (
+            <Fragment key={key } >
             <div hidden >
                <button  
                className="CPlottedSourceNode1C-main"
@@ -323,6 +345,7 @@ const CPlottedSourceNode1C = (() => {
                   p  
                </button>
             </div>
+            </Fragment>
          ) ,
          {
          } ,
@@ -334,10 +357,106 @@ const CPlottedSourceNode1C = (() => {
       & { t : number ; }
       & { newValue : number ; }
    ) ;
-   return {
-      CAsXADestParamEffectRoot ,
-      
-      CStartExponentialApproachAtTime : (
+   const cWhichOnlyTakesTimeInfo = (
+      function <P extends (
+         never
+         | keyof Pick<AudioParam, "cancelScheduledValues">
+         | keyof Pick<AudioParam, "cancelAndHoldAtTime">
+      )>(...[evtCls , ] : [
+         P ,
+      ] ) {
+      ;
+      const C = (
+         identity<(
+            React.FC<(
+               {}
+               & Pick<TAndNewValue, "t" >
+            )>
+         )>((
+            function ({ t: specifiedEndT, }, ) {
+               const [
+                  necessaryMount, 
+                  {}, 
+               ] = (
+                  useXADestParamEffect((
+                     (dest, ) => {
+                        (
+                           dest
+                           [evtCls ](specifiedEndT, )
+                        ) ;
+                     }
+                  ) , {
+                     dependencies : [
+                        specifiedEndT ,
+                     ] ,
+                  })
+               ) ;
+               return (
+                  necessaryMount
+               ) ;
+            }
+         ))
+      ) ;
+      C.displayName = (
+         `C_${evtCls.toUpperCase() }`
+      ) ;
+      return (
+         C
+      ) ;
+      }
+   ) ;
+   const cForWhichEndingAtTime = (
+      function <P extends (
+         never
+         | keyof Pick<AudioParam, "setValueAtTime">
+         | keyof Pick<AudioParam, "linearRampToValueAtTime">
+         | keyof Pick<AudioParam, "exponentialRampToValueAtTime">
+      )>(...[evtCls , ] : [
+         P ,
+      ] ) {
+      ;
+      const C = (
+         identity<(
+            React.FC<(
+               {}
+               & TAndNewValue
+            )>
+         )>((
+            function ({ t: specifiedEndT, newValue, }, ) {
+               const [
+                  necessaryMount, 
+                  {}, 
+               ] = (
+                  useXADestParamEffect((
+                     (dest, ) => {
+                        (
+                           dest
+                           [evtCls ](newValue, specifiedEndT, )
+                        ) ;
+                     }
+                  ) , {
+                     dependencies : [
+                        newValue ,
+                        specifiedEndT ,
+                     ] ,
+                  })
+               ) ;
+               return (
+                  necessaryMount
+               ) ;
+            }
+         ))
+      ) ;
+      C.displayName = (
+         `C_${evtCls.toUpperCase() }`
+      ) ;
+      return (
+         C
+      ) ;
+      }
+   ) ;
+   const cToSetTargetAtTime = (
+      () => (
          identity<(
             React.FC<(
                {}
@@ -354,72 +473,45 @@ const CPlottedSourceNode1C = (() => {
                      (dest, ) => {
                         (
                            dest
-                           .setTargetAtTime(newValue, specifiedEndT, tConstant1, )
+                           ["setTargetAtTime"](newValue, specifiedEndT, tConstant1, )
                         ) ;
                      }
-                  ))
+                  ) , {
+                     dependencies : [
+                        newValue ,
+                        specifiedEndT ,
+                        tConstant1 ,
+                     ] ,
+                  })
                ) ;
                return (
                   necessaryMount
                ) ;
             }
          ))
+      )
+   ) ;
+   return {
+      CAsXADestParamEffectRoot ,
+      
+      CStartExponentialApproachAtTime : (
+         cToSetTargetAtTime()
       ) ,
       
       CJumpToValueAtTime : (
-         identity<(
-            React.FC<(
-               {}
-               & TAndNewValue
-            )>
-         )>((
-            function CJumpToValueAtTime({ t: specifiedEndT, newValue, }, ) {
-               const [
-                  necessaryMount, 
-                  {}, 
-               ] = (
-                  useXADestParamEffect((
-                     (dest, ) => {
-                        (
-                           dest
-                           .setValueAtTime(newValue, specifiedEndT, )
-                        ) ;
-                     }
-                  ))
-               ) ;
-               return (
-                  necessaryMount
-               ) ;
-            }
-         ))
+         cForWhichEndingAtTime("setValueAtTime", )
       ) ,
 
       CLinearRampToValueAtTime : (
-         identity<(
-            React.FC<(
-               {}
-               & TAndNewValue
-            )>
-         )>((
-            function CLinearRampToValueAtTime({ t: specifiedEndT, newValue, }, ) {
-               const [
-                  necessaryMount, 
-                  {}, 
-               ] = (
-                  useXADestParamEffect((
-                     (dest, ) => {
-                        (
-                           dest
-                           .linearRampToValueAtTime(newValue, specifiedEndT, )
-                        ) ;
-                     }
-                  ))
-               ) ;
-               return (
-                  necessaryMount
-               ) ;
-            }
-         ))
+         cForWhichEndingAtTime("linearRampToValueAtTime", )
+      ) ,
+      
+      CExponentialRampToValueAtTime : (
+         cForWhichEndingAtTime("exponentialRampToValueAtTime", )
+      ) ,
+      
+      CCancelAndHoldAtTime : (
+         cWhichOnlyTakesTimeInfo("cancelAndHoldAtTime", )
       ) ,
       
       //

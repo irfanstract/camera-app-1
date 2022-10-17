@@ -295,6 +295,7 @@ const CPlottedSourceNode1C = (() => {
             } , 
             ...options : OptionsCouldBeOmittedAltogether<(
                {}
+               & { dependencies : React.DependencyList ; }
             )> ,
          ]): [ null | ReactElement , {} , ] ;
       }

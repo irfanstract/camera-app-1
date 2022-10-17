@@ -64,6 +64,9 @@ import { CPlottedSourceNode1C, } from "./components/plottedsourcenode1";
 import {
    CAmpComp ,
 } from "./components/ampcomp" ;
+import { 
+   CBandPassFiltered, 
+} from "./components/bandpassfiltered1";
 import { CFiniteLoopingFromT, } from "./components/loopingcomponent";
 import CBassDrum1A from "./components/bassdrums/1a";
 

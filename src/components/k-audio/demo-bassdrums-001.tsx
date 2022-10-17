@@ -56,6 +56,7 @@ import { CACtxtualDestNodeRefUser,    } from "components/k-audio/ctx";
 import { WithGivenDestNd,             } from "components/k-audio/ctx";
 import { useIndependentACtx, ACtxBoundary, } from "./actx-base";
 import { ACtxBoundary as ACtxBoundaryCc, } from "./ctxcroot";
+import { ACtxBoundaryCcRefreshible1, } from "./demo-base-markup-001";
 import {
    CWaveTable ,
 } from "./components/oscillativenode" ;

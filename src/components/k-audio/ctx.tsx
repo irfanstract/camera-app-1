@@ -51,6 +51,7 @@ import {
    ctx ,
    useInitially1 ,
    useIWithGivenDestNd1 ,
+   useIWithDelayOrSlowdown ,
    useCtxInferredValues ,
 } from "./ctx-1a" ;
 
@@ -239,6 +240,47 @@ const WithGivenDestNd = (
       }
    ))
 ) ;
+const WithGivenDelayOrSlowdown = (
+   identity<(
+      React.FC<(
+         { value : Parameters<typeof useIWithDelayOrSlowdown >[0] ; }
+         &
+         Required<React.PropsWithChildren >
+      )>
+   )>((
+      function WithGivenDestNdC({ value: dest, children: payload, }) {
+         ;
+         const { Provider, } = ctx ;
+         const prvv1 = (
+            useIWithDelayOrSlowdown(dest, )
+         ) ;
+         ;
+         return (
+            prvv1 ?
+            <div>
+            <p>
+               { JSON.stringify(dest, null, 2, ) }
+            </p>
+            <Provider value={prvv1 } >
+               <div style={{ display: `flex`, flexDirection: `column`, }} >
+               <aside>
+               <CTCtxCurrentValueUser>
+               { ({ t: absoluteT, tScale, }) => (
+                  <pre>
+                     { JSON.stringify({ absoluteT, tScale, }, null, ) }
+                  </pre>
+               ) }
+               </CTCtxCurrentValueUser>
+               </aside>
+               { payload }
+               </div>
+            </Provider>
+            </div>
+            : null
+         ) ;
+      }
+   ))
+) ;
 export {
    CToGivenAudioCtxDest ,
    CWithGivenAFltImpl ,
@@ -246,6 +288,7 @@ export {
    useCtxInferredValues ,
    useIWithGivenDestNd1 ,
    WithGivenDestNd ,
+   WithGivenDelayOrSlowdown ,
 } ;
 export const WithCurrentACtx = (
    identity<(
@@ -325,30 +368,6 @@ const CACtxtualDestNodeRefUser : (
       ) ;
    }
 ) ;
-const CInferredValuesUser : (
-   React.FC<(
-      React.ConsumerProps<(
-         ReturnType<(
-            typeof useCtxInferredValues
-         )>
-      )>
-   )>
-) = (
-   ({ children: payload , }) => {
-      const ctxInferredValues = (
-         useCtxInferredValues()
-      ) ;
-      return (
-         <>
-         { (
-            payload((
-               ctxInferredValues
-            ) , )
-         ) }
-         </>
-      ) ;
-   }
-) ;
 const CTCtxCurrentValueUser : (
    React.FC<(
       React.ConsumerProps<(
@@ -374,6 +393,30 @@ const CTCtxCurrentValueUser : (
       ) ;
    }
 ) ; 
+const CInferredValuesUser : (
+   React.FC<(
+      React.ConsumerProps<(
+         ReturnType<(
+            typeof useCtxInferredValues
+         )>
+      )>
+   )>
+) = (
+   ({ children: payload , }) => {
+      const ctxInferredValues = (
+         useCtxInferredValues()
+      ) ;
+      return (
+         <>
+         { (
+            payload((
+               ctxInferredValues
+            ) , )
+         ) }
+         </>
+      ) ;
+   }
+) ;
 export {
    CInferredValuesUser ,
    CACtxtualDestNodeRefUser ,

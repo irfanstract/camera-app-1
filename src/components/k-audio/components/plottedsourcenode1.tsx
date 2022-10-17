@@ -357,6 +357,54 @@ const CPlottedSourceNode1C = (() => {
       & { t : number ; }
       & { newValue : number ; }
    ) ;
+   const cWhichOnlyTakesTimeInfo = (
+      function <P extends (
+         never
+         | keyof Pick<AudioParam, "cancelScheduledValues">
+         | keyof Pick<AudioParam, "cancelAndHoldAtTime">
+      )>(...[evtCls , ] : [
+         P ,
+      ] ) {
+      ;
+      const C = (
+         identity<(
+            React.FC<(
+               {}
+               & Pick<TAndNewValue, "t" >
+            )>
+         )>((
+            function ({ t: specifiedEndT, }, ) {
+               const [
+                  necessaryMount, 
+                  {}, 
+               ] = (
+                  useXADestParamEffect((
+                     (dest, ) => {
+                        (
+                           dest
+                           [evtCls ](specifiedEndT, )
+                        ) ;
+                     }
+                  ) , {
+                     dependencies : [
+                        specifiedEndT ,
+                     ] ,
+                  })
+               ) ;
+               return (
+                  necessaryMount
+               ) ;
+            }
+         ))
+      ) ;
+      C.displayName = (
+         `C_${evtCls.toUpperCase() }`
+      ) ;
+      return (
+         C
+      ) ;
+      }
+   ) ;
    const cForWhichEndingAtTime = (
       function <P extends (
          never

@@ -296,7 +296,7 @@ const CPlottedSourceNode1C = (() => {
          ]): [ null | ReactElement , {} , ] ;
       }
    ) = (
-      (callback, ) => {
+      (callback, options, ) => {
          const {
             tCtxValue : tCtxVal ,
             dest : destNdRef ,

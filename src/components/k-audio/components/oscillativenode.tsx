@@ -46,8 +46,14 @@ import { EnumValueDisplayElem, } from "components/json-display/enum-value-displa
 import useMemoisedResource from "components/useMemoisedResource";
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
 
+import useScheduledSrcNodeAlloc from "./useScheduledSourceNodeAlloc1";
+
 import { CToGivenAudioCtxDest, CACtxtualDestNodeRefUser, } from "components/k-audio/ctx";
 import { WithGivenDestNd, } from "components/k-audio/ctx";
+import {  
+   CMereProductiveElem ,
+   CMereMonitoringElem ,
+} from "components/k-audio/ctx";
 import currentAdestnoderefWrpcomp from "./current-adestnoderef-wrpcomp" ;
 import { numericOrRElement, } from "./constantparamsourcenode";
 
@@ -55,6 +61,19 @@ type ComponentProps<A extends {} & Function > = (
    (A ) extends { (p: infer P ): unknown ; } ?
    P : never
 ) ;
+ 
+/**    
+ * {@link PeriodicWave } built-in has no members .
+ * this has enabled unchecked type-mismatches as-well-as strange type-checking effects.
+ * by adding a member,
+ * such an (unsafe) op will no longer compile.
+ * 
+ */
+declare global {
+   interface PeriodicWave {
+      "src\\components\\k-audio\\components\\oscillativenode.tsx" : never ;
+   }
+}
  
 type ACanConnectOrDisconnect = (
    { connect(dest: AudioNode | AudioParam , i?: number , ): void ; }
@@ -66,6 +85,27 @@ type KWaveShape = (
    | Exclude<OscillatorType, "custom" > 
    | PeriodicWave
 ) ;
+namespace KWaveShape {
+
+   export const renderEditor : (
+      (...args : [vl : KWaveShape, update ?: React.Dispatch<KWaveShape>, ] ) 
+      => React.ReactElement
+   ) = (
+      (value, editH, ) => (
+         <EnumValueDisplayElem 
+         value={(typeof value === "string") ? value : undefined }
+         options={[
+            "sine" ,
+            "triangle" ,
+            "square" ,
+            "sawtooth" ,
+         ]}
+         onChange={editH && ((e) => editH(e.detail.value , ) ) }
+         />
+      )
+   ) ;
+
+}
 
 
 
@@ -96,11 +136,13 @@ const WRNDE = (
       } = numericOrRElement(v, ) ;
       return (
          <div style={{ display: `flex`, flexDirection: `column`, }} >
+         <CMereMonitoringElem>
          <p>
          value: {}
          { vDisplay }
          {}
          </p>
+         </CMereMonitoringElem>
          <div>
          graph: {}
          <WithGivenDestNd value={dest } >
@@ -113,10 +155,13 @@ const WRNDE = (
    }
 ) ;
 const waveTableAssignPw : (
-   (...args: [
+   (...args: (
+   never
+   | [
       OscillatorNode ,  
       Exclude<OscillatorType, "custom" > | PeriodicWave , 
-   ] ) => void
+   ]
+   ) ) => void
 ) = (
    (waveTable1, waveShape, ) => {
       ;
@@ -128,13 +173,28 @@ const waveTableAssignPw : (
       ) ;
    }
 ) ;
+
+
+
+type WFreqAndDetuneProperties = (
+   {}
+   &
+   { [k in keyof { f?: true ; /** cents-of-semitones to detune */ det?: true ; } ] : number | React.ReactElement ; }
+) ;
+
 const CWaveTableImpl : (
    React.FC<(
       { type : KWaveShape ; }
       &
-      { [k in keyof { f?: true ; /** cents-of-semitones to detune */ det?: true ; } ] : number | React.ReactElement ; }
+      WFreqAndDetuneProperties
       &
-      { c: AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
+      (
+         (
+            typeof currentAdestnoderefWrpcomp
+         ) extends { (name : never, impl : (props : infer Props) => never ): unknown } ?
+         Props
+         : never
+      )
       &
       { editListeners ?: { wvShape ?: React.Dispatch<KWaveShape> ; } ; }
    )>
@@ -146,54 +206,10 @@ const CWaveTableImpl : (
       c: dest, aCtx, 
    }) => {
       const [nd1, ] = (
-      useMemoisedResource<[OscillatorNode]>((
-         (...[priorState, ] ) => {
-            if (priorState) {
-               const [
-                  oldPeer ,
-               ] = priorState ;
-               0 && (
-                  console.log(`OscillativeNode - Diconnecting`)
-               ) ;
-               oldPeer.disconnect() ;
-            }
-            {
-               const waveTable1 = aCtx.createOscillator() ;
-               identity<ACanConnectOrDisconnect>(waveTable1 ).connect(dest , ) ;
-               /**    
-                * all of the usages would be via {@link AudioNode.connect } ;
-                * therefore, 
-                * - the {@link OscillatorNode.frequency }'s intrinsic-value 
-                *   shall be set to `0` (or a value close-enough-to `0` )
-                * - {@link OscillatorNode.detune } already default to `0` ;
-                *   no explicit/manual treatment necessary
-                * 
-                */
-               {
-                  (
-                     [waveTable1.frequency, ]
-                     .map((aP: AudioParam, ) => {
-                        (
-                           aP.value = (
-                              clamp(0, aP.minValue, aP.maxValue, )
-                           )
-                        ) ;
-                     } )
-                  ) ;
-                  (
-                     [waveTable1.detune, ]
-                     .map((aP: AudioParam, ) => {
-                        (
-                           aP.value = 0
-                        ) ;
-                     } )
-                  ) ;
-               } 
-               waveTable1.start() ;
-               return [waveTable1, ] ;
-            }
-         }
-      ) , [aCtx , ] , )
+      useScheduledSrcNodeAlloc({ 
+         ctx: aCtx ,
+         dest: dest ,
+      } , (c) => c.createOscillator() , )
       ) ;
       React["useInsertionEffect"]((): void => {
          (
@@ -212,21 +228,7 @@ const CWaveTableImpl : (
             <tr>
                <td>OScillative Shape</td>
                <td>
-               { (() => {
-               const editH = editListeners.wvShape ;
-               ;
-               return (
-                  <EnumValueDisplayElem 
-                  value={(typeof waveShape === "string") ? waveShape : undefined }
-                  options={[
-                     "sine" ,
-                     "triangle" ,
-                     "square" ,
-                  ]}
-                  onChange={editH && ((e) => editH(e.detail.value , ) ) }
-                  />
-               ) ;
-               })() }
+               { KWaveShape.renderEditor(waveShape, editListeners.wvShape, ) }
                </td>
             </tr>
             <tr>
@@ -253,23 +255,117 @@ const CWaveTableImpl : (
 const CWaveTable1A = (
    currentAdestnoderefWrpcomp(`CWaveTable` , CWaveTableImpl, )
 ) ;
+
+const CWaveTableImplByAudioBuffer : (
+   React.FC<(
+      {}
+      &
+      { [k in keyof Pick<ComponentProps<typeof CWaveTableImpl > , "type" > ] : AudioBuffer ; }
+      &
+      WFreqAndDetuneProperties
+      &
+      (
+         (
+            typeof currentAdestnoderefWrpcomp
+         ) extends { (name : never, impl : (props : infer Props) => never ): unknown } ?
+         Props
+         : never
+      )
+   )>
+) = (
+   ({ 
+      type: waveShape , 
+      f = 1, det = 0 , 
+      c: dest, aCtx, 
+   }) => {
+      const [nd1, ] = (
+      useScheduledSrcNodeAlloc({ 
+         ctx: aCtx ,
+         dest: dest ,
+      } , (c) => c.createBufferSource() , )
+      ) ;
+      React["useInsertionEffect"]((): void => {
+         (
+            nd1.buffer = waveShape
+         ) ;
+      } , [nd1, waveShape, ] , ) ;
+      {
+         React["useInsertionEffect"](() => {
+         nd1.loop = true ;
+         } , [nd1, ] , ) ;
+      }
+      return (
+         <div>
+         <p>
+            Wave Table {}
+         </p>
+         <table>
+         <tbody>
+            <tr>
+               <td>Speed</td>
+               <td>
+               <ul>
+               <li>
+               <code>playbackRate</code>:
+               { WRNDE(nd1.playbackRate , f , ) }
+               </li>
+               <li>
+               <code>detune</code>:
+               { WRNDE(nd1.detune , det , ) }
+               </li>
+               </ul>
+               </td>
+            </tr>
+         </tbody>
+         </table>
+         </div>
+      ) ;
+   }
+) ;
+const CWaveTable1ByAudioBuffer = (
+   currentAdestnoderefWrpcomp(`CWaveTableByAudioBuffer` , CWaveTableImplByAudioBuffer, )
+) ;
+
 const CWaveTable : (
    React.FC<(
       Partial<(
-         Pick<ComponentProps<typeof CWaveTable1A > , "type" >
+         { [k in keyof Pick<ComponentProps<typeof CWaveTable1A > , "type" > ] : (
+            never
+            | KWaveShape
+            | AudioBuffer
+         ) ; }
       )>
       &
       Partial<(
-         Pick<ComponentProps<typeof CWaveTable1A > , "f" | "det" >
+         Omit<ComponentProps<typeof CWaveTable1A > , "type" >
       )>
    )>
 ) = (
-   ({ type = "triangle", ...otherProps }) => (
-      <CWaveTable1A 
-      type={type }
-      {...otherProps }
-      />
-   )
+   (props, ) => {
+      const { 
+         type = "triangle", 
+         ...otherProps 
+      } = props ;
+      if (type instanceof PeriodicWave ) {
+         ;
+         return (
+            <CWaveTable1A 
+            type={type }
+            {...otherProps }
+            />
+         ) ;
+      }
+      if (type instanceof AudioBuffer ) {
+         ;
+         return (
+            <CWaveTable1ByAudioBuffer
+            type={type }
+            {...otherProps }
+            />
+         ) ;
+      }
+      throw TypeError(`invalid 'type' : ${type }`) ;
+   }
 ) ;
 
 

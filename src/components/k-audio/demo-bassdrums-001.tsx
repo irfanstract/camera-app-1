@@ -125,16 +125,38 @@ export default (
                f={27.5 }
                det={
                   <Fragment>
-                  <CPlottedSourceNode1A 
-                  value={[
-                     (c, ) => {
-                        c.setValueAtTime(0, -1E+4, ) ;
-                        c.setValueAtTime(0, 0, ) ;
-                        c.linearRampToValueAtTime(12 * 12 * 100 , 32 , ) ;
-                     } ,
-                     [] ,
-                  ]}
-                  />
+                  { (() => {
+                  ;
+                  const {
+                     CAsXADestParamEffectRoot ,
+                     CStartExponentialApproachAtTime ,
+                     CJumpToValueAtTime ,
+                     CLinearRampToValueAtTime ,
+                     CExponentialRampToValueAtTime ,
+                     CCancelAndHoldAtTime ,
+                  } = CPlottedSourceNode1C ;
+                  return (
+                     <CAsXADestParamEffectRoot>
+                        <CJumpToValueAtTime t={ -1E+4 } newValue={0 } />
+                        <CJumpToValueAtTime t={ -4 } newValue={0 } />
+                        { 1 && (
+                           <CInferredValuesUser>
+                           { ({ aCtxExpectedT: absoluteT, }) => (
+                           (typeof absoluteT === "number" )
+                           &&
+                           <Fragment 
+                           key={ Math.floor(absoluteT / 7 ) }
+                           >
+                           <CLinearRampToValueAtTime t={8 } newValue={12 * 12 * 100 } />
+                           <CLinearRampToValueAtTime t={10 } newValue={0 } />
+                           </Fragment>
+                           ) }
+                           </CInferredValuesUser>
+                        ) }
+                        <CLinearRampToValueAtTime t={32 } newValue={12 * 12 * 100 } />
+                     </CAsXADestParamEffectRoot>
+                  ) ;
+                  } )() }
                   </Fragment>
                }
                >

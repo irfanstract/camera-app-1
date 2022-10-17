@@ -455,31 +455,7 @@ const CPlottedSourceNode1C = (() => {
       ) ,
 
       CLinearRampToValueAtTime : (
-         identity<(
-            React.FC<(
-               {}
-               & TAndNewValue
-            )>
-         )>((
-            function CLinearRampToValueAtTime({ t: specifiedEndT, newValue, }, ) {
-               const [
-                  necessaryMount, 
-                  {}, 
-               ] = (
-                  useXADestParamEffect((
-                     (dest, ) => {
-                        (
-                           dest
-                           .linearRampToValueAtTime(newValue, specifiedEndT, )
-                        ) ;
-                     }
-                  ))
-               ) ;
-               return (
-                  necessaryMount
-               ) ;
-            }
-         ))
+         cForWhichEndingAtTime("linearRampToValueAtTime", )
       ) ,
       
       //

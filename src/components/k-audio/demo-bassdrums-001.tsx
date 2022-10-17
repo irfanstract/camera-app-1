@@ -106,28 +106,8 @@ export default (
    identity<React.FC<{}> >((
       () => {
       ;
-      const [xt0 , ref1 , ] = (
-         useState<null | TAndTScale >(null, )
-      ) ;
       return (
-         <IRefreshible>
-         <ACtxBoundaryCc 
-         children={(
-            <IRefreshible>
-            <Fragment key={xt0 && xt0.t }>
-            <XMountTimeRefable ref={ref1} />
-            </Fragment>
-            { (
-            ( true && xt0 )
-            &&
-            <Fragment>
-            <WithGivenDelayOrSlowdown
-            value={{ delay: xt0.t , }}
-            >
-            <pre>
-               { JSON.stringify({ xt0, } , null , 2 , ) }
-            </pre>
-            <IRefreshible>
+         <ACtxBoundaryCcRefreshible1>
             <div style={{ display: `flex`, flexDirection: `column-reverse`, }}>
             <CAmpComp value={2 ** -2 } >   
                <CFiniteLoopingFromT
@@ -143,14 +123,7 @@ export default (
                </p>
             </div>
             </div>
-            </IRefreshible>
-            </WithGivenDelayOrSlowdown>
-            </Fragment>
-            ) }
-            </IRefreshible>
-         ) }
-         />
-         </IRefreshible>
+         </ACtxBoundaryCcRefreshible1>
       ) ;
       }
    ))

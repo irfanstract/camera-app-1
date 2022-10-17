@@ -293,6 +293,9 @@ const CPlottedSourceNode1C = (() => {
                   ),
                ] ) : void ;
             } , 
+            ...options : OptionsCouldBeOmittedAltogether<(
+               {}
+            )> ,
          ]): [ null | ReactElement , {} , ] ;
       }
    ) = (

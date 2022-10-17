@@ -302,6 +302,7 @@ const CPlottedSourceNode1C = (() => {
    ) = (
       (callback, options, ) => {
          const { // OPTIONS
+            dependencies ,
          } = options || {} ;
          const {
             tCtxValue : tCtxVal ,

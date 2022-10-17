@@ -69,6 +69,9 @@ import {
 } from "./components/bandpassfiltered1";
 import { CFiniteLoopingFromT, } from "./components/loopingcomponent";
 import CBassDrum1A from "./components/bassdrums/1a";
+import { 
+   CWhiteNoise, 
+} from "./components/whitenoise";
 
 const {
    // PRE

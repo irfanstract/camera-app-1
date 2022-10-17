@@ -335,6 +335,7 @@ const CPlottedSourceNode1C = (() => {
          ;
          return [
          (
+            <Fragment key={key } >
             <div hidden >
                <button  
                className="CPlottedSourceNode1C-main"
@@ -344,6 +345,7 @@ const CPlottedSourceNode1C = (() => {
                   p  
                </button>
             </div>
+            </Fragment>
          ) ,
          {
          } ,

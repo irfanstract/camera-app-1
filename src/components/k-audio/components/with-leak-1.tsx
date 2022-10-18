@@ -154,7 +154,7 @@ type Payload = (
     (...a: [
         (
           {}
-          & Omit<AudioNode , "constructor" >
+          & ReactElement
         ), 
     ] ) => ReactElement
   )

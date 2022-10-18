@@ -130,7 +130,7 @@ const impl1 = (
         <div>
           <p>
             After The Reverb Effect {}
-            <code>{ absRelMode } { String(specifiedCtrlValue, ) }</code>
+            <code>{ absRelMode } { String(specifiedEchoPeriod, ) }</code>
           </p>
         </div>
         <div>

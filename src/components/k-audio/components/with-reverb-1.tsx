@@ -93,7 +93,7 @@ export const {
 type Properties = (
   {}
   & { children: React.ReactNode ; }
-  & { echoPeriod ?: number | React.ReactElement ; }
+  & { echoPeriod ?: number ; }
   & { ampPerS    ?: number | React.ReactElement ; }
 ) ;
 ;

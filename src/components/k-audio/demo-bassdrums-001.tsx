@@ -149,6 +149,9 @@ export default (
       return (
          <ACtxBoundaryCcRefreshible1>
             <div style={{ display: `flex`, flexDirection: `column-reverse`, }}>
+            <CAfterRelativeReverbEffect 
+            ampPerS={2 ** -4.5 } 
+            >
             <CAmpComp value={2 ** -2 } >   
                <CFiniteLoopingFromT
                period={0.5 }
@@ -170,6 +173,7 @@ export default (
                </CAmpComp>
                ) }
             </CAmpComp>
+            </CAfterRelativeReverbEffect>
             <div>
                <p> 
                </p>

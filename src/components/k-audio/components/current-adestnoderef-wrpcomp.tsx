@@ -78,11 +78,11 @@ export default (
       function <P extends { } >(...[displayName, F10, ] : [
          displayName: string,
          impl: (
-            React.FC<(
+            (props : (
                { [k in keyof P ] : P[k] ; } 
                & 
                { c : AudioNode | AudioParam ; aCtx : BaseAudioContext ; }
-            ) >
+            ) ) => ReturnType<React.FC<{}> >
          ) ,
       ] ) {
          const F1 : (

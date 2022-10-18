@@ -189,6 +189,11 @@ return (
             yNode1 ,
             tapNd ,
           } = useImplYNode(aCtx, ctxtualDestNd, ) ;
+          const tapNdRendered = (
+            <CFromGivenSrcNd1 
+            value={tapNd} 
+            />
+          );
           const doRenderPayload = (
             (typeof payload === "function" ) ?
             payload

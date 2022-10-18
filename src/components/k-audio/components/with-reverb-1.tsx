@@ -94,6 +94,7 @@ type Properties = (
   {}
   & { children: React.ReactNode ; }
   & { echoPeriod ?: number | React.ReactElement ; }
+  & { ampPerS    ?: number | React.ReactElement ; }
 ) ;
 ;
 const impl1 = (

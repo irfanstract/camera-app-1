@@ -208,14 +208,14 @@ return (
             } , [tapNd , ] , )
             
           ) ;
-          const tapNdRendered = (
-            tapNdRenderedFormRefValue
-          ) ; // 
           React.useImperativeHandle((
             specifiedRef
           ) , () => (
             tapNdRenderedFormRefValue
           ) , [tapNdRenderedFormRefValue, ] , ) ;
+          const tapNdRendered = (
+            tapNdRenderedFormRefValue
+          ) ; // 
           const doRenderPayload = (
             (typeof payload === "function" ) ?
             payload

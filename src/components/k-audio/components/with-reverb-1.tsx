@@ -121,7 +121,7 @@ const impl1 = (
         & Properties
       )>
     )>(function CAfterReverbEffect({
-      echoPeriod: specifiedCtrlValue = (1 / 8 ) ,
+      echoPeriod: specifiedEchoPeriod = (1 / 8 ) ,
       ampPerS : specifiedAmpPerS = (2 ** -2 ) ,
       children : payload ,
     }, ) {

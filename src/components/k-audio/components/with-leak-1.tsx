@@ -194,6 +194,11 @@ return (
             value={tapNd} 
             />
           );
+          React.useImperativeHandle((
+            specifiedRef
+          ) , () => (
+            tapNdRendered
+          ) , [tapNd, ] , ) ;
           const doRenderPayload = (
             (typeof payload === "function" ) ?
             payload

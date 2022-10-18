@@ -139,7 +139,7 @@ const impl1 = (
             <Fragment>
             <div style={{ display: `none`, }} >
               <WithXDelayEffect 
-              value={specifiedCtrlValue } 
+              value={specifiedEchoPeriod } 
               >
                 { refback1 }
               </WithXDelayEffect>

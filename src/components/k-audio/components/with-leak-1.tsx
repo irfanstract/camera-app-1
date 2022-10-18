@@ -189,7 +189,6 @@ return (
             yNode1 ,
             tapNd ,
           } = useImplYNode(aCtx, ctxtualDestNd, ) ;
-          React.useImperativeHandle(specifiedRef , () => tapNd , ) ;
           const doRenderPayload = (
             (typeof payload === "function" ) ?
             payload

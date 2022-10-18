@@ -93,7 +93,8 @@ export const {
 type Properties = (
   {}
   & { children: React.ReactNode ; }
-  & { value : number | React.ReactElement ; }
+  & { echoPeriod ?: number | React.ReactElement ; }
+  & { ampPerS    ?: number | React.ReactElement ; }
 ) ;
 ;
 const impl1 = (
@@ -120,7 +121,8 @@ const impl1 = (
         & Properties
       )>
     )>(function CAfterReverbEffect({
-      value: specifiedCtrlValue ,
+      echoPeriod: specifiedEchoPeriod = (1 / 8 ) ,
+      ampPerS : specifiedAmpPerS = (2 ** -2 ) ,
       children : payload ,
     }, ) {
       return (
@@ -128,7 +130,7 @@ const impl1 = (
         <div>
           <p>
             After The Reverb Effect {}
-            <code>{ absRelMode } { String(specifiedCtrlValue, ) }</code>
+            <code>{ absRelMode } { String(specifiedEchoPeriod, ) }</code>
           </p>
         </div>
         <div>
@@ -137,9 +139,41 @@ const impl1 = (
             <Fragment>
             <div style={{ display: `none`, }} >
               <WithXDelayEffect 
-              value={specifiedCtrlValue } 
+              value={specifiedEchoPeriod } 
               >
+                { (() => {
+                ;
+                const {
+                  CTCtxCurrentValueUser ,
+                } = ctxs ;
+                ;
+                return (
+                <Fragment>
+                <CTCtxCurrentValueUser>
+                { ({ tScale, }) => {
+                ;
+                const reverbLoopAmpGraph = (
+                  <CAmpComp 
+                  value={(
+                    // TODO
+                    (specifiedEchoPeriod )
+                  )}
+                  children={(
+                    ctxs.numericOrRElement(specifiedAmpPerS, )
+                    .valueArgument1
+                  ) }
+                  />
+                ) ;
+                return (
+                <CAmpComp value={reverbLoopAmpGraph } >
                 { refback1 }
+                </CAmpComp>
+                ) ;
+                } }
+                </CTCtxCurrentValueUser>
+                </Fragment>
+                ) ;
+                })() }
               </WithXDelayEffect>
             </div>
             <div>

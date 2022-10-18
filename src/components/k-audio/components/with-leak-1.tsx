@@ -218,7 +218,7 @@ return (
           ) ;
           const payloadRendered = (
             doRenderPayload((
-              <CFromGivenSrcNd1 value={tapNd} />
+              tapNdRendered
             ) , )
           ) ;
           return (() => {

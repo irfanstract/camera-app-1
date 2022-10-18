@@ -141,7 +141,39 @@ const impl1 = (
               <WithXDelayEffect 
               value={specifiedEchoPeriod } 
               >
+                { (() => {
+                ;
+                const {
+                  CTCtxCurrentValueUser ,
+                } = ctxs ;
+                ;
+                return (
+                <Fragment>
+                <CTCtxCurrentValueUser>
+                { ({ tScale, }) => {
+                ;
+                const reverbLoopAmpGraph = (
+                  <CAmpComp 
+                  value={(
+                    // TODO
+                    (specifiedEchoPeriod )
+                  )}
+                  children={(
+                    ctxs.numericOrRElement(specifiedAmpPerS, )
+                    .valueArgument1
+                  ) }
+                  />
+                ) ;
+                return (
+                <CAmpComp value={reverbLoopAmpGraph } >
                 { refback1 }
+                </CAmpComp>
+                ) ;
+                } }
+                </CTCtxCurrentValueUser>
+                </Fragment>
+                ) ;
+                })() }
               </WithXDelayEffect>
             </div>
             <div>

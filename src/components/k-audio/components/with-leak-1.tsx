@@ -195,11 +195,16 @@ return (
             payload
             : (() => payload )
           ) ;
+          const payloadRendered = (
+            doRenderPayload((
+              tapNd
+            ) , )
+          ) ;
           return (() => {
             return (
                 <WithGivenDestNd value={yNode1 } >
                 <Fragment>
-                { doRenderPayload(tapNd , ) }
+                { payloadRendered }
                 </Fragment>
                 </WithGivenDestNd>
             ) ;

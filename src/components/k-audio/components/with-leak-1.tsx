@@ -171,7 +171,7 @@ return (
               children : (
                 Payload
               ) ;
-              fwdRef ?: React.Ref<never | AudioNode > ;
+              fwdRef ?: React.Ref<never | AudioNode | ReactElement > ;
             }
           )
       )>

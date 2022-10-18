@@ -189,6 +189,25 @@ return (
             yNode1 ,
             tapNd ,
           } = useImplYNode(aCtx, ctxtualDestNd, ) ;
+          const {
+            tapNdRenderedFormRefValue ,
+          } = (
+            
+            useMemo(() => {
+              ;
+              ;
+              return {
+                
+                tapNdRenderedFormRefValue : (
+                  <CFromGivenSrcNd1 
+                  value={tapNd} 
+                  />
+                ) ,
+                
+              } ;
+            } , [tapNd , ] , )
+            
+          ) ;
           const doRenderPayload = (
             (typeof payload === "function" ) ?
             payload

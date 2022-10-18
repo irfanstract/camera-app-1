@@ -93,7 +93,7 @@ export const {
 type Properties = (
   {}
   & { children: React.ReactNode ; }
-  & { echoPeriod ?: number | React.ReactElement ; }
+  & { echoPeriod ?: number ; }
   & { ampPerS    ?: number | React.ReactElement ; }
 ) ;
 ;
@@ -156,7 +156,7 @@ const impl1 = (
                   <CAmpComp 
                   value={(
                     // TODO
-                    (specifiedEchoPeriod )
+                    (1 / clamp(specifiedEchoPeriod, 2E-24, 2E24, ) )
                   )}
                   children={(
                     ctxs.numericOrRElement(specifiedAmpPerS, )

@@ -69,6 +69,10 @@ import {
 import { 
    CBandPassFiltered, 
 } from "./components/bandpassfiltered1";
+import { 
+   CAfterAbsoluteReverbEffect,
+   CAfterRelativeReverbEffect ,
+} from "./components/with-reverb-1";
 import { CFiniteLoopingFromT, } from "./components/loopingcomponent";
 import CBassDrum1A from "./components/bassdrums/1a";
 import { 

@@ -93,7 +93,7 @@ export const {
 type Properties = (
   {}
   & { children: React.ReactNode ; }
-  & { value : number | React.ReactElement ; }
+  & { echoPeriod : number | React.ReactElement ; }
 ) ;
 ;
 const impl1 = (

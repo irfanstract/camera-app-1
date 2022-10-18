@@ -122,6 +122,7 @@ const impl1 = (
       )>
     )>(function CAfterReverbEffect({
       echoPeriod: specifiedCtrlValue = (1 / 8 ) ,
+      ampPerS : specifiedAmpPerS = (2 ** -2 ) ,
       children : payload ,
     }, ) {
       return (

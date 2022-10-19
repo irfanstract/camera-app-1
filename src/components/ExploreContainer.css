@@ -1,11 +1,24 @@
 .container {
   text-align: center;
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
 }
+.container > * {
+  flex: 0 0 auto ;
+} /*  */
+.container {
+  flex-direction: row;
+  flex-wrap: wrap;
+} /*  */
+.container > * {
+  flex: 0 0 100% ;
+} /*  */
 
 .container strong {
   font-size: 20px;

@@ -23,6 +23,7 @@ import React, {
   ReactNode ,
 
 } from 'react';
+import useMemoisedResource from 'components/useMemoisedResource';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {

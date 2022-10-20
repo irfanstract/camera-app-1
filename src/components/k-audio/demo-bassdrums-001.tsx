@@ -163,6 +163,11 @@ export default (
                { (
                // ACCENT
                <CAmpComp value={2 ** -2 } >
+               <CWaveTable 
+               f={27.5 }
+               det={bpfGraph1 }
+               type="triangle"
+               />
                <CBandPassFiltered
                type="lowpass"
                f={27.5 }

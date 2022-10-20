@@ -17,11 +17,26 @@ import reportWebVitals from './reportWebVitals';
  */
 defineCustomElements(window);
 
+class WithErrorbound extends React.Component<React.PropsWithChildren > {
+  render(): React.ReactNode {
+    return (
+      this.props.children
+    ) ;
+  }
+  // componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+  //   console["error"](error , { error, errorInfo , } , ) ;
+  // }
+  // static getDerivedStateFromError() {
+  //   return {} ;
+  // }
+}
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
+    <WithErrorbound>
     <App />
+    </WithErrorbound>
   </React.StrictMode>
 );
 

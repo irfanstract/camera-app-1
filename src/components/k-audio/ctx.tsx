@@ -19,6 +19,7 @@ import {
    SortedMap ,
 } from "components/util-immutable-datastructure" ;
 import { identity , } from "lodash";
+import { newCompletableFuture, } from "components/util/CompletableFuture";
 import { TAndTScale, } from "./TOffsetAndScaleProperties";
 import { PdMode, } from "./graph-modes";
 
@@ -44,6 +45,7 @@ import React, {
 
 } from "react";      
 // import { usePromiseValue1, usePromiseValue, } from './AsyncData';
+import downloadGivenBlob from "components/files-dialogues/downloadGivenBlob";
 
 import { useConnectDisconnect, } from "./uacd";
 import {
@@ -174,6 +176,145 @@ const useANodeFltCallback1 : (
       ) ;
    }
 ) ;
+const xRec1 = (
+   async function (...a : [
+      AudioContext ,
+      (
+         Required<ReturnType<typeof useInitially1 > >["rootPtLeak"]
+      ) ,
+      {} ,
+   ] ) {
+      const [
+         aCtx ,
+         rootPtLeak ,
+         {} ,
+      ] = a ;
+      ;
+      let [assmb]: [null | Blob] = [null] ;
+      assmb = null ;
+      const pushData = (
+         (v: Blob) => {
+            const b0 = (
+               assmb || new Blob([], { type: v.type, })
+            ) ;
+            assmb = (
+               new Blob([b0, v, ], { type: b0.type, })
+            ) ;
+         }
+      );
+      const sNd1 = (
+         aCtx.createMediaStreamDestination()
+      ) ;
+      const [whenShallDisconnect, { resolve: signifyShallDisconnect, }, ] = (
+         newCompletableFuture<(
+            never
+            | (
+               {}
+            )
+         )>()
+      ) ;
+      const whenDataFinal = (async () => {
+         await whenShallDisconnect ;
+         console.log((
+            `rec stopped ; data will be available soon ;`
+         ));
+         await (
+            new Promise<void>(R => (
+               setTimeout(R, 2 * 1000 , )
+            ) )
+         ) ;
+      } )() ;
+      rootPtLeak.connect(sNd1, ) ;
+      await (
+         new Promise<void>(R => (
+            setTimeout(R , 1 * 1000 , )
+         ))
+      ) ;
+      const r1 = (
+         new MediaRecorder(sNd1.stream, {
+            mimeType : "video/webm" ,
+         } , )
+      ) ;
+      await (
+         new Promise<void>(R => (
+            setTimeout(R , 1 * 1000 , )
+         ))
+      ) ;
+      (async () => {
+         await whenShallDisconnect ;
+         rootPtLeak.disconnect(sNd1, ) ;
+      } )() ;
+      r1.addEventListener("start", () => {
+         console.log(TypeError("recording starting") , ) ;
+      }) ;
+      r1.addEventListener("stop" , signifyShallDisconnect, ) ;
+      r1.addEventListener("error", e => {
+         console.warn(e.error, ) ;
+         signifyShallDisconnect(e, ) ;
+      }, ) ;
+      (async () => {
+         await whenDataFinal ;
+         const d = assmb ;
+         if (d) {
+            downloadGivenBlob(d, { name: "recording", }, ) ;
+         }
+         // TODO
+      } )() ;
+      r1.addEventListener("dataavailable", (e) => {
+         const { data, } = e ;
+         console.log({ data, e, }) ;
+         pushData(data, ) ;
+      }) ;
+      const highLevelStop = () => {
+         if ((
+            true
+            || (r1.state === "recording" || r1.state === "paused" )
+         )) {
+            r1.stop() ;
+         }
+      } ;
+      (async() => {
+         await (
+            new Promise<void>(R => (
+               setTimeout(R , 1 * 1000 , )
+            ))
+         ) ;
+         r1.start() ;
+         (async () => {
+            ;
+            for(;;) {
+               ;
+               await (
+                  new Promise<void>(R => (
+                     setTimeout(R , 3 * 1000 , )
+                  ))
+               ) ;
+               console.log({ 
+                  state : r1.state,
+                  bitR : [
+                     r1.audioBitsPerSecond ,
+                     r1.videoBitsPerSecond ,
+                  ] as const ,
+               }) ;
+               r1.requestData() ;
+            }
+         })() ;
+      } )() ;
+      ;
+      return [
+         (
+            <button type="button" onClick={highLevelStop} >
+               Stop
+            </button>
+         ) ,
+         {
+            stop: (
+               highLevelStop
+            ) ,
+         } ,
+      ] as const ;
+   }
+) ;
 const CToGivenAudioCtxDest : (
    React.FC<(
       Required<React.PropsWithChildren >
@@ -186,10 +327,46 @@ const CToGivenAudioCtxDest : (
       const prvv1 = (
          useInitially1(aCtx, )
       ) ;
+      const [recSwitchE, setReSwitchE, ] = (
+         useState<React.ReactElement>((
+            <></>
+         ))
+      ) ;
+      const onRecBtnClick = async () => {
+         const {
+            rootPtLeak = null ,
+         } = prvv1 ;
+         if ((
+            true 
+            && aCtx instanceof AudioContext
+            && rootPtLeak
+         )) {
+            const [
+               e,
+               { stop, } ,
+            ] = await xRec1(aCtx, rootPtLeak, {}, ) ;
+            setReSwitchE(() => e , ) ;
+         }
+      } ;
       return (
-         <Provider value={prvv1 } >
-            { payload }
-         </Provider>
+         <div
+         style={{
+            display: "flex" ,
+            flexDirection: "column-reverse" ,
+         }}
+         >
+            <div>
+            <Provider value={prvv1 } >
+               { payload }
+            </Provider>
+            </div>
+            <p>
+               { recSwitchE }
+               <button type="button" onClick={onRecBtnClick } >
+                  REC 
+               </button>
+            </p>
+         </div>
       ) ;
    }
 ) ;

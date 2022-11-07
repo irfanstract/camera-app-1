@@ -77,6 +77,15 @@ type CtxValue = (
    & { aCtx: BaseAudioContext ; } 
    & { aCtxExpectedT: number ; } 
    & { tCtx : TAndTScale ; }
+   & Partial<(
+      {} 
+      & { rootPtLeak : (
+         {}
+         & Pick<AudioNode, "addEventListener" | "removeEventListener">
+         & Pick<AudioNode, "connect" | "disconnect">
+         & Pick<AudioNode, "context">
+      ) ; }
+   )>
 ) ;
 namespace CtxValue { ; } // TS-1205
 type CtxInferredValues = (
@@ -145,13 +154,51 @@ useInitially1 = (
       const aCtxExpectedT = (
          useLAudioCtxT(aCtx , { periodSecs : 0.125 , } , )
       ) ;
+      const cc1 = (
+         useMemo(() => {
+            const pt1 = (
+               aCtx.createGain()
+            );
+            pt1.connect(aCtx.destination , ) ;
+            const leakPt = (
+               aCtx.createGain()
+            ) ;
+            pt1.connect(leakPt, ) ;
+            /**    
+             * will not exactly be {@link aCtx.destination } 
+             * in case of indirection (eg to implement FX or *recording* )
+             */
+            const readyDestNode = (
+               pt1
+            ) ;
+            console.log({ pt1, leakPt, }) ;
+            ;
+            return {
+               pt1 ,
+               leakPt ,
+               readyDestNode ,
+            } ;
+         } , [aCtx, ])
+      ) ;
       return (
-         useMemo((): CtxValue => ({
-            pd: new PdMode.Stochastically(aCtx.destination, ) ,
-            aCtx: aCtx ,
-            aCtxExpectedT ,
-            tCtx: TAndTScale.initially() ,
-         }) , [aCtx, aCtxExpectedT, ], )
+         // FIXME missing important cleanup
+         useMemo((): CtxValue => {
+            const {
+               leakPt ,
+               readyDestNode ,
+            } = cc1 ;
+            return (
+               identity<CtxValue>({
+                  pd: new PdMode.Stochastically(readyDestNode, ) ,
+                  rootPtLeak : (
+                     leakPt
+                  ) ,
+                  aCtx: aCtx ,
+                  aCtxExpectedT ,
+                  tCtx: TAndTScale.initially() ,
+               })
+            ) ;
+         } , [cc1, aCtx, aCtxExpectedT, ], )
       ) ;
    }
 ) ,

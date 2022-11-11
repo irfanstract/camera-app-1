@@ -47,6 +47,26 @@ p ,
    /* user-select: all ; */
 }
 
+b, strong,
+#-----e {
+   font-weight: bolder;
+}
+blockquote, pre,
+#----e {
+   border: 0.05em solid currentColor ;
+   padding: 0.5em ;
+   padding-block-end: 1em ;
+   overflow: auto;
+   resize: vertical;
+}
+del, s, 
+#----e {
+   color: gray ;
+   text-decoration: line-through solid currentcolor ;
+   text-decoration-thickness: 1ex ;
+   user-select: none ;
+}
+
 
 
 

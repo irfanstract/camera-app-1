@@ -47,6 +47,33 @@ p ,
    /* user-select: all ; */
 }
 
+*::-webkit-scrollbar { width: 0.5em ; height: 0.5em;  background: transparent; }
+*::-webkit-scrollbar-thumb { 
+   /* background-color: rgba(128 128 128 / 0.45 ) ;  */
+   border-radius: 0.25em ; 
+   transition: all 1s ease-out;
+}
+*::-webkit-scrollbar-track {
+   /* background-color: rgba(128 128 128 / 0.05 ) ;  */
+   backdrop-filter: blur(3px) ;
+   border-radius: 0.25em ; 
+}
+*::-webkit-scrollbar-thumb { background-color: rgba(128 128 128 / 0.38 ); }
+*::-webkit-scrollbar-track { background-color: rgba(128 128 128 / 0.35 ); }
+*:hover::-webkit-scrollbar-thumb { background-color: rgba(128 128 128 / 0.95 ); }
+*:hover::-webkit-scrollbar-track {   }
+*:hover::-webkit-scrollbar-corner { background-color: rgba(128 128 128 / 0.35 ); }
+@media never {
+   *:not(:hover):not(:focus-within)::-webkit-scrollbar-thumb { background-color: transparent; }
+   *:not(:hover):not(:focus-within)::-webkit-scrollbar {  }
+}
+*:hover::-webkit-scrollbar-thumb, 
+/* *:focus-within::-webkit-scrollbar-thumb,  */
+#---e { background-color: rgba(var(--ion-color-primary-rgb) , 1.0 ); }
+*:hover::-webkit-scrollbar-track, 
+*:focus-within::-webkit-scrollbar-track, 
+#---e { background-color: rgba(var(--ion-color-primary-rgb) , 0.5 ); }
+
 b, strong,
 #-----e {
    font-weight: bolder;

@@ -24,10 +24,20 @@ import downloadGivenBlob from 'components/files-dialogues/downloadGivenBlob';
 
 const {
   ffmpCheckLoadedElseThrow ,
-} = {
-  /**    
-   * check `c.isLoaded()`
-   */
+} = (function <A1, >(c: (
+  {}
+  
+  & {
+    /**    
+     * check `c.isLoaded()`
+     */
+    ffmpCheckLoadedElseThrow : (
+      { (ffmpeg: typeof import("components/ffmpg").default, ) : A1 ; }
+    ) ;
+  }
+
+)) { return c ; } )({
+
   ffmpCheckLoadedElseThrow: (
     function (...[ffmpeg,] : [
       typeof import("components/ffmpg").default ,
@@ -41,9 +51,12 @@ const {
       }
     }
   ) ,
-} ;
+  
+}) ;
 /**   
  * ideally exactly when ready
+ * 
+ * 
  */
 const ffmpSvcInitialisedFuture = (async () => {
   const { init: ffmpegInit, default: ffmpeg, } = (
@@ -55,7 +68,11 @@ const ffmpSvcInitialisedFuture = (async () => {
   ) ;
   ffmpCheckLoadedElseThrow(ffmpeg, )
   try {
-    console.log(await ffmpeg.run("-h") ) ;
+    console.log(await (
+      0 ?
+      ffmpeg.run("-h")
+      : ffmpeg.run()
+    ) ) ;
   } finally {
     ffmpeg.exit()
   }

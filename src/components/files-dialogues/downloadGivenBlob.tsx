@@ -47,7 +47,10 @@ export default (
             url
          ) ;
          aElem.download = (
-            name ?? `saved`
+            ""
+            || (name ?? ``)
+            || (data instanceof File ? data.name : "" )
+            // || `saved`
          ) ;
          const [
             onClick, { resolve: confirmClick, }, 

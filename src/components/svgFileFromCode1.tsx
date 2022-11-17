@@ -45,7 +45,7 @@ const {
     code: string,
     options ?: (
       {}
-      & Partial<{ quality : number ; }>
+      & Partial<{ quality : number ; upscaling : number ; }>
       & Partial<{ format : "jpeg" | "png" ; }>
     ) ,
   ] ;
@@ -53,6 +53,7 @@ const {
     async (...[asSvgStdaloneCode, options = {} ,] : Args ) => {
       const { 
         quality: expectedQuality ,
+        upscaling : upscaling = 1.5 ,
         format: expectedFmtName,
       } = options ;
       const asImg = (
@@ -61,11 +62,12 @@ const {
       const c = (
         document.createElement("canvas")
       ) ;
-      c.width = asImg.width ;
-      c.height = asImg.height ;
+      c.width  = upscaling * asImg.width ;
+      c.height = upscaling * asImg.height ;
       const cc = (
         c.getContext("2d")!
       ) ;
+      cc.scale(upscaling, upscaling, ) ;
       cc.drawImage(asImg, 0, 0, ) ;
       return [c, { expectedQuality, expectedFmtName, }, ] as const ;
     }

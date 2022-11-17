@@ -73,12 +73,17 @@ const {
        * in case of `divElem.innerHTML = "<svg ....>...</svg>" `,
        * `innerHTML` will take care of that .
        * 
+       * for simplicity with external tooling,
+       * need to specify its `background` and `color`
+       * 
        * `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">`
        * 
        */
       `<svg width="${width }" height="${height }">` +
       `<foreignObject width="100%" height="100%">` +
+      `<div id=${id }FNT style="background: white ; color: black ;" >  ` +
       `<div id=${id } ></div> ` +
+      ` </div> ` +
       `</foreignObject>` +
       '</svg>'
     ) ;
@@ -86,7 +91,7 @@ const {
       d0 ,
       {
         containerId: id ,
-        fontStyleBndryId: id ,
+        fontStyleBndryId: id + "FNT" ,
       } ,
     ] ;
     }
@@ -96,7 +101,7 @@ const {
       // TODO
       return {
         width:  Math.max(( 500), +((gcs1.width ).match(/[\-0-9\.eE]+/g )?.[0] ?? "0" ) ) ,
-        height: Math.max((1000), +((gcs1.height).match(/[\-0-9\.eE]+/g )?.[0] ?? "0" ) ) ,
+        height: Math.max(( 500), +((gcs1.height).match(/[\-0-9\.eE]+/g )?.[0] ?? "0" ) ) ,
       } ;
     }
   ) ;

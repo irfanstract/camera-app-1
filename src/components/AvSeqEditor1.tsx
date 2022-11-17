@@ -1,9 +1,24 @@
 
-import SS from "lodash" ;
-import { Seq, List, Map, Set, } from "immutable";
+import {
+  EitherBothSetOrBothUnset ,
+  EitherSetAndOthersUnset ,
+  EitherSetOrBothUnset ,
+} from "components/util/dicts-allOrNothing" ;
+import SS, { identity, } from "lodash" ;
+import { Seq, List,   } from "immutable";
 import { Range, } from "immutable";
 import { Stack, } from "immutable";
+import {  Map, } from "immutable";
+import {   Set, } from "immutable";
+import { SortedMap, } from "components/util-immutable-datastructure";
+import { SortedSet, } from "components/util-immutable-datastructure";
+import Immutable from "immutable";
 import React from 'react';
+import { useUpdatedCallback, } from "components/useUpdatedCallback1";
+import { useDepsChgCount, } from "components/useDepsChgCount";
+import { useCallbackCount, } from "components/useCallbackCount1";
+import * as ImgElemWithTimestamp1 from "components/ImgElemWithTimestamp1" ;
+import { FutureBlobBasedImgElemWithTimestamp, } from "components/useRefsBasedElemRasterisation1";
 import Lists from "components/useListEditing"; // better sticking to absolute paths
 import { Redirect, Route } from 'react-router-dom';
 import {
@@ -33,18 +48,29 @@ import {
   IonReorder ,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { DebuggingActivityArticle, } from "components/MonitoringArticle-1";
 import { ellipse, square, triangle } from 'ionicons/icons';
 import { camera, image, film, play, pause, } from 'ionicons/icons';
 import downloadGivenBlob from 'components/files-dialogues/downloadGivenBlob';
 import 'draft-js/dist/Draft.css'; // integral CSS
 import * as ReactDraft from 'draft-js';
 import * as XDraftEditorUtil from "components/useDraftEditor1" ;
-import documentNodeToPng from "./documentNodeToPng";
+import documentNodeToPng from "components/documentNodeToPng";
+import useHScreenGrabbing1 from "components/useRefsBasedElemRasterisation1";
+import { newFfmpeg1, } from "components/ffmpg-pngtowebm-1" ;
+import { pngAsWebm, } from "components/ffmpg-pngtowebm-1" ;
+
+import { renderPairwise, } from "components/g-avse/av-stem-ops/c1-orderedmixc-1" ;
+import { DbgAndMain, } from "components/g-avse/av-stem-ops/c1-orderedmixc-1" ;
+import { XClp, XClpWithUi, } from "components/g-avse/av-stem-ops/c1-base" ;
+import { XDbgArticle, } from "components/g-avse/av-stem-ops/c1-orderedmixc-1" ;
+import { usePreviewPaneCtrlDebouncedValue, } from "components/g-avse/av-stem-ops/c1-orderedmixc-1" ;
 
 import {
   ffmpSvcLd ,
   ffAppLd as ffRenderDemoSvcLd ,
 } from "components/ffmpg-renderdemo1" ;
+import { XClipSeqEditor, } from "./g-avse/clip-seq-editor/useItemRender1State1";
 
 /**    
  * we take-over the `<React.Suspense>` decorative responsibility here
@@ -61,6 +87,18 @@ const withImplicitSuspense = (
   )
 ) ;
 
+const {
+  useBlobObjAsEmbeddable: useXBlobObjUrl ,
+  BlobBasedTimestampedImgDisplay: XBlobBasedImgDisplay ,
+} = ImgElemWithTimestamp1 ;
+const {
+  renderEditor: renderXDraftEditor ,
+  withTrimmedUndoRedoStacks: xDraftWithTrimmedUndoRedoStacks ,
+} = XDraftEditorUtil ;
+
+export {} ; // TS-1208
+
+{}
 
 
 
@@ -72,60 +110,8 @@ const withImplicitSuspense = (
 
 
 
-abstract class XClp {
-  
-  abstract toJson() : object ;
-  toString(...[indentation , ] : [indentation : boolean ,] ) {
-    return (
-      JSON.stringify(this.toJson() , null , indentation ? 2 : 0 , )
-    ) ;
-  }
-  /**    
-   * `hashCode()` needs to be both fast and collision-free.
-   */
-  hashCode() : number | string {
-    return this.toString(false, ) ;
-  }
 
-  static readonly UICLASS = Symbol() ;
-  renderUi<A extends XClp & XClpWithUi<A> >(...[p = {},] : [
-    (
-      {}
-      & { onChange ?: { (newValue: A, ): void ; } ; }
-    ) ? ,
-  ] ) {
-    const this1 = this as XClp as A ;
-    const C = this1[XClp.UICLASS] ;
-    return (
-      <C {...{ value: this1, }} {...p} />
-    ) ;
-  }
-  withTrimmedUndoStack(
-    // props ?: {} ,
-  ) : XClp {
-    return this ;
-  }
 
-} ;
-namespace XClp {
-}
-interface XClpWithUi<A extends XClp & XClpWithUi<A> > extends XClp {
-  
-  /**     
-   * this shall define the `Component` to render it.
-   * 
-   */
-  [XClp.UICLASS] : (
-    React.FC<(
-      {}
-      & { value : A ; }
-      & { onChange ?: { (newValue: A, ): void ; } ; }
-    )>
-  ) ;
-
-  //
-} ;
-namespace XClpWithUi { ; } // TS-1205
 
 abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> extends XClp implements XClpWithUi<Aggregate1> {
 
@@ -169,10 +155,10 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
     React.FC<(
       {}
       & { value : Aggregate1 ; }
-      & { onChange ?: { (newValue: Aggregate1, ): void ; } ; }
+      & Partial<{ onChange : { (newValue: Aggregate1, ): void ; } ; }>
     )>
   ) ;
-  static RenderUi = function <Aggregate10 extends CompoundClipOps<Aggregate10>> (...[{ value: p, onChange: onAggregateChange0, },] : (
+  static RenderUi = function CompoundClipR<Aggregate10 extends CompoundClipOps<Aggregate10>>(...[{ value: p, onChange: onAggregateChange0, onUpdatedRendered: highLevelUpdatedRenderCbI = Object, }, ] : (
     Parameters<(
       XClpWithUi<Aggregate10>[typeof XClp.UICLASS ]
     )>
@@ -180,7 +166,7 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
     type  Aggregate1 = Aggregate10 ;
     const Aggregate1 = p.WA ;
     const {
-      focusedIndex ,
+      focusedIndex: assumedFocusedIndex ,
       preEditItemValue ,
       clearFocusState ,
       itemRenditionAt: itemRenditionAt ,
@@ -189,6 +175,68 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
         ItemHash: (c) => c.hashCode(  ) ,
       })
     ) ;
+    const highLevelUpdatedRenderCb = (
+      /**    
+       * here was a bookkeeping indirection/wrap, but
+       * now no longer (the wrap was removed for being a listener (`onYyy` etc) )
+       * 
+       */
+      highLevelUpdatedRenderCbI
+    ) ;
+    /**   
+     * {@link React.DependencyList }
+     * 
+     */ 
+    const highLevelUpdatedRenderCb10 = (
+      useUpdatedCallback(highLevelUpdatedRenderCb, )
+    ) ;
+    {}
+    const {
+
+      postrenderedChildSeq ,
+      
+      setPerItemRendered1 ,
+
+      spcsCallCountGlb ,
+      spcsRewrapCount ,
+      spcsCallCountLocl ,
+      
+    } = (
+      XClipSeqEditor.useChildrenRenderState1({ 
+        actualChildrenArity: (
+          p.children.length
+        ), 
+      }, )
+    ) ;
+    const dcc1 = (
+      React.useMemo(() => (
+        /**   
+         * concatenation
+         * 
+         */
+        XClpWithUi.renderedsConcat(postrenderedChildSeq, )
+      ), [React.useDeferredValue(postrenderedChildSeq, ), ] , )
+    ) ;
+    const highLevelUpdatedRenderCb1 = (
+      // React.useMemo(() => (
+      //   SS.debounce(highLevelUpdatedRenderCb10, 0.5 * 1000 , )
+      // ) , [highLevelUpdatedRenderCb10,] , )
+      useUpdatedCallback((
+        highLevelUpdatedRenderCb10
+      ), )
+    ) ;
+    {}
+    /**    
+     * {@link postrenderedChildSeq } to {@link highLevelUpdatedRenderCb1 }
+     * 
+     */
+    React["useLayoutEffect"](() => {
+      highLevelUpdatedRenderCb1((
+        dcc1
+      )) ;
+    } , [React.useDeferredValue(dcc1),] ) ;
+    const xChildN = p.children.length ;
+    // const ;
     const { 
       onAggregateChange, 
     } = (
@@ -200,6 +248,7 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
           if (focusBehv === "blur" ) {
             clearFocusState() ;
           }
+          {}
           return (
             onAggregateChange0(newVal, )
           ) ;
@@ -229,123 +278,160 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
       }
       : null
     ) ;
-    const bootstrappingSection = (
-      onAggregateChange && (
+    const debugSection = (
+      React.useDeferredValue((
         <div>
-          { (
-            (p.children.length <= 0 ) && ( 
-              <IonButton 
-              onClick={() => {
-                onAggregateChange((
-                  Aggregate1.getExample()
-                ) , { focus: "blur", }, ) ;
-              } } 
-              >
-                Init Me
-              </IonButton>
-            )
-          )}
+          <pre>
+            { JSON.stringify({ 
+              childrenN: p.children.length, 
+              // lrccRewrapCount ,
+              // lrccCallCount , 
+              spcsRewrapCount,
+              spcsCallCountGlb,
+              spcsCallCountLocl ,
+              postrenderedChildSeq : (
+                postrenderedChildSeq
+                .map(v => {
+                  if (v instanceof Blob ) {
+                    const { type, size, } = v ;
+                    const { 
+                      name = "", 
+                      webkitRelativePath = "" ,
+                      lastModified = null , 
+                    } = (v instanceof File ? v : null ) || {} ;
+                    return { 
+                      name, 
+                      webkitRelativePath ,
+                      type, 
+                      size, 
+                      lastModified,
+                    } ;
+                  }
+                  if (v instanceof XClpWithUi.RFor ) {
+                    return String(v, ) ;
+                  }
+                  return String(v, ) ;
+                })
+              ) ,
+            }, null, 2, ) }
+          </pre>
         </div>
-      )
+      ))
     ) ;
-    return (
-      <div
-      onBlur={(e) => (
-        (e.target === e.currentTarget && (console.log(e), true ) ) 
-        && clearFocusState()
-      ) } 
-      >
-      <p>
-        <IonIcon icon={film } />
-        Aggregate of Clips
-      </p>
-      { bootstrappingSection }
-      <IonList>  
-      <IonReorderGroup 
-      {...(
-        applyDragBasedReorder ?
-        { 
-          disabled: false ,
-          onIonItemReorder: (e ) => {
-            const { from: srcIndex, to: finalINdex, } = e.detail ;
-            /**    
-             * will be followed-up
-             * 
-             */
-            e.detail.complete(false, ) ;
-            applyDragBasedReorder([srcIndex, finalINdex, ], ) ;
-          } ,
-        }
-        : {
-          disabled: true ,
-        }
-      ) }
-      >
-      { (
-        p.children
-        .map((c: XClp, i: number ) => {
-          const {
-            switchFocusStateToThisItem: markFocused ,
-            referentialKey: key ,
-            contentualKey: actualKey ,
-          } = (
-            itemRenditionAt({ itemValue: c, }, i, )
-          ) ;
-          const isFocused = (
-            focusedIndex === i
-          ) ;
-          const onBlur1 = (
-            () => {
-              if (onCurrentItemChange) {
-                console["log"](`Editing Timeout, Flushing`) ;
-                const { } = (
-                  onCurrentItemChange.flush()
-                  || { }
+    const mainNonDebugSec = (() : React.ReactElement => {
+      const bootstrappingSection = (
+        onAggregateChange && (
+          <div>
+            { (
+              (p.children.length <= 0 ) && ( 
+                <IonButton 
+                onClick={() => {
+                  onAggregateChange((
+                    Aggregate1.getExample()
+                  ) , { focus: "blur", }, ) ;
+                } } 
+                >
+                  Init Me
+                </IonButton>
+              )
+            )}
+          </div>
+        )
+      ) ;
+      const reorderGroupBndProperties = (
+        ((...[p] : Parameters<typeof IonReorderGroup> ) => p )((
+          applyDragBasedReorder ?
+          { 
+            disabled: false ,
+            onIonItemReorder: (e ) => {
+              const { from: srcIndex, to: finalINdex, } = e.detail ;
+              /**    
+               * will be followed-up
+               * 
+               */
+              e.detail.complete(false, ) ;
+              applyDragBasedReorder([srcIndex, finalINdex, ], ) ;
+            } ,
+          }
+          : {
+            disabled: true ,
+          }
+        ))
+      ) ;
+      return (
+        <div
+        onBlur={(e) => (
+          (e.target === e.currentTarget && (console.log(e), true ) ) 
+          && clearFocusState()
+        ) } 
+        >
+        <p>
+          <IonIcon icon={film } />
+          Aggregate of Clips
+        </p>
+        <div>
+        { bootstrappingSection }
+        </div>
+        <IonList>  
+        <IonReorderGroup 
+        {...(
+          reorderGroupBndProperties
+        ) }
+        >
+        { (
+          p.children
+          .map((c: XClp, i: number, pcs1, ) => {
+            const {
+              switchFocusStateToThisItem: markFocused ,
+              referentialKey: key ,
+              contentualKey: actualKey ,
+            } = (
+              itemRenditionAt({ itemValue: c, }, i, )
+            ) ;
+            const assumedToBeFocused = (
+              assumedFocusedIndex === i
+            ) ;
+            const onBlur1 = (
+              () => {
+                if (onCurrentItemChange) {
+                  console["log"](`Editing Timeout, Flushing`) ;
+                  const { } = (
+                    onCurrentItemChange.flush()
+                    || { }
+                  ) ;
+                }
+              }
+            ) ;
+            const onCurrentItemChange = (
+              onAggregateChange
+              && 
+              SS.throttle((
+                (newItem: XClp, ) => {
+                  markFocused() ;
+                  onAggregateChange((
+                    p.withItemReplacingAtIndex(newItem, i, )
+                  ), { focus: "keep", }, );
+                  return ({
+                    newItem: newItem ,
+                  }) ;
+                }
+              ) , 0.5 * 1000 , { leading: true, } )
+            ) ;
+            const keyingDbgModeE = (() : null | React.ReactElement => {
+              switch (0 as number ) {
+                case 1 : 
+                return (
+                  <React.Fragment>
+                  { <span>(referential key: {key})</span> }
+                  { <span>(contentual key: {actualKey })</span> }
+                  <span>{ assumedToBeFocused && "(editing)" }</span>
+                  </React.Fragment>
                 ) ;
+                default :
+                return null ;
               }
-            }
-          ) ;
-          const onCurrentItemChange = (
-            onAggregateChange
-            && 
-            SS.throttle((
-              (newItem: XClp, ) => {
-                markFocused() ;
-                onAggregateChange((
-                  p.withItemReplacingAtIndex(newItem, i, )
-                ), { focus: "keep", }, );
-                return ({
-                  newItem: newItem ,
-                }) ;
-              }
-            ) , 0.5 * 1000 , { leading: true, } )
-          ) ;
-          const keyingDbg = (() : null | React.ReactElement => {
-            switch (0 as number ) {
-              case 1 : 
-              return (
-                <React.Fragment>
-                { <span>(referential key: {key})</span> }
-                { <span>(contentual key: {actualKey })</span> }
-                <span>{ isFocused && "(editing)" }</span>
-                </React.Fragment>
-              ) ;
-              default :
-              return null ;
-            }
-          })() ;
-          return (
-            <React.Fragment 
-            key={key }
-            >
-            <IonItem 
-            onFocus={() => { markFocused() ; } }
-            onBlur={(e) => {
-              if ((e.target === e.currentTarget ) && (console.log(e), true ) ) {
-                onBlur1() ;
-              }
-            } }
-            >
+            })() ;
+            const bulletOrReorderingHandle = (
               <IonReorder
               title={
                 [
@@ -353,7 +439,7 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
                   `drag to reorder this.` ,
                   `=====================` ,
                   `referential hash: ${key }` ,
-                  isFocused ? "(active/editing)" : null ,
+                  assumedToBeFocused ? "(active/editing)" : null ,
                   `contentual hash: ${actualKey }` ,
                 ]
                 .filter(lne => !!lne )
@@ -361,27 +447,76 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
               }
               >
                 #{i } 
-                { keyingDbg && (
+                { keyingDbgModeE && (
                   <div style={{ display: "flex", flexDirection: "column", maxWidth: "5em", overflowX: "auto", }}>
-                    { keyingDbg }
+                    { keyingDbgModeE }
                   </div>
                 ) }
               </IonReorder>
-              <IonLabel>
-                { c.renderUi({ onChange: onCurrentItemChange || Object , }) }
-              </IonLabel>
-            </IonItem>
-            </React.Fragment>
-          ) ;
-        } )
-      ) }
-      </IonReorderGroup>
-      </IonList>
-      </div>
+            ) ;
+            const mainContent = (
+              c.renderUi({ 
+                onChange: (
+                  onCurrentItemChange || Object
+                ) ,
+                onUpdatedRendered: (...[newR, ]) => {
+                  setPerItemRendered1({ i: i, }, newR,)
+                } ,
+              })
+            ) ;
+            return (
+              <React.Fragment 
+              key={key }
+              >
+              <IonItem 
+              onFocus={() => { markFocused() ; } }
+              onBlur={(e) => {
+                if ((e.target === e.currentTarget ) && (console.log(e), true ) ) {
+                  onBlur1() ;
+                }
+              } }
+              >
+                { bulletOrReorderingHandle }
+                <IonLabel>
+                  { mainContent }
+                </IonLabel>
+              </IonItem>
+              </React.Fragment>
+            ) ;
+          } )
+        ) }
+        </IonReorderGroup>
+        </IonList>
+        </div>
+      ) ;
+    } )() ;
+    return (
+      <DbgAndMain>
+      <XDbgArticle>
+        { debugSection }
+      </XDbgArticle>
+      { mainNonDebugSec }
+      </DbgAndMain>
     ) ;
   } ;
 
+  ["CompoundClipOps.MIXING" ] : { (src: Iterable<Blob> ) : Blob | XClpWithUi.RFor ; } = (
+    (src) => {
+      return (
+        XClpWithUi.renderedsConcat([...src, ])
+      ) ;
+    }
+  ) ;
+
 }
+namespace CompoundClipOps {
+  ;
+  export const MIXING : (
+    never 
+    | "MIXING"
+    // | symbol
+  ) = "MIXING";
+} ;
 class AggregatingClp extends CompoundClipOps<AggregatingClp> {
   // static readonly CHILDREN = "c" ;
   constructor(public children: readonly XClp[] , ...[p = {},] : [
@@ -589,54 +724,62 @@ const UtfClip = (
           )>
         )[0]
       )>
-    ) = function (...[{ value: p, onChange, },] : (
+    ) = function TextualClipR(...uArgs : (
       Parameters<(
         XClpWithUi<UtfClipImpl>[typeof XClp.UICLASS ]
       )>
-    ) ) {
+    ) ): React.ReactElement {
+      const [
+        { value: p, onChange, onUpdatedRendered: onUpdatedRendered0, },
+      ] = uArgs ;
       const { value, } = p ;
-      const editor = ((): React.ReactElement => {
-        {
-          const onChange1 = (
-            onChange 
-            ?
-            function (e: ReactDraft.EditorState, ): void {
-              onChange(new UtfClipImpl(e, ) ) ;
-            }
-            : null
+      // TODO remove this
+      const [
+        onUpdatedRendered, 
+        oureCallCountGlb ,
+        { 
+          rewrapCount: oureRewrapCount1 ,
+          perRewrapCallCount: oureCallCountLcl ,
+        } ,
+      ] = (
+        (function useC1() {
+          const cb = (
+            /**    
+             * the wrapped callback was from `OnYyy` props.
+             * therefore,
+             * expect the identities to be ill-defined
+             * 
+             */
+            useUpdatedCallback(onUpdatedRendered0 || Object , )
+            // onUpdatedRendered0
           ) ;
-          if ((
-            true
-            && (
-              false
-              || value instanceof ReactDraft.EditorState 
-              || value instanceof ReactDraft.ContentState 
-            )
-          )) {
-            return (
-              renderXDraftEditor({ 
-                value: value, 
-                onChange: onChange1, 
-              })
-            ) ;
-          }
-          if (typeof value === "string") {
-            ;
-            return (
-              renderXDraftEditor({
-                value: (
-                  ReactDraft.ContentState.createFromText(value, )
-                ) ,
-                onChange: onChange1 ,
-              })
-            ) ;
-          }
           return (
-            <p>
-              (unable to display the content)
-            </p>
+            useCallbackCount(cb, [cb, ])
           ) ;
+        } )()
+      ) ;
+      const onChange1 = (
+        onChange 
+        ?
+        function (e: ReactDraft.EditorState, ): void {
+          onChange(new UtfClipImpl(e, ) ) ;
         }
+        : null
+      ) ;
+      const [editor,] = (() => {
+        return (
+          false 
+          || (
+            UtfClipImpl.renderContentEditor(value, onChange1, )
+          ) 
+          || [
+            (
+              <p>
+                (unable to display the content)
+              </p>
+            ) ,
+          ]
+        ) ;
       })() ;
       const { contentState: contentState1, } = ((): (
         {}
@@ -656,11 +799,88 @@ const UtfClip = (
         }
         return { contentState: value, } ;
       } )() ;
+      const contentStateStringReprBrief = (
+        String(contentState1)
+        .replace(/^([^]{500,500})[^]{50,}$/ , "$1..." , )
+      ) ;
       const screengrabCallDeps = [
-        useXDebouncedValue(contentState1, ) ,
+        usePreviewPaneCtrlDebouncedValue(contentState1, ) ,
       ] ;
+      /**    
+       * note :
+       * since the examined `function` originated from `useReducer`,
+       * the return-value shall remain `1` or `2` (`2` due to {@link React.StrictMode }) .
+       * 
+       */
+      const oureRewrapCount = (
+        useDepsChgCount({}, [onUpdatedRendered, ] , )
+      ) ;
+      const orcbChgCOunt = (
+        useDepsChgCount({} , [onUpdatedRendered, ], )
+      ) ;
+      const [screengrabResult1, screengrabRef1, ] = (
+        React.useState<null | ReturnType<typeof useHScreenGrabbing1>[0] >(null, )
+      ) ;
+      const {
+        eHCaptureP ,
+        eHCapturePreview ,
+      } = screengrabResult1 || {} ;
+      const ehcpChgCOunt = (
+        useDepsChgCount({} , [eHCaptureP, ], )
+      ) ;
+      const rcm = (
+        React.useMemo(() => (
+          new (class T_EHCP extends XClpWithUi.RFor {
+            toString() {
+              const s = (
+                contentStateStringReprBrief
+              ) ;
+              return `[T_EHCP : ${s }]` ;
+            }
+            [Symbol.asyncIterator] = async function *() {
+              eHCaptureP && (
+                yield* [await eHCaptureP,]
+              ) ;
+            }
+          } )
+        ) , [eHCaptureP, ] , )
+      ) ;
+      const rcmChgCount = (
+        useDepsChgCount({}, [rcm, ] , )
+      ) ;
+      { }
+      /**    
+       * can be deferred.
+       * 
+       */
+      React["useEffect"](() => {
+        onUpdatedRendered(rcm, ) ;
+      } , [onUpdatedRendered, rcm ,], ) ;
+      const debugSection = (
+        React.useDeferredValue((
+          <div>
+          <pre>
+          { JSON.stringify({ 
+            // ouro0RewrapCount ,
+            // ouro0CallCount ,
+            oureRewrapCount ,
+            oureRewrapCount1,
+            oureCallCountGlb ,
+            oureCallCountLcl ,
+            ehcpChgCOunt, 
+            orcbChgCOunt, 
+            rcmChgCount ,
+          }, null, 2, ) }
+          </pre>
+          </div>
+        ))
+      ) ;
       return (
-        <CWithTitleAndRasteriseTest 
+        <DbgAndMain>
+        <XDbgArticle>
+          { debugSection }
+        </XDbgArticle>
+        <CWithTitleAndRasteriseTestPane 
         {...{
           title: (
             <p>
@@ -675,8 +895,12 @@ const UtfClip = (
           scgbDeps: (
             screengrabCallDeps
           ) ,
+          capturePreviewRef: (
+            screengrabRef1
+          ) ,
         }}
         />
+        </DbgAndMain>
       ) ;
     }
     withTrimmedUndoStack(): UtfClipImpl {
@@ -691,39 +915,188 @@ const UtfClip = (
       }
       return this ;
     } 
+
+    static renderContentEditor = (
+      function (...[value, onChange1 = null, ] : [
+        value : UtfClipImpl["value"] ,
+        onChange ?: ((e: ReactDraft.EditorState) => void) | null ,
+      ] ): (
+        never
+        | false
+        | [React.ReactElement, { contentState : ReactDraft.ContentState ; }, ]
+      ) {
+        if ((
+          true
+          && (
+            false
+            || value instanceof ReactDraft.EditorState 
+            || value instanceof ReactDraft.ContentState 
+          )
+        )) {
+          return [
+            (
+              renderXDraftEditor({ 
+                value: value, 
+                onChange: onChange1, 
+              })
+            ) ,
+            {
+              contentState : (
+                (value instanceof ReactDraft.EditorState ? value.getCurrentContent() : value )
+              ) ,
+            } ,
+          ] ;
+        }
+        if (typeof value === "string") {
+          ;
+          const valueAsDraftJsContentState = (
+            ReactDraft.ContentState.createFromText(value, )
+          ) ;
+          return [
+            (
+              renderXDraftEditor({
+                value: (
+                  valueAsDraftJsContentState
+                ) ,
+                onChange: onChange1 ,
+              })
+            ) ,
+            { contentState: valueAsDraftJsContentState, } ,
+          ] ;
+        }
+        return (
+          false
+        ) ;
+      }
+    ) ;
     
   }
 ) ; 
-const CWithTitleAndRasteriseTest = (
+const CWithTitleAndRasteriseTestPane = (() => {
+  ;
+  const useScgbDependenciesDefaultntervalRefresh = (() => {
+    // function implIncrement(v: symbol ) : symbol ;
+    // function implIncrement(v: number ) : number ;
+    function implIncrement(v: symbol | number ) {
+      return (typeof v === "number" ? (v + 1 ) : Symbol() ) ;
+    } ;
+    return (
+      function useIntervalRefresh() {
+        const [c, increment, ] = (
+          React.useReducer(implIncrement , Symbol() )
+        ) ;
+        React.useLayoutEffect(() => {
+          const interval1 = setInterval(increment, (2 + Math.random() ) * 1000 , ) ;
+          return () => { clearInterval(interval1, ) ; } ;
+        } , [] , ) ;
+        const ops = {} ;
+        return ((): [typeof c, typeof ops,] => [c, ops,] )() ;
+      }
+    ) ;
+  } )() ;;
+  const fromEhCp = (
+    function (eHCaptureP: null | Promise<File>, ): ReturnType<typeof useHScreenGrabbing1  >[0] { 
+      return (
+        eHCaptureP 
+        ?
+        {
+          eHCapturePreview: (
+            <FutureBlobBasedImgElemWithTimestamp 
+            value={eHCaptureP}
+            />
+          ) ,
+          eHCaptureP: eHCaptureP ,
+        }
+        : { eHCapturePreview: null, eHCaptureP: null, }
+      ) ;
+  }
+  ) ;
+  return (
   SS.identity<{
     (props : (
       React.PropsWithChildren<(
         {}
         & { title: React.ReactElement ; }
         & Partial<{ scgbDeps: React.DependencyList ; }>
+        & Partial<{ capturePreviewRef: React.Dispatch<ReturnType<typeof useHScreenGrabbing1  >[0] > ; }>
       )>
     )): React.ReactElement ; 
-  }>(function C1 ({ 
+  }>(function CWithTitleAndRasteriseTestPane ({ 
     children: main, 
     title, 
     scgbDeps : scgbDeps0 = null , 
+    capturePreviewRef: capturePreviewCallbackRef0 ,
   }) {
-    const [intervalRefresh1, {}, ] = useXIntervalRefresh() ;
+    const [
+      capturePreviewCallbackRef ,
+      cpcrCallCountGlb ,
+      {
+        rewrapCount : cpcrRewrapCount ,
+        perRewrapCallCount: cpcrCallCountLcl ,
+      } ,
+    ] = (
+      useCallbackCount(capturePreviewCallbackRef0 || Object, [capturePreviewCallbackRef0, ])
+    ) ;
+    const [fallbackIntervalRefreshKey1, {}, ] = useScgbDependenciesDefaultntervalRefresh() ;
     const scgbDeps = (
       /**    
        * explicit spec takes prescedence
        * 
        */
       scgbDeps0 || [
-        intervalRefresh1 ,
+        [fallbackIntervalRefreshKey1, ] ,
       ]
     );
-    const [{ eHCapturePreview, }, mref1, ] = (
+    const [{ eHCapturePreview, eHCaptureP, }, mref1, ] = (
       useHScreenGrabbing1({ 
         captureDeps: scgbDeps, 
       })
     ) ;
-    return (
+    React.useImperativeHandle((
+      capturePreviewCallbackRef &&
+      identity<React.Ref<ReturnType<typeof fromEhCp > > >(capturePreviewCallbackRef, )
+    ), () => {
+      const eHCapturePAsMv = (
+        eHCaptureP &&
+        ((() => {
+          return (
+            async (...[p0, ] : [Promise<File>, ]) => {
+              const ffmpeg = (
+                await newFfmpeg1()
+              ) ;
+              const p = await p0 ;
+              return (
+                await (
+                  pngAsWebm(p, { impl: ffmpeg, quality: "realtime-preview", }, )
+                )
+              ) ;
+              // TODO
+            }
+          ) ;
+        } )() )(eHCaptureP, ) 
+      ) ;
+      return (
+        fromEhCp(eHCapturePAsMv, )
+      ) ;
+    }, [eHCaptureP, ], )   ;
+    const ehcpChangeCount = (
+      useDepsChgCount({}, [eHCaptureP, ], )
+    ) ;
+    const debugSection = (
+      React.useDeferredValue((
+        <div>
+          <pre>
+            { JSON.stringify({ 
+              cpcrRewrapCount ,
+              cpcrCallCountGlb ,
+              cpcrCallCountLcl ,
+              ehcpChangeCount ,
+            }, null, 2, ) }
+          </pre>
+        </div>
+      ))
+    ) ;
+    const em1 = (
       renderPairwise((
         <div>
           <div>
@@ -764,245 +1137,19 @@ const CWithTitleAndRasteriseTest = (
         </div>
       ))
     ) ;
+    return (
+      <DbgAndMain>
+        <XDbgArticle>
+        { debugSection }
+        </XDbgArticle>
+        <div>
+        { em1 }
+        </div>
+      </DbgAndMain>
+    ) ;
   } )
-) ;
-const useHScreenGrabbing1 = (() => {
-  const C1 = (
-    function FutureBlobBasedImgDisplayImpl({ value: pB, } : { value: Promise<Blob> ; } ) {
-      const C = (
-        React.useMemo(() => (
-          React.lazy(async () => ({
-            default: await (async (): (
-              Promise<(
-                React.FC<(
-                  { cRef : React.Ref<false | React.ReactElement > ; }
-                )>
-              )>
-            ) => {
-              try {
-                const b = await pB ;
-                const date = (
-                  b instanceof File ?
-                  b.lastModified : null
-                ) ;
-                return function CImplSuccess ({ cRef, }) {
-                  const e = (
-                    <XBlobBasedImgDisplay 
-                    value={b }
-                    {...(date ? { mDate: date, } : {} ) }
-                    />
-                  ) ;
-                  React.useImperativeHandle(cRef, () => e, [], ) ;
-                  return e ;
-                } ;
-              } catch (z) {
-                return function CImplFall({ cRef, }) {
-                  React.useImperativeHandle(cRef, () => false as const, [], ) ;
-                  return (
-                    <div>
-                      <p>Error</p>
-                      <pre>
-                        { (z instanceof Error ) ? z.stack : String(z) }
-                      </pre>
-                    </div>
-                  ) ;
-                } ;
-              }
-            })() ,
-          }) )
-        ) , [pB, ] , )
-      ) ;
-      const [r1, cRef1, ] = (
-        /**    
-         * note that unmounts will assign refs with `null`s as intermediate-state values, so
-         * there arises need to specially treat `null`s as such
-         * 
-         */
-        React.useReducer((...[v0, v1, ] : [
-          v0: false | React.ReactElement ,
-          v1 : null | (false | React.ReactElement) ,
-        ] ) => {
-          if (v1 === null ) {
-            return v0 ;
-          }
-          if (v1 || (typeof v1 === "boolean" ) ) {
-            return v1 ;
-          }
-          return v0 ;
-        } , false, )
-      ) ;
-      return (
-        <React.Suspense fallback={r1 || <div /> } >
-          <C cRef={cRef1} />
-        </React.Suspense>
-      ) ;
-    }
-  );
-  return (
-    function ({
-      captureDeps ,
-    } : (
-      {}
-      & { captureDeps : React.DependencyList ; }
-    ) ) {
-      const [eH, eRef, ] = (
-        React.useState<null | Element >(null, )
-      ) ;
-      const eHCaptureP = (
-        React.useMemo(() => (
-          eH && (
-            documentNodeToPng(eH, { output: { format: "png", } , } , )
-          )
-        ) , [eH, ...captureDeps, ] , )
-      ) ;
-      const eHCapturePreview = (
-        eHCaptureP
-        &&  <C1 value={eHCaptureP} />
-      ) ;
-      ;
-      React.useDebugValue([{ captureDeps, eH, }, ]) ;
-      return [{ eHCaptureP, eHCapturePreview, } , eRef, ] as const ;
-    }
   ) ;
 } )() ;
-const useXDebouncedValue = (
-  function useDebouncedValue<A>(proposedVal: A, ) {
-    const [v, setV, ] = (
-      React.useState(() => proposedVal, )
-    ) ;
-    const setV1 = (
-      React.useMemo(() => (
-        SS.debounce(setV, 0.55 * 1000, )
-      ) , [setV,] )
-    ) ;
-    React["useLayoutEffect"](() => {
-      setV1(proposedVal) ; 
-    } , [setV, proposedVal,] , )
-    return v ;
-  }
-) ;
-const useXIntervalRefresh = (() => {
-  // function implIncrement(v: symbol ) : symbol ;
-  // function implIncrement(v: number ) : number ;
-  function implIncrement(v: symbol | number ) {
-    return (typeof v === "number" ? (v + 1 ) : Symbol() ) ;
-  } ;
-  return (
-    function useIntervalRefresh() {
-      const [c, increment, ] = (
-        React.useReducer(implIncrement , Symbol() )
-      ) ;
-      React.useLayoutEffect(() => {
-        const interval1 = setInterval(increment, (2 + Math.random() ) * 1000 , ) ;
-        return () => { clearInterval(interval1, ) ; } ;
-      } , [] , ) ;
-      const ops = {} ;
-      return ((): [typeof c, typeof ops,] => [c, ops,] )() ;
-    }
-  ) ;
-} )() ;;
-const renderPairwise = (
-  function (...[e1, e2, ] : [
-    e1: React.ReactElement ,
-    e2: React.ReactElement ,
-  ] ) {
-    return (
-      <div
-      style={{
-        display: "flex" ,
-        flexDirection: "row" ,
-      }}
-      >
-      { e1 }
-      { e2 }
-      </div>
-    ) ;
-  }
-) ;
-const useXBlobObjUrl = (
-  function useBlobObjUrlImpl(...[asBlob, mDate,] : [
-    src: Blob, 
-    srcDate: null | number, 
-  ] ) {
-    ;
-    const [{ asUrl, }, setState, ] = (
-      React.useState<(
-        {}
-        & (
-          never
-          | { asUrl: null ; captureDate ?: never ; }
-          | { asUrl: string ; captureDate: null | number ; }
-        )
-      )>({ asUrl: null, }, )
-    ) ;
-    React["useLayoutEffect"](() => {
-      const url = URL.createObjectURL(asBlob, ) ;
-      setState(() => ({ asUrl: url, captureDate: mDate, }) ) ;
-      return () => {
-        setTimeout(() => {
-          URL.revokeObjectURL(url, ) ;
-        } , 30 * 1000 ) ;
-      } ;
-    } , [asBlob, ], ) ;
-    ;
-    return {
-      asBlob ,
-      asUrl ,
-    } ;
-  }
-) ;
-const XBlobBasedImgDisplay = (
-  function CBlobBasedImgDisplayImpl(properties : (
-    {}
-    & { value: Blob ;  }
-    & {  mDate ?: number ; }
-  ) ) {
-    const { value: asBlob, mDate = null, } = properties ;
-    const {
-      asUrl ,
-    } = (
-      useXBlobObjUrl(asBlob, mDate, )
-    ) ;
-    return (
-      <div
-      style={{
-        display: "flex" ,
-        flexDirection: "column-reverse",
-      }}
-      >
-      <img 
-      src={asUrl || "" }
-      style={{
-        // inlineSize: `12em` ,
-        // blockSize : `12em` ,
-        // background: "white" ,
-        maxWidth: "unset" ,
-      }}
-      />
-      <div 
-      style={{ 
-        position: "sticky", 
-        insetBlock: 0, 
-        insetInlineStart: 0, 
-        fontSize: "75%" ,
-        backdropFilter: `blur(3px) ` ,
-      }}
-      >
-      { (typeof mDate === "number") && (
-        <p>
-          grab taken at
-          <i>{ new Date(mDate, ).toString() }</i>
-        </p>
-      ) } |
-      </div>
-      </div>
-    ) ;
-  }
-) ;
-const {
-  renderEditor: renderXDraftEditor ,
-  withTrimmedUndoRedoStacks: xDraftWithTrimmedUndoRedoStacks ,
-} = XDraftEditorUtil ;
 
 
 

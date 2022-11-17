@@ -194,9 +194,14 @@ export const {
                 </div>
                 <div
                 >
-                  <p> 
-                    { children }
-                  </p>
+                  <div
+                  style={{
+                    paddingBlock: `0.10em 0.75em` ,
+                    paddingInline: `0.10em 0.75em` ,
+                  }}
+                  >
+                  { children }
+                  </div>
                 </div>
               </div>
             ) ;
@@ -239,11 +244,13 @@ export const {
                   SS.identity<{
                     [k: string ] : {
                       element : string ,
-                      wrapper : string | React.ReactElement ,
+                      aliasedElements ?: [string, ...(string[])] ,
+                      wrapper ?: string | React.ReactElement ,
                     } ,
                   }>({
                     "unstyled": {
-                      element: "p",
+                      element: "div",
+                      aliasedElements: ['p'],
                       wrapper: (() => {
                         const PWrp1 = (
                           ({ children: payload, } : React.PropsWithChildren ) => (

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -12,6 +13,7 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import { camera, image, film, play, pause, } from 'ionicons/icons';
+import { WithErrorbound, } from 'indexb1';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -32,6 +34,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
+          <WithErrorbound>
           <Route exact path="/tab1">
             <Tab1 />
           </Route>
@@ -44,6 +47,7 @@ const App: React.FC = () => (
           <Route exact path="/">
             <Redirect to="/tab1" />
           </Route>
+          </WithErrorbound>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="camerarollpage" href="/tab1">

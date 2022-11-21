@@ -57,7 +57,7 @@ const useRealtimePerfIntensivePreviewCtrlDebouncedValue = (
     ) ;
     const setCachedValueDebounced1 = (
       React.useCallback((
-        SS.debounce(setCachedValueImmediately, 0.55 * 1000, )
+        SS.debounce(setCachedValueImmediately, 0.75 * 1000, )
       ) , [setCachedValueImmediately,] )
     ) ;
     React["useLayoutEffect"](() => {

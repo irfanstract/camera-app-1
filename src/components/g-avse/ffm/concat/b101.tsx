@@ -21,30 +21,24 @@ import { fileNamesContentsItrCompileAsArray1 , } from "components/zipfile-gen-1"
 import { zipfileInitWithFilesListNc ,          } from "components/zipfile-gen-1" ;
 import { newZipFileBuilder ,          } from "components/zipfile-gen-1" ;
 
+import { pairedWithIndex, } from "components/g-avse/ffm/pairedWithIndex";
+
 import { concatAsFfConvArgs, } from "components/ffmpg-concat-1";
 import { FNF, } from "components/ffmpg-concat-1";
 
-const pairedWithIndex = (
-  function <Item, R> (...[files,] : [() => AsyncGenerator<Item, R> , ] ) {
-    return (
-      async function* () {
-        let i = 0 ;
-        for await (const f of files() ) {
-          yield (
-            (<A1, A2,>(...a: [index: number, file: typeof f, ]) => a )(i++, f, )
-          ) ;
-        }
-      }
-    ) ;
-  }
-) ;
+import { ffFsInitFromList1, } from "components/g-avse/ffmjs/fs-ops-1";
+import { zipfiled1, } from "components/g-avse/ffm/concat/zb101";
+
+import { FFCP_FILELIST, } from "components/g-avse/ffm/concat/b101a";
+import * as FFCIM from "components/g-avse/ffm/concat/b101a";
+import { ffConcatImplLoadAndProcess1, } from "components/g-avse/ffm/concat/b101a";
 
 /**   
  * this shall not be instantiated generators since
  * instantiated generators cannot be reused.
  * 
  */
-type FileLsIterable = {
+export type FileLsIterable = {
   (): AsyncGenerator<Blob, void > ;
 } ;
 
@@ -67,166 +61,16 @@ const ffAsync = (
   import("components/ffmpg-pngtowebm-1")
 ) ;
 
-export const zipfiled1 = (
-  async (...[
-    files, 
-  ] : [
-    files: FileLsIterable ,
-  ] ) => {
-    const readmeTxtContent = (
-      [
-        `` ,
-        `*post-prod*` ,
-        `` ,
-      ].join("\r\n")
-    ) ;
-    const zipf1 = (
-      newZipFileBuilder()
-    ) ;
-    zipf1.file(`README.md`, (
-      readmeTxtContent
-    ), {}, ) ;
-    const fsrc = (
-      zipf1.folder("src", )!
-    ) ;
-    const generateFileNameDataSeq = (
-      pairedWithIndex(files, )
-    ) ;
-    await zipfileInitWithFilesListNc(fsrc, generateFileNameDataSeq, ) ;
-    return (
-      await (
-        zipf1.generateAsync({ 
-          type: "blob", 
-          // mimeType: "", 
-        })
-      )
-    ) ;
-  }
-) ;
+export { zipfiled1, } ;
 
 ;
 /**    
  * upload/write all those src files into the unit.
  * 
  */
-export const ffFsInitFromList1 = (
-  function (...[ffmpeg, fileNames1, ] : [
-    import("@ffmpeg/ffmpeg").FFmpeg ,
-    (ReturnType<typeof fileNamesContentsItrCompileAsArray1> extends Promise<infer FileList1 > ? FileList1 : never ) ,
-  ]) {
-    return (
-      fileNames1
-      .asyncMap(async ([i, { fileNameExt, }, file, ]) => {
-        console["log"]((
-          [i, { fileNameExt, }, file, ] as const
-        )) ;
-        const fileNameFinal = (
-          "" + i + fileNameExt
-        );
-        ffmpeg.FS("writeFile", fileNameFinal, (
-          new Uint8Array(await file.arrayBuffer(), )
-        ), ) ;
-        return {
-          i ,
-          fileNameFinal ,
-        } ;
-      } )
-    ) ;
-  }
-) ;
-type FFCP_FILELIST = (
-  Required<Parameters<typeof ffFsInitFromList1>>[1]
-) ;
-export const ffConcatImplWithoutWaitingLoaded1 = (
-  async (...[ffmpeg, fileNames1, aS, ] : [
-    import("@ffmpeg/ffmpeg").FFmpeg ,
-    FFCP_FILELIST ,
-    null | AbortSignal ,
-    {} ? ,
-  ] ) => {
-    const concatAsFfConvArgs1: typeof concatAsFfConvArgs = concatAsFfConvArgs ;
-    ;
-    const d1 = (
-      /**    
-       * upload/write all those src files into the unit.
-       * 
-       */
-      await (
-        ffFsInitFromList1(ffmpeg, fileNames1, )
-      )
-    ) ;
-    if (aS) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      (
-        await new Promise<void>(R => queueMicrotask(R, ) )
-        ,
-        aS.throwIfAborted()
-      ) ;
-    }
-    console["log"](d1, );
-    await ((...args : Parameters<typeof concatAsFfConvArgs1 >  ) => {
-      console.groupCollapsed(`FF-based concat`) ;
-      try {
-        ;
-        return (
-          ffmpeg.run(...(
-            concatAsFfConvArgs1(...args, )
-          ) )
-        ) ;
-      } finally {
-        console.groupEnd() ;
-      }
-    } )([
-      ...(
-        d1
-        .map(({ fileNameFinal, }): Required<Parameters<typeof concatAsFfConvArgs1 > >[0][number] => {
-          if (1) {
-            return (
-              FNF([fileNameFinal,], { wh: [320, 240,], }, )
-            ) ;
-          }
-          return ({
-            path: fileNameFinal, 
-          }) ;
-        } )
-      ) ,
-    ] , { assumedWh: [320, 240, ] , } , ) ;
-    ;
-    const outf = ((): Blob => {
-      try {
-        return (
-          new Blob([ffmpeg.FS("readFile", "o.webm", ) ], { type: "video/webm", }, )
-        ) ;
-      } catch (z) {
-        console["warn"](z, ) ;
-        return new Blob([], { type: "video/webm", }) ;
-      }
-    })() ;
-    ;
-    return {
-      outf ,
-    } ;
-  }
-) ;
-const ffConcatImplLoadAndProcess1 = (
-  async (...[ffmpeg, fileNames1, aS, ...otherArgs ] : Parameters<typeof ffConcatImplWithoutWaitingLoaded1> ) => {
-    ffmpeg.isLoaded() || await ffmpeg.load() ;
-    try {
-      const { outf, } = (
-        await (
-          ffConcatImplWithoutWaitingLoaded1(ffmpeg, fileNames1, aS, ...otherArgs, )
-        )
-      ) ;
-      ;
-      return {
-        outf ,
-      } ;
-    } finally {
-      ;
-      ffmpeg.exit( ) ;
-    }
-  }
-) ;
+export { ffFsInitFromList1, } ;
+const { ffConcatImplWithoutWaitingLoaded1, } = FFCIM ;
+export { ffConcatImplWithoutWaitingLoaded1, } ;
 export const {
   ffConcat ,
 } = (() => {
@@ -278,87 +122,61 @@ export const {
   // initWorker ,
   submitWrk: ffConcat11 ,
 } = (() => {
+  type Submend = (
+    FFCP_FILELIST
+  ) ;
+  const fwcMessagingAndTitleProperties = {
+    ident: `--------&&&&&-S-`,
+    tiitle: `The FFMP Concat Daemon` ,
+  } ;
+  const implSpawnNewWorkerAndSubmitBootMsgs = (
+    async () => {
+      const { FFMCP, } = (
+        await import ("components/ffmpg")
+      ) ;
+      ;
+      // alert(`${process.env.PUBLIC_URL}`) ;
+      const ffcc = (
+        // `http://localhost:8100/static/js/bundle.js`
+        // `/static/js/bundle.js`
+        // new URL('./deep-thought.js', import.meta.url)
+        new Worker(new URL("components/g-avse/ffm/concat/b101", import.meta.url, ) , {
+          name: fwcTitle ,
+          type: "classic" , // see the Webpack docs
+        }, )
+      ) ;
+      ffcc.postMessage(fwcMainObligativeMsg) ; 
+      ffcc.postMessage([fwcMainPathSetupMsg, FFMCP[0].path , ]) ; 
+      ;
+      return ffcc ;
+    }
+  ) ;
   ;
+  type FwcSubmend = (
+    Submend
+  ) ;
+  const {
+    ident: fwcDirectivePassphrase,
+    tiitle: fwcTitle,
+  } = (
+    fwcMessagingAndTitleProperties
+  ) ;
   /**    
    * shall be the same across the main-thread and the child-thread
    * 
    */
-  const ffConcatMainObligativeMsg: string | number = (
-    `src\\components\\g-avse\\ffm\\concat\\b101.tsx#W` 
+  const fwcMainObligativeMsg: string | number = (
+    `${fwcDirectivePassphrase }\\W` 
   ) ;
-  {
-    ;
-    const window = globalThis ;
-    const ffConcatThreadMain = async () => {
-      await import("window-polyfills") ;
-      const { ffmpegNewInstance, FFMCP, } = (
-        await import ("components/ffmpg")
-      ) ;
-      // TODO 
-      [FFMCP[0], ] = [
-        {
-            "path": "http://localhost:8100/assets/js/ffmpeg-core.js",
-            "mainName": "main" ,
-        } ,
-      ] ;
-      const newFfmpeg1 = ffmpegNewInstance ;
-      const concatAsFfConvArgs1: typeof concatAsFfConvArgs = concatAsFfConvArgs ;
-      ;
-      ;
-      window.addEventListener("message", async (e) => {
-        const { data: data, } = e ;
-        console.groupCollapsed(`ffConcatThreadMain - message`) ;
-        try { 
-          console["info"]((
-            TypeError(JSON.stringify(data, ) )
-          )) ;
-        } finally { 
-          console.groupEnd() ;
-        }
-        if (data === ffConcatMainObligativeMsg ) {
-          return ;
-        }
-        if (data) {
-          const [callingIdent, fileNames1, ] = (
-            data as [
-              callingIdent: number | string, 
-              value: FFCP_FILELIST ,
-            ]
-          ) ;
-          const aS = null ;
-          postMessage([callingIdent, await (async () => {
-            try {
-              ;
-              const ffmpeg = (
-                await newFfmpeg1()
-              ) ;
-              const { outf, } = (
-                await ffConcatImplLoadAndProcess1(ffmpeg, fileNames1, aS, )
-              ) ;
-              return outf ;
-            } catch (z) {
-              console["error"](z, ) ;
-              return (
-                new Blob([], {}, )
-              ) ;
-            }
-          } )(), ] as const) ;
-        }
-      } ) ;
-    } ;
-    ;
-    /**    
-     * add the necessary `message` handler
-     * 
-     */
-    window.addEventListener("message", async (e) => {
-      const { data, } = e ;
-      if (data === ffConcatMainObligativeMsg ) {
-        ffConcatThreadMain() ;
-      }
-    } ) ;
-  }
-  {
+  const fwcMainPathSetupMsg: string | number = (
+    `${fwcDirectivePassphrase }\\WPathInit` 
+  ) ;
+  /**   
+   * the `try` block is for the main-thread (needs to return value ; see above), while
+   * the `finally` block is for the spawned thread.
+   * 
+   */
+  try {
     const { initWorker, wRef1, } = (() => {
       /**    
        * avoiding spawnbombing
@@ -376,23 +194,16 @@ export const {
           whenShallInitWorker
         ) ;
         console["info"]((
-          TypeError(`starting the FFConcat working-thread`)
+          TypeError(`starting the workthred - ${fwcTitle } `)
         )) ;
         ;
         // alert(`${process.env.PUBLIC_URL}`) ;
         const ffcc = (
-          // `http://localhost:8100/static/js/bundle.js`
-          // `/static/js/bundle.js`
-          // new URL('./deep-thought.js', import.meta.url)
-          new Worker(new URL("components/g-avse/ffm/concat/b101", import.meta.url, ) , {
-            name: `The FFMP Concat Daemon` ,
-            type: "classic" , // see the Webpack docs
-          }, )
+          await implSpawnNewWorkerAndSubmitBootMsgs()
         ) ;
-        ffcc.postMessage(ffConcatMainObligativeMsg) ; 
         const {
           submitWrk ,
-        } = initMainthreadCommit1<FFCP_FILELIST, Blob>(ffcc, ) ;
+        } = initMainthreadCommit1<Submend, Blob>(ffcc, ) ;
         return [
           ffcc ,
           { submitWrk, } ,
@@ -405,7 +216,7 @@ export const {
     })() ;
     return {
       submitWrk : async (...[v,] : [
-        payload: FFCP_FILELIST ,
+        payload: Submend ,
       ] ): ReturnType<typeof ffConcatImplLoadAndProcess1> => {
         initWorker() ;
         const f = (
@@ -418,7 +229,125 @@ export const {
         } ;
       } ,
     } ;
-  }
+  } finally {
+    ;
+    const window = globalThis ;
+    ;
+    /**    
+     * add the necessary `message` handler
+     * 
+     */
+    window.addEventListener("message", async (e) => {
+      const { data, } = e ;
+      if (data === fwcMainObligativeMsg ) {
+        ffConcatThreadMain() ;
+      }
+    } ) ;
+    let donePathConfig : boolean ;
+    donePathConfig = false ;
+    async function ffConcatThreadMain(): Promise<void> {
+      await import("window-polyfills") ;
+      const { ffmpegNewInstance, FFMCP, } = (
+        await import ("components/ffmpg")
+      ) ;
+      const newFfmpeg1 = ffmpegNewInstance ;
+      const concatAsFfConvArgs1: typeof concatAsFfConvArgs = concatAsFfConvArgs ;
+      ;
+      ;
+      window.addEventListener("message", async (e) => {
+        const { data: data, } = e ;
+        console.groupCollapsed(`ffConcatThreadMain - message`) ;
+        try { 
+          console["info"]((
+            TypeError(JSON.stringify(data, ) )
+          )) ;
+        } finally { 
+          console.groupEnd() ;
+        }
+        /**    
+         * check if it's {@link fwcMainObligativeMsg }, and
+         * 
+         */
+        if (data === fwcMainObligativeMsg ) {
+          return ;
+        }
+        /**    
+         * check if it's the special msg, and
+         * run relevant things accordingle
+         * 
+         */
+        if (data) {
+          const [c1, c2, ] = (
+            data as [
+              cls: number | string ,
+              value: unknown , 
+            ]
+          ) ;
+          /**    
+           * check if it's the "set the path(s)" msg, and
+           * reassign {@link FFMCP[0] } accordingle
+           * 
+           */
+          if (c1 === fwcMainPathSetupMsg ) {
+            ;
+            // TODO 
+            if (typeof c2 === "string" && c2 ) {
+              ;
+              [FFMCP[0], ] = [
+                {
+                    "path": c2 ,
+                    "mainName": "main" ,
+                } ,
+              ] ;
+              donePathConfig = true ;
+            } else {
+              throw TypeError(`invalid cmd syntax: ${JSON.stringify([c1, c2, ]) }`) ;
+            }
+            return ;
+          }
+        }
+        /**    
+         * content
+         * 
+         */
+        if (data) {
+          const [callingIdent, fileNames1, ] = (
+            data as [
+              callingIdent: number | string, 
+              value: Submend ,
+            ]
+          ) ;
+          const aS = null ;
+          postMessage([callingIdent, await (async () => {
+            try {
+              ;
+              if (!donePathConfig ) {
+                throw TypeError((
+                  [
+                    `no path-config step has taken place.` ,
+                    `path needs config explicitly via appropriate wrk.postMessage(...) syntax .` ,
+                    `please fix your code to add it.` ,
+                  ].join("\n")
+                )) ;
+              }
+              const ffmpeg = (
+                await newFfmpeg1()
+              ) ;
+              const { outf, } = (
+                await ffConcatImplLoadAndProcess1(ffmpeg, fileNames1, aS, )
+              ) ;
+              return outf ;
+            } catch (z) {
+              console["error"](z, ) ;
+              return (
+                new Blob([], {}, )
+              ) ;
+            }
+          } )(), ] as const) ;
+        }
+      } ) ;
+    }
+  }  
 } )() ;
 
 

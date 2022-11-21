@@ -25,18 +25,25 @@ defineCustomElements(window);
 
 (window as any ).React = React ; // debug
 
-class WithErrorbound extends React.Component<React.PropsWithChildren > {
+export class WithErrorbound extends React.Component<React.PropsWithChildren, { e ?: null | Error ; } > {
   render(): React.ReactNode {
     return (
-      this.props.children
+      ((this.state || {} ).e ? (
+        <div> 
+          <button onClick={() => this.setState({ e: null, }) } >
+            !!!
+          </button>
+        </div>
+      ) : null )
+      || this.props.children
     ) ;
   }
   // componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
   //   console["error"](error , { error, errorInfo , } , ) ;
   // }
-  // static getDerivedStateFromError() {
-  //   return {} ;
-  // }
+  static getDerivedStateFromError(e: Error, ) {
+    return { e: e, } ;
+  }
 }
 const container = document.getElementById('root');
 const root = createRoot(container!);
@@ -59,7 +66,7 @@ if (1) {
     setTimeout(() => {
       (window.location).reload() ;
     }, 5 * 1000 ) ;
-  } , 15 * 60 * 1000 ) ;
+  } , 60 * 60 * 1000 ) ;
 };
 
 // If you want your app to work offline and load faster, you can change

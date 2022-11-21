@@ -93,6 +93,14 @@ del, s,
    text-decoration-thickness: 1ex ;
    user-select: none ;
 }
+.GAvsePairwise-items {
+   display: flex;
+   flex-direction: row;
+}
+.GAvsePairwise > * {
+   resize: horizontal ;
+   flex: 1 1 50% ;
+}
 
 
 

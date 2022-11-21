@@ -62,19 +62,26 @@ const ffmpSvcInitialisedFuture = (async () => {
   const { init: ffmpegInit, default: ffmpeg, } = (
     await import("components/ffmpg")
   ) ;
-  (
-    ffmpeg.isLoaded()
-    || await ffmpeg.load()
-  ) ;
-  ffmpCheckLoadedElseThrow(ffmpeg, )
-  try {
-    console.log(await (
-      0 ?
-      ffmpeg.run("-h")
-      : ffmpeg.run()
-    ) ) ;
-  } finally {
-    ffmpeg.exit()
+  /**    
+   * disabled ; it'd block the main-thread
+   * 
+   */
+  if (0) {
+    ;
+    (
+      ffmpeg.isLoaded()
+      || await ffmpeg.load()
+    ) ;
+    ffmpCheckLoadedElseThrow(ffmpeg, )
+    try {
+      console.log(await (
+        0 ?
+        ffmpeg.run("-h")
+        : ffmpeg.run()
+      ) ) ;
+    } finally {
+      ffmpeg.exit()
+    }
   }
   return {
     ffmpeg ,

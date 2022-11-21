@@ -27,8 +27,18 @@ const FFMCP : [currentlyValue: { path: string ; mainName: string ; }, ] = [
               document.baseURI 
             ) ;
         } catch (z) {
-            console["warn"](z, ) ;
-            return "data:application/x-notfound,/" ;
+          console.group(`failed to infer value for 'FFMCP[0].path' `) ;
+          console["error"](TypeError(
+            [
+              `failed to resolve 'document.baseURI'. ` ,
+              `this could be because this is within Worker (WorkerGlobalScope ) where (the) DOM API(s) do not exist . ` ,
+              `please code the assignment (in the Worker Thread's main-method ) yourself - 'FFMCP[0] = {...} ;' . ` ,
+              `the stack-trace follows. ` ,
+            ].join("\n")
+          ), ) ;
+          console["info"](z, ) ;
+          console.groupEnd() ;
+          return "data:application/x-notfound,/" ;
         }
       })())
       .replace(/\/?$/, () => "/assets/js/ffmpeg-core.js" )
@@ -55,7 +65,7 @@ const {
     ffmpegNewInstance: (
       () => {
         const [ffmpegCorePath, ] = FFMCP ;
-        console["log"]({ ffmpegCorePath , }, ) ;
+        console[1 ? "log" : "debug"]({ ffmpegCorePath , }, ) ;
         return (
             officialCreateFFmpeg({ 
               corePath: ffmpegCorePath.path , 

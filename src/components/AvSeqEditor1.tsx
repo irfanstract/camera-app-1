@@ -17,6 +17,11 @@ import React from 'react';
 import { useUpdatedCallback, } from "components/useUpdatedCallback1";
 import { useDepsChgCount, } from "components/useDepsChgCount";
 import { useCallbackCount, } from "components/useCallbackCount1";
+import {
+  useInputState ,
+  WithInputState ,
+} from "components/useInputElementOnchangeState1" ;
+// import MapS;
 import * as ImgElemWithTimestamp1 from "components/ImgElemWithTimestamp1" ;
 import { FutureBlobBasedImgElemWithTimestamp, } from "components/useRefsBasedElemRasterisation1";
 import Lists from "components/useListEditing"; // better sticking to absolute paths
@@ -47,6 +52,7 @@ import {
   IonItem ,
   IonReorder ,
 } from '@ionic/react';
+import { IonInput, } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { DebuggingActivityArticle, } from "components/MonitoringArticle-1";
 import { ellipse, square, triangle } from 'ionicons/icons';
@@ -72,6 +78,11 @@ import {
 } from "components/ffmpg-renderdemo1" ;
 import { XClipSeqEditor, } from "./g-avse/clip-seq-editor/useItemRender1State1";
 
+type ComponentProps<A> = (
+  A extends { (a: infer Props) : unknown ; } ?
+  Props : never
+) ;
+
 /**    
  * we take-over the `<React.Suspense>` decorative responsibility here
  * to simplify things
@@ -93,8 +104,19 @@ const {
 } = ImgElemWithTimestamp1 ;
 const {
   renderEditor: renderXDraftEditor ,
+  renderEditorAndDebug: renderXDraftEditorAndDebug ,
   withTrimmedUndoRedoStacks: xDraftWithTrimmedUndoRedoStacks ,
 } = XDraftEditorUtil ;
+
+// eslint-disable-next-line import/first 
+import {
+  nllUnplayableBlob ,
+  VView ,
+  useXPreview ,
+  useAvRenderFlatten ,
+  XPReview ,
+  useUsrShallPreview1 ,
+} from "components/g-avse/avr1" ;
 
 export {} ; // TS-1208
 
@@ -146,6 +168,13 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
       )  )
     ) ;
   }
+  childrenToStringArray(...args : Parameters<XClp["toString"] > ) {
+    const p = this ;
+    return (
+      p.children
+      .map(v => v.toString(...args ) )
+    ) ;
+  } ;
   
   /**     
    * this shall define the `Component` to render it.
@@ -192,21 +221,117 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
     ) ;
     {}
     const {
-
-      postrenderedChildSeq ,
-      
-      setPerItemRendered1 ,
-
-      spcsCallCountGlb ,
-      spcsRewrapCount ,
-      spcsCallCountLocl ,
-      
-    } = (
-      XClipSeqEditor.useChildrenRenderState1({ 
-        actualChildrenArity: (
-          p.children.length
-        ), 
-      }, )
+      dbgDisableOnPrerender = false ,
+    } : (
+      {}
+      & Partial<{ dbgDisableOnPrerender ?: boolean ; }>
+    ) = {} ;
+    const [
+      { postrenderedChildMap1, setPostrenderedChildMap1, }, 
+    ] = (
+      CompoundClipOps.useChildrenPeRenderMapState<Aggregate10>(p, )
+    ) ;
+    /**   
+     * make the mapping always contain given key (even if set to `null` ) -
+     * see the UI render code somewhere below .
+     * 
+     */
+    React["useLayoutEffect"](() => {
+      {}
+      /**   
+       * make the mapping always contain given key (even if set to `null` ), 
+       * 
+       */
+      setPostrenderedChildMap1(existingM => {
+        0 && console["log"]({ p, existingM, }) ;
+        const newM = (
+          (
+            List([...p.children], )
+            .toMap() 
+            .mapEntries(([i, v, ]) => [v, null,] )
+            .mapEntries<XClp, ReturnType<typeof existingM.toArray>[number][1] >(pair => pair )
+          )
+          .mergeWith((v0, v1) => v1, existingM, )
+        ) ;
+        (newM.equals(existingM, ) ) || (
+          console["log"]({ p, existingM, newM, })
+        ) ;
+        return (
+          newM
+        ) ;
+      } ) ;
+      ;
+    } , [p, ] ) ;
+    const postrenderedChildMapEntryUpdate = (
+      React.useCallback((
+        function postrenderedChildMapEntryUpdateImpl(...[c, newR, ] : Parameters<typeof postrenderedChildMap1.set > ) { 
+          const { logMode = "debug" } : (
+            {}
+            & Partial<{ logMode : keyof Pick<Console, "log" | "debug"> }>
+          ) = { } ;
+          {
+            console[logMode]("AVSeqEditor", postrenderedChildMapEntryUpdate.name, ) ;
+            console[logMode](c.toString(false,), { newR, }, ) ;
+          }
+          if (dbgDisableOnPrerender) {
+            return ;
+          }
+          // setPerItemRendered1({ i: i, }, newR,)
+          setPostrenderedChildMap1(m => {
+            console[logMode ]("AVSeqEditor", postrenderedChildMapEntryUpdate.name, "SPRC", ) ;
+            console[logMode ](c.toString(false,), { newR, }, ) ;
+            console[logMode ](`m.containsKey(c) ? ` , m.keySeq().contains(c, ), ) ;
+            if ((
+              false 
+              // || m.size <= 0
+              || (
+                true 
+                && (m.keySeq() ).contains(c, ) 
+                && (List([...p.children,] ) ).contains(c, )
+              )
+              || !c 
+            )) {
+              {}
+              0 && console["log"]({ m, c, newR, }) ;
+              0 && console["log"](c.toString(false, ) ) ;
+              0 && console["log"](newR, ) ;
+              return (
+                m.set(c, newR, )
+              ) ;
+            } else {
+              throw TypeError((
+                [
+                  `onUpdatedRendered error.` ,
+  
+                  `nonexistent child '${c && c.toString(false) }'. ` ,
+                  `the AOT rendering is supposed to cover every present children, but` ,
+                  `given the submission with non-present key` ,
+                  `the item's render-result will likely get discarded away. `,
+  
+                  JSON.stringify({ m: m.toObject(), c: c, } , null, 2, ) ,
+                ].join("\n")
+              )) ;
+            }
+          } ) ;
+        } 
+      ) , [
+        // postrenderedChildMap1 ,
+        dbgDisableOnPrerender ,
+        setPostrenderedChildMap1 ,
+        p ,
+      ] ,)
+    ) ;
+    const prmcc = (
+      useDepsChgCount({}, React.useDeferredValue([postrenderedChildMap1, ]))
+    ) ;
+    const postrenderedChildSeq = (
+      React.useMemo(() => (
+        p.children 
+        .map(c => (
+          postrenderedChildMap1
+          .get(c, null, )
+        ) )
+      ) , [p, postrenderedChildMap1, ] , )
     ) ;
     const dcc1 = (
       React.useMemo(() => (
@@ -216,6 +341,9 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
          */
         XClpWithUi.renderedsConcat(postrenderedChildSeq, )
       ), [React.useDeferredValue(postrenderedChildSeq, ), ] , )
+    ) ;
+    const prcc = (
+      useDepsChgCount({}, React.useDeferredValue([postrenderedChildSeq, ]))
     ) ;
     const highLevelUpdatedRenderCb1 = (
       // React.useMemo(() => (
@@ -236,6 +364,19 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
       )) ;
     } , [React.useDeferredValue(dcc1),] ) ;
     const xChildN = p.children.length ;
+    const checkPNotStale = (
+      useUpdatedCallback((
+        (...[argumentedP, ] : [p: Aggregate10, ] ) => {
+          if (argumentedP !== p ) {
+            console["error"]({ 
+              argumentedP: argumentedP ,
+              upstreamP : p ,
+            }) ;
+            throw TypeError(`stale 'p' : (...) vs (...) `) ;
+          }
+        }
+      ))
+    ) ;
     // const ;
     const { 
       onAggregateChange, 
@@ -278,17 +419,71 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
       }
       : null
     ) ;
+    const [
+      dccPreview1 ,
+      { setShallPreview, previewToggleBtn, } ,
+    ] = (
+      useUsrShallPreview1({ 
+        value: dcc1 ,
+      })
+    ) ;
+    const dccPreview = (
+      dccPreview1 
+      ||
+      <div 
+      style={{ 
+        display: "flex", 
+        flexDirection: "row", 
+        background: "black", 
+      }}
+      >
+        { (
+          postrenderedChildSeq
+          .map((v) : null | React.ReactElement => {
+            if (v instanceof Blob ) {
+              return (
+                <VView value={v} />
+              ) ;
+            }
+            return null ;
+          } )
+        ) }
+      </div>
+    ) ;
+    React["useEffect"](() => {
+      console["log"](CompoundClipR.name ) ;
+      console["log"]("p.children" ) ;
+      console["log"](p.children ) ;
+      console["log"](p.childrenToStringArray(false,) ) ;
+    } , [p,] ) ;
+    const [_, dbgThrowException, ] = (
+      React.useReducer((...a: [void,] ): void => {
+        throw new TypeError(`Deliberate Corruption`) ;
+      } , void true )
+    ) ;
     const debugSection = (
       React.useDeferredValue((
         <div>
           <pre>
             { JSON.stringify({ 
               childrenN: p.children.length, 
+              children : (
+                p
+                .childrenToStringArray(false, )
+              ) ,
               // lrccRewrapCount ,
               // lrccCallCount , 
-              spcsRewrapCount,
-              spcsCallCountGlb,
-              spcsCallCountLocl ,
+              // spcsRewrapCount,
+              // spcsCallCountGlb,
+              // spcsCallCountLocl ,
+              prmcc ,
+              postrenderedChildMap1: (
+                postrenderedChildMap1.entrySeq() 
+                .map(([k, v]): [string, typeof v,] => (
+                  [k.toString(false) , v,]
+                ))
+              ) ,
+              prcc ,
               postrenderedChildSeq : (
                 postrenderedChildSeq
                 .map(v => {
@@ -315,6 +510,11 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
               ) ,
             }, null, 2, ) }
           </pre>
+          <p>
+            <IonButton type="button" onClick={() => dbgThrowException() } >
+              !!! 
+            </IonButton>
+          </p>
         </div>
       ))
     ) ;
@@ -372,6 +572,11 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
         <div>
         { bootstrappingSection }
         </div>
+        <div
+        style={{
+          zoom: `85%`,
+        }}
+        >
         <IonList>  
         <IonReorderGroup 
         {...(
@@ -383,7 +588,7 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
           .map((c: XClp, i: number, pcs1, ) => {
             const {
               switchFocusStateToThisItem: markFocused ,
-              referentialKey: key ,
+              referentialKey: referentialKey ,
               contentualKey: actualKey ,
             } = (
               itemRenditionAt({ itemValue: c, }, i, )
@@ -407,22 +612,54 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
               && 
               SS.throttle((
                 (newItem: XClp, ) => {
+                  {
+                    ;
+                    console["log"](...Object.keys({ onCurrentItemChange, }) );
+                    console.groupCollapsed("... the stack trace") ;
+                    console["log"](TypeError(...Object.keys({ onCurrentItemChange, }) ) ) ;
+                    console.groupEnd() ;
+                    console["log"]({
+                      actualKey ,
+                      referentialKey ,
+                    }) ;
+                    console["log"]({
+                      pChildren: p.children ,
+                      c ,
+                      newItem ,
+                    }) ;
+                    ;
+                    0 && checkPNotStale(p, )
+                  }
+                  const implUpdate1 = function (p: Aggregate10 ) {
+                    ;
+                    onAggregateChange((
+                      p.withItemReplacingAtIndex(newItem, i, )
+                    ), { focus: "keep", }, );
+                  } 
                   markFocused() ;
-                  onAggregateChange((
-                    p.withItemReplacingAtIndex(newItem, i, )
-                  ), { focus: "keep", }, );
+                  F: {
+                    ;
+                    // wrong ; race-condition
+                    if (0) {
+                      ;
+                      implUpdate1(p) ;
+                      break F ;
+                    }
+                    // TODO until get ability to updated ..
+                    implUpdate1(p) ;
+                  }
                   return ({
                     newItem: newItem ,
                   }) ;
                 }
-              ) , 0.5 * 1000 , { leading: true, } )
+              ) , 0.5 * 1000 , { leading: true, trailing: true, } )
             ) ;
             const keyingDbgModeE = (() : null | React.ReactElement => {
               switch (0 as number ) {
                 case 1 : 
                 return (
                   <React.Fragment>
-                  { <span>(referential key: {key})</span> }
+                  { <span>(referential key: {referentialKey})</span> }
                   { <span>(contentual key: {actualKey })</span> }
                   <span>{ assumedToBeFocused && "(editing)" }</span>
                   </React.Fragment>
@@ -438,7 +675,7 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
                   `#${i}` ,
                   `drag to reorder this.` ,
                   `=====================` ,
-                  `referential hash: ${key }` ,
+                  `referential hash: ${referentialKey }` ,
                   assumedToBeFocused ? "(active/editing)" : null ,
                   `contentual hash: ${actualKey }` ,
                 ]
@@ -455,18 +692,24 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
               </IonReorder>
             ) ;
             const mainContent = (
-              c.renderUi({ 
-                onChange: (
-                  onCurrentItemChange || Object
-                ) ,
-                onUpdatedRendered: (...[newR, ]) => {
-                  setPerItemRendered1({ i: i, }, newR,)
-                } ,
-              })
+              <React.Fragment
+              // key={i }
+              >
+              { (
+                c.renderUi({ 
+                  onChange: (
+                    onCurrentItemChange || Object
+                  ) ,
+                  onUpdatedRendered: (...[newR, ]) => (
+                    postrenderedChildMapEntryUpdate(c, newR, )
+                  ) ,
+                })
+              )   }
+              </React.Fragment>
             ) ;
             return (
               <React.Fragment 
-              key={key }
+              key={referentialKey }
               >
               <IonItem 
               onFocus={() => { markFocused() ; } }
@@ -478,7 +721,38 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
               >
                 { bulletOrReorderingHandle }
                 <IonLabel>
-                  { mainContent }
+                  <DbgAndMain>
+                    { (() => {
+                      ;
+                      const variablesSection = (
+                        <pre>
+                          { JSON.stringify({
+                            observedParentChildren : (
+                              p.childrenToStringArray(false, ) 
+                              .map(s => (
+                                s.replace(/^([^]{1000,1000})[^]{50,}$/, "$1...")
+                              ) )
+                            ) ,
+                          }, null, 2 ) }
+                        </pre>
+                      ) ;
+                      const cVarValueSection = (
+                        <div>
+                          <p> 
+                            <code>c</code>
+                          </p>
+                          { c.renderUi({}) }
+                        </div>
+                      ) ;
+                      return (
+                        <XDbgArticle>
+                          { variablesSection }
+                          { assumedToBeFocused && cVarValueSection }
+                        </XDbgArticle>
+                      ) ;
+                    } )() }
+                    { mainContent }
+                  </DbgAndMain>
                 </IonLabel>
               </IonItem>
               </React.Fragment>
@@ -488,17 +762,95 @@ abstract class CompoundClipOps<Aggregate1 extends CompoundClipOps<Aggregate1>> e
         </IonReorderGroup>
         </IonList>
         </div>
+        <div>
+          <div
+          style={{ display: "flex", flexDirection: "column-reverse", }}
+          >
+          { dccPreview }
+          <p> 
+          { previewToggleBtn }
+          </p>
+          </div>
+        </div>
+        </div>
       ) ;
     } )() ;
     return (
       <DbgAndMain>
       <XDbgArticle>
-        { debugSection }
+        { true && debugSection }
       </XDbgArticle>
       { mainNonDebugSec }
       </DbgAndMain>
     ) ;
   } ;
+  static useChildrenPeRenderMapState = (
+    function usePRCMSImpl<Aggregate10 extends CompoundClipOps<Aggregate10> >(...[
+      p,
+    ] : [
+      Aggregate10,
+    ] ) {
+      ; // TODO
+      type PRCMS = (
+        Map<XClp, (
+          ReturnType<typeof XClipSeqEditor.useChildrenRenderState1>["postrenderedChildSeq"][number]
+        ) > 
+      ) ;
+      const [postrenderedChildMap1, setPostrenderedChildMap1,] = (
+        React.useState<(
+          PRCMS
+        )>((
+          //
+          // Map()
+          List([...p.children ])
+          .toMap()
+          .mapEntries(([_, c,]) => [c, null ] )
+        ))
+      ) ;
+      /**    
+       * automatically elide the unused entries.
+       * necessary to avoid OOME(s) (OutOfMemoryError(s) ).
+       * 
+       */
+      React["useEffect"](() => {
+        /**    
+         * disabled .
+         * 
+         * if were this left enabled,
+         * the actual timing 
+         * could be after `p` have been updated elsewhere (hence the `p` here would effectively be 'stale').
+         * 
+         */
+        if (0) {
+          ;
+          /**   
+           * elide unused mappings.
+           * 
+           */
+          setPostrenderedChildMap1(m => (
+            m
+            .filter((mEntryVal, mKey, ) => (
+              List([...p.children], )
+              .contains(mKey, )
+            ) )
+          ) );
+        }
+        ;
+      } , [p, ] ) ;
+      ;
+      // 
+      return (
+        <A1 extends object, A2 , >(e: [A1, A2,]) => e
+      )([
+        {
+          postrenderedChildMap1 ,
+          setPostrenderedChildMap1 ,
+        } ,
+        {
+        } ,
+      ]) ;
+    }
+  ); 
 
   ["CompoundClipOps.MIXING" ] : { (src: Iterable<Blob> ) : Blob | XClpWithUi.RFor ; } = (
     (src) => {
@@ -559,10 +911,10 @@ namespace AggregatingClp {
   export const getExample = () => (
     new AggregatingClp([
       new AggregatingClp([], ) , 
-      new UtfClip("[]", ) , 
-      new UtfClip("maybe", ) , 
-      new UtfClip("txtfile", ) , 
-      new UtfClip((() => {
+      UtfClip.forText("[]", ) , 
+      UtfClip.forText("maybe", ) , 
+      UtfClip.forText("txtfile", ) , 
+      UtfClip.forText((() => {
         const c0 = (
           ReactDraft.convertFromHTML((
             Range(0, 3, )
@@ -579,7 +931,7 @@ namespace AggregatingClp {
           ReactDraft.EditorState.createWithContent(c, )
         ) ;
       } )() , ) , 
-      new OverlayingClip([], ) , 
+      OverlayingClip.fromSeq([], ) , 
     ], )
   ) ;
 }
@@ -591,6 +943,11 @@ const OverlayingClip = (
     ] ) {
       super() ;
       const {  } = p ;
+    }
+    static fromSeq(c: readonly XClp[] ) {
+      return (
+        new OvrlClp(c, )
+      ) ;
     }
   
     WA = OvrlClp ;
@@ -607,8 +964,8 @@ const OverlayingClip = (
     static getExample = () => (
       new OvrlClp([
         new OvrlClp([], ) , 
-        new UtfClip("[]", ) , 
-        new UtfClip("maybe", ) , 
+        UtfClip.forText("[]", ) , 
+        UtfClip.forText("maybe", ) , 
       ], )
     ) ;
     
@@ -650,7 +1007,7 @@ namespace TextualClipOps {
 const UtfClip = (
   class UtfClipImpl extends XClp implements XClpWithUi<UtfClipImpl> {
     // static readonly CHILDREN = "c" ;
-    constructor(
+    protected constructor(
       public value: (
         never 
         // | null 
@@ -661,9 +1018,26 @@ const UtfClip = (
         | (ReactDraft.EditorState )
         | (ReactDraft.ContentState )
       ) , 
+      public durationSecs : number ,
     ) {
       super() ;
     }
+    withProperty(a: (
+      EitherSetAndOthersUnset<(
+        Pick<UtfClipImpl, "durationSecs" | "value">
+      )>
+    ) ) {
+      const { durationSecs = this.durationSecs , } = a ;
+      const { value = this.value } = a ;
+      return (
+        new UtfClipImpl(value, durationSecs, )
+      ) ;
+    }
+    static forText(v: UtfClipImpl["value"] ) {
+      return (
+        new UtfClipImpl(v, 8, )
+      ) ;
+    } ;
 
     toJson(): TextualClipOps {
       // TODO
@@ -718,11 +1092,7 @@ const UtfClip = (
     [XClp.UICLASS] = UtfClipImpl.RenderUi ;
     static RenderUi: (
       React.FC<(
-        (
-          Parameters<(
-            XClpWithUi<UtfClipImpl>[typeof XClp.UICLASS ]
-          )>
-        )[0]
+        ComponentProps<XClpWithUi<UtfClipImpl>[typeof XClp.UICLASS ] >
       )>
     ) = function TextualClipR(...uArgs : (
       Parameters<(
@@ -730,47 +1100,60 @@ const UtfClip = (
       )>
     ) ): React.ReactElement {
       const [
-        { value: p, onChange, onUpdatedRendered: onUpdatedRendered0, },
+        { value: p, onChange, onUpdatedRendered: onUpdatedRendered0 = null, },
       ] = uArgs ;
+      const {
+        editorStateChangeWithMaintainedCOntentState = "propagate" ,
+      } : (
+        Partial<{ editorStateChangeWithMaintainedCOntentState : "elide" | "propagate" ; }>
+      ) = {} ;
+      const updatedP = (
+        useUpdatedCallback(() => p )
+      ) ;
       const { value, } = p ;
-      // TODO remove this
+      const { durationSecs: clipDUrationSecs, } = p ;
+      const occc  = useDepsChgCount({}, React.useDeferredValue([onChange, ]), ) ;
+      const { 
+        onTextContentChg1 = null ,
+        onDurativePRopertyChg = null ,
+      } = (
+        React.useMemo(() => (
+          onChange  
+          ?
+          {
+            onTextContentChg1 : (
+              function (e: ReactDraft.EditorState, ): void {
+                console["log"](UtfClipImpl.name, TextualClipR.name, "onTextContentChg1", `typing detected`) ;
+                console["log"]({ occc , }) ;
+                onChange(p.withProperty({ value: e, }) ) ;
+              }
+            ) ,
+            onDurativePRopertyChg : (
+              function (e: number, ): void {
+                onChange(p.withProperty({ durationSecs: e, }) ) ;
+              }
+            ) ,
+          }
+          : {}
+        ) , [onChange, ] )
+      ) ;
       const [
-        onUpdatedRendered, 
-        oureCallCountGlb ,
-        { 
-          rewrapCount: oureRewrapCount1 ,
-          perRewrapCallCount: oureCallCountLcl ,
-        } ,
-      ] = (
-        (function useC1() {
-          const cb = (
-            /**    
-             * the wrapped callback was from `OnYyy` props.
-             * therefore,
-             * expect the identities to be ill-defined
-             * 
-             */
-            useUpdatedCallback(onUpdatedRendered0 || Object , )
-            // onUpdatedRendered0
-          ) ;
-          return (
-            useCallbackCount(cb, [cb, ])
-          ) ;
-        } )()
-      ) ;
-      const onChange1 = (
-        onChange 
-        ?
-        function (e: ReactDraft.EditorState, ): void {
-          onChange(new UtfClipImpl(e, ) ) ;
-        }
-        : null
-      ) ;
-      const [editor,] = (() => {
+        editor, { editorState: actualEditorState = null, contentState: actualCOntentState = null, } = {},
+      ] = React.useMemo(() => {
         return (
           false 
           || (
-            UtfClipImpl.renderContentEditor(value, onChange1, )
+            UtfClipImpl.renderContentEditor(value, onTextContentChg1 && ((e: ReactDraft.EditorState) => {
+              if ((
+                editorStateChangeWithMaintainedCOntentState === "elide" 
+                && e.getCurrentContent() === actualCOntentState 
+              )) {
+                return ;
+              }
+              return (
+                onTextContentChg1(e)
+              ) ;
+            }), )
           ) 
           || [
             (
@@ -780,7 +1163,7 @@ const UtfClip = (
             ) ,
           ]
         ) ;
-      })() ;
+      } , [ value, onTextContentChg1, ], ) ;
       const { contentState: contentState1, } = ((): (
         {}
         & { contentState: Exclude<typeof value, ReactDraft.EditorState> ,  }
@@ -799,77 +1182,131 @@ const UtfClip = (
         }
         return { contentState: value, } ;
       } )() ;
+      const editorStateChgCount        = useDepsChgCount({}, React.useDeferredValue([actualEditorState, ]), ) ;
+      const valueChgCount              = useDepsChgCount({}, React.useDeferredValue([value, ]), ) ;
+      const actualCOntentStateChgCOunt = useDepsChgCount({}, React.useDeferredValue([actualCOntentState, ]), ) ;
+      const cscc = (
+        useDepsChgCount({}, [contentState1, ], )
+      ) ;
       const contentStateStringReprBrief = (
         String(contentState1)
         .replace(/^([^]{500,500})[^]{50,}$/ , "$1..." , )
       ) ;
-      const screengrabCallDeps = [
-        usePreviewPaneCtrlDebouncedValue(contentState1, ) ,
-      ] ;
-      /**    
-       * note :
-       * since the examined `function` originated from `useReducer`,
-       * the return-value shall remain `1` or `2` (`2` due to {@link React.StrictMode }) .
-       * 
-       */
-      const oureRewrapCount = (
-        useDepsChgCount({}, [onUpdatedRendered, ] , )
+      const durativePropertyDisplayLabel = (
+        <WithInputState 
+        value={clipDUrationSecs } 
+        children={(...[dsbValue, dsbSldUpdate, dsbSlideClose,] ) => (
+          <p>
+            duration: {}
+            <input 
+            title={dsbValue.toFixed(3, ) }
+            type={"range"}
+            min={0 }
+            max={60 }
+            // step="any"
+            step={0.25 }
+            value={dsbValue }
+            {...(
+              onDurativePRopertyChg ?
+              {
+                onChange: (e) => (dsbSldUpdate(+e.target.value ) ) ,
+                onPointerUp: () => {
+                  onDurativePRopertyChg(dsbValue ) ;
+                  dsbSlideClose() ;
+                } ,
+              }
+              : {
+                readOnly: true ,
+              }
+            )}
+            style={{
+              // minInlineSize: `85%` ,
+            }}
+            /> {}
+            <code>{ dsbValue.toPrecision(2) }</code> {}
+            seconds
+          </p>
+        )}
+        />  
       ) ;
-      const orcbChgCOunt = (
-        useDepsChgCount({} , [onUpdatedRendered, ], )
+      const screengrabCallDeps: React.DependencyList = (
+        usePreviewPaneCtrlDebouncedValue([
+          contentState1 ,
+          clipDUrationSecs ,
+        ])
       ) ;
-      const [screengrabResult1, screengrabRef1, ] = (
-        React.useState<null | ReturnType<typeof useHScreenGrabbing1>[0] >(null, )
-      ) ;
-      const {
-        eHCaptureP ,
-        eHCapturePreview ,
-      } = screengrabResult1 || {} ;
-      const ehcpChgCOunt = (
-        useDepsChgCount({} , [eHCaptureP, ], )
-      ) ;
-      const rcm = (
+      const onUpdatedRendered01 = (
         React.useMemo(() => (
-          new (class T_EHCP extends XClpWithUi.RFor {
-            toString() {
-              const s = (
-                contentStateStringReprBrief
-              ) ;
-              return `[T_EHCP : ${s }]` ;
+          onUpdatedRendered0 
+          ?
+          ((...a : Parameters<typeof onUpdatedRendered0 > ) => {
+            if (updatedP() !== p ) {
+              console["error"](`stale 'p' `) ;
             }
-            [Symbol.asyncIterator] = async function *() {
-              eHCaptureP && (
-                yield* [await eHCaptureP,]
-              ) ;
-            }
-          } )
-        ) , [eHCaptureP, ] , )
+            return (
+              onUpdatedRendered0(...a )
+            ) ;
+          })
+          : null
+        ) , [onUpdatedRendered0, ])
       ) ;
-      const rcmChgCount = (
-        useDepsChgCount({}, [rcm, ] , )
+      const [
+        {
+          onUpdatedRendered ,
+          oureCallCountGlb ,
+          oureRewrapCount1 ,
+          oureCallCountLcl ,
+    
+          oureRewrapCount ,
+          orcbChgCOunt ,
+    
+          eHCaptureP ,
+          eHCapturePreview , 
+          ehcpChgCOunt ,
+    
+          rcm , 
+          rcmChgCount ,
+        } ,
+        screengrabRef1 ,
+      ] = (
+        useRefStateRenderPreviewAndCallBack1({ 
+          onUpdatedRendered0: onUpdatedRendered01, 
+          contentStateStringReprBrief,
+          originalEs: [p, ] ,
+        })
       ) ;
-      { }
-      /**    
-       * can be deferred.
-       * 
-       */
-      React["useEffect"](() => {
-        onUpdatedRendered(rcm, ) ;
-      } , [onUpdatedRendered, rcm ,], ) ;
+      if (0 < editorStateChgCount && (editorStateChgCount % 1000 ) === 0 ) {
+        console["error"]({ editorStateChgCount, });
+        console["error"]((
+          TypeError(`sniffed brute-force 'editorStateChgCount' refresh`)
+        )) ;
+      }
+      if (0) {
+        throw Error() ;
+      }
       const debugSection = (
-        React.useDeferredValue((
+        ((
           <div>
           <pre>
           { JSON.stringify({ 
+            valueChgCount ,
+            occc ,
+            editorStateChgCount ,
+            actualCOntentStateChgCOunt ,
+            cscc ,
+            
             // ouro0RewrapCount ,
             // ouro0CallCount ,
             oureRewrapCount ,
             oureRewrapCount1,
             oureCallCountGlb ,
             oureCallCountLcl ,
+            
             ehcpChgCOunt, 
             orcbChgCOunt, 
             rcmChgCount ,
+            rcm ,
+
           }, null, 2, ) }
           </pre>
           </div>
@@ -878,7 +1315,7 @@ const UtfClip = (
       return (
         <DbgAndMain>
         <XDbgArticle>
-          { debugSection }
+          { null && debugSection }
         </XDbgArticle>
         <CWithTitleAndRasteriseTestPane 
         {...{
@@ -888,9 +1325,17 @@ const UtfClip = (
             </p>
           ) ,
           children: (
-            <blockquote  >
-            {editor }
-            </blockquote>
+            <div>
+              <div>
+              { durativePropertyDisplayLabel }
+              </div>
+              <blockquote  >
+               {editor }
+              </blockquote>
+            </div>
+          ) ,
+          generatedVideoDuration: (
+            clipDUrationSecs
           ) ,
           scgbDeps: (
             screengrabCallDeps
@@ -908,23 +1353,46 @@ const UtfClip = (
       if (value instanceof ReactDraft.EditorState ) {
         const s = value ;
         return (
-          new UtfClipImpl((
-            xDraftWithTrimmedUndoRedoStacks(s, )
-          ))
+          this.withProperty({
+            value: (
+              xDraftWithTrimmedUndoRedoStacks(s, )
+            ) ,
+          })
         ) ;
       }
       return this ;
     } 
 
     static renderContentEditor = (
-      function (...[value, onChange1 = null, ] : [
+      function renderContentEditorImpl(...[value, onChange1 = null, ] : [
         value : UtfClipImpl["value"] ,
         onChange ?: ((e: ReactDraft.EditorState) => void) | null ,
       ] ): (
         never
         | false
-        | [React.ReactElement, { contentState : ReactDraft.ContentState ; }, ]
+        | [
+          React.ReactElement, 
+          (
+            {}
+            & { contentState : ReactDraft.ContentState ;   }
+            & { editorState : ReactDraft.EditorState ; }
+          ), 
+        ]
       ) {
+        const renderXDE = (
+          (...a : Parameters<typeof renderXDraftEditorAndDebug>): ReturnType<typeof renderContentEditorImpl> => {
+            const [e, { editorState, }, ] = (
+              renderXDraftEditorAndDebug(...a )
+            ) ;
+            return [
+              e, 
+              { 
+                contentState: editorState.getCurrentContent(),  
+                editorState: editorState ,
+              } ,
+            ] ;
+          }
+        ) ;
         if ((
           true
           && (
@@ -933,36 +1401,26 @@ const UtfClip = (
             || value instanceof ReactDraft.ContentState 
           )
         )) {
-          return [
-            (
-              renderXDraftEditor({ 
-                value: value, 
-                onChange: onChange1, 
-              })
-            ) ,
-            {
-              contentState : (
-                (value instanceof ReactDraft.EditorState ? value.getCurrentContent() : value )
-              ) ,
-            } ,
-          ] ;
+          return (
+            renderXDE({ 
+              value: value, 
+              onChange: onChange1, 
+            })
+          ) ;
         }
         if (typeof value === "string") {
           ;
           const valueAsDraftJsContentState = (
             ReactDraft.ContentState.createFromText(value, )
           ) ;
-          return [
-            (
-              renderXDraftEditor({
-                value: (
-                  valueAsDraftJsContentState
-                ) ,
-                onChange: onChange1 ,
-              })
-            ) ,
-            { contentState: valueAsDraftJsContentState, } ,
-          ] ;
+          return (
+            renderXDE({
+              value: (
+                valueAsDraftJsContentState
+              ) ,
+              onChange: onChange1 ,
+            })
+          ) ;
         }
         return (
           false
@@ -972,53 +1430,176 @@ const UtfClip = (
     
   }
 ) ; 
+const useRefStateRenderPreviewAndCallBack1 = (
+  (...pfrArgs : [
+    (
+      {}
+      // ComponentProps<XClpWithUi<UtfClipImpl>[typeof XClp.UICLASS ] >
+      & { 
+        /**   
+         * the `onUpdatedRendered` value as specified in the props, or
+         * null if were left unset.
+         * 
+         */
+        onUpdatedRendered0 : (
+          null | 
+          Required<ComponentProps<XClpWithUi<never>[typeof XClp.UICLASS ] > >["onUpdatedRendered"]
+        ) ;
+       }
+      & { 
+        /**   
+         * brief summary of the rendered content for purpose of {@link Object.prototype.toString }
+         * 
+         */
+        contentStateStringReprBrief: string ;
+      }
+      & { 
+        /**    
+         * this is necessary since 
+         * multiple different models can give rise to equivalent rendering.
+         * whenever this `DependencyList` changes then
+         * this would make another call of `onUpdateRendered` with existing maintained rendering.
+         * 
+         */
+        originalEs: React.DependencyList ;
+      }
+    ) ,
+  ] ) => {
+    const [
+      { 
+        onUpdatedRendered0, 
+        contentStateStringReprBrief, 
+        originalEs ,
+      } ,
+    ] = pfrArgs ;
+    ;
+    const [
+      onUpdatedRendered, 
+      oureCallCountGlb ,
+      { 
+        rewrapCount: oureRewrapCount1 ,
+        perRewrapCallCount: oureCallCountLcl ,
+      } ,
+    ] = (
+      (function useC1() {
+        const cb = (
+          /**    
+           * the wrapped callback was from `OnYyy` props.
+           * therefore,
+           * expect the identities to be ill-defined
+           * 
+           */
+          useUpdatedCallback(onUpdatedRendered0 || Object , )
+          // onUpdatedRendered0
+        ) ;
+        return (
+          // TODO remove this step
+          useCallbackCount(cb, [cb, ])
+        ) ;
+      } )()
+    ) ;
+    /**    
+     * note :
+     * since the examined `function` originated from `useReducer`,
+     * the return-value shall remain `1` or `2` (`2` due to {@link React.StrictMode }) .
+     * 
+     */
+    const oureRewrapCount = (
+      useDepsChgCount({}, [onUpdatedRendered, ] , )
+    ) ;
+    const orcbChgCOunt = (
+      useDepsChgCount({} , [onUpdatedRendered, ], )
+    ) ;
+    ;
+    const [screengrabResult1, screengrabRef1, ] = (
+      React.useState<null | ReturnType<typeof useHScreenGrabbing1>[0] >(null, )
+    ) ;
+    const {
+      eHCaptureP = null ,
+      eHCapturePreview = null ,
+    } = screengrabResult1 || {} ;
+    const ehcpChgCOunt = (
+      useDepsChgCount({} , [eHCaptureP, ], )
+    ) ;
+    const rcm = (
+      React.useMemo(() => (
+        // 1 ? (await eHCaptureP) :
+        new (class T_EHCP extends XClpWithUi.RFor {
+          toString() {
+            const s = (
+              contentStateStringReprBrief
+            ) ;
+            return `[${this[Symbol.toStringTag] } : ${s }]` ;
+          }
+          [Symbol.asyncIterator] = async function *() {
+            eHCaptureP && (
+              yield* [await eHCaptureP,]
+            ) ;
+          }
+        } )
+      ) , [eHCaptureP, ] , )
+    ) ;
+    const rcmChgCount = (
+      useDepsChgCount({}, [rcm, ] , )
+    ) ;
+    { }
+    /**    
+     * can be deferred.
+     * 
+     */
+    React["useEffect"](() => {
+      onUpdatedRendered(rcm, ) ;
+    } , [onUpdatedRendered, rcm , ...originalEs, ], ) ;
+    ;
+    {
+      const ctrl = {
+        // onUpdatedRendered, 
+        // oureCallCountGlb ,
+        // { 
+        //   rewrapCount: oureRewrapCount1 ,
+        //   perRewrapCallCount: oureCallCountLcl ,
+        // } ,
+        onUpdatedRendered ,
+        /** DEBUGGING-ONLY */ oureCallCountGlb ,
+        /** DEBUGGING-ONLY */ oureRewrapCount1 ,
+        /** DEBUGGING-ONLY */ oureCallCountLcl ,
+  
+        /** DEBUGGING-ONLY */ oureRewrapCount ,
+        /** DEBUGGING-ONLY */ orcbChgCOunt ,
+  
+        // screengrabRef1 ,
+        eHCaptureP ,
+        eHCapturePreview ,
+        /** DEBUGGING-ONLY */
+        ehcpChgCOunt ,
+  
+        rcm ,
+        /** DEBUGGING-ONLY */
+        rcmChgCount ,
+      } ;
+      return ((): [inferredValues: typeof ctrl, ref: typeof screengrabRef1, ] => (
+        [ctrl, screengrabRef1, ]
+      ) )() ;
+    }
+  }
+) ;
 const CWithTitleAndRasteriseTestPane = (() => {
   ;
-  const useScgbDependenciesDefaultntervalRefresh = (() => {
-    // function implIncrement(v: symbol ) : symbol ;
-    // function implIncrement(v: number ) : number ;
-    function implIncrement(v: symbol | number ) {
-      return (typeof v === "number" ? (v + 1 ) : Symbol() ) ;
-    } ;
-    return (
-      function useIntervalRefresh() {
-        const [c, increment, ] = (
-          React.useReducer(implIncrement , Symbol() )
-        ) ;
-        React.useLayoutEffect(() => {
-          const interval1 = setInterval(increment, (2 + Math.random() ) * 1000 , ) ;
-          return () => { clearInterval(interval1, ) ; } ;
-        } , [] , ) ;
-        const ops = {} ;
-        return ((): [typeof c, typeof ops,] => [c, ops,] )() ;
-      }
-    ) ;
-  } )() ;;
-  const fromEhCp = (
-    function (eHCaptureP: null | Promise<File>, ): ReturnType<typeof useHScreenGrabbing1  >[0] { 
-      return (
-        eHCaptureP 
-        ?
-        {
-          eHCapturePreview: (
-            <FutureBlobBasedImgElemWithTimestamp 
-            value={eHCaptureP}
-            />
-          ) ,
-          eHCaptureP: eHCaptureP ,
-        }
-        : { eHCapturePreview: null, eHCaptureP: null, }
-      ) ;
-  }
-  ) ;
-  return (
+  const main = (
   SS.identity<{
     (props : (
       React.PropsWithChildren<(
         {}
         & { title: React.ReactElement ; }
-        & Partial<{ scgbDeps: React.DependencyList ; }>
+        & Partial<{ 
+          /**    
+           * {@link React.DependencyList } to signify when(ever) to tick another grab.
+           * 
+           */
+          scgbDeps: React.DependencyList ;
+        }>
         & Partial<{ capturePreviewRef: React.Dispatch<ReturnType<typeof useHScreenGrabbing1  >[0] > ; }>
+        & Partial<{ generatedVideoDuration: number ; }>
       )>
     )): React.ReactElement ; 
   }>(function CWithTitleAndRasteriseTestPane ({ 
@@ -1026,6 +1607,7 @@ const CWithTitleAndRasteriseTestPane = (() => {
     title, 
     scgbDeps : scgbDeps0 = null , 
     capturePreviewRef: capturePreviewCallbackRef0 ,
+    generatedVideoDuration ,
   }) {
     const [
       capturePreviewCallbackRef ,
@@ -1059,6 +1641,7 @@ const CWithTitleAndRasteriseTestPane = (() => {
       const eHCapturePAsMv = (
         eHCaptureP &&
         ((() => {
+          0 && console["log"](eHCaptureP, ) ;
           return (
             async (...[p0, ] : [Promise<File>, ]) => {
               const ffmpeg = (
@@ -1067,7 +1650,11 @@ const CWithTitleAndRasteriseTestPane = (() => {
               const p = await p0 ;
               return (
                 await (
-                  pngAsWebm(p, { impl: ffmpeg, quality: "realtime-preview", }, )
+                  pngAsWebm(p, { 
+                    generatedClipDurationSecs: generatedVideoDuration, 
+                    impl: ffmpeg, 
+                    quality: "realtime-preview", 
+                  }, )
                 )
               ) ;
               // TODO
@@ -1114,6 +1701,7 @@ const CWithTitleAndRasteriseTestPane = (() => {
             overflowBlock: "auto" ,
             overflow: "auto" ,
             maxBlockSize: "12.5em" ,
+            minBlockSize: "9em" ,
           }}
           >
             <div ref={mref1 }>
@@ -1140,7 +1728,7 @@ const CWithTitleAndRasteriseTestPane = (() => {
     return (
       <DbgAndMain>
         <XDbgArticle>
-        { debugSection }
+        { null && debugSection }
         </XDbgArticle>
         <div>
         { em1 }
@@ -1148,6 +1736,46 @@ const CWithTitleAndRasteriseTestPane = (() => {
       </DbgAndMain>
     ) ;
   } )
+  ) ;
+  const fromEhCp = (
+    function (eHCaptureP: null | Promise<File>, ): ReturnType<typeof useHScreenGrabbing1  >[0] { 
+      return (
+        eHCaptureP 
+        ?
+        {
+          eHCapturePreview: (
+            <FutureBlobBasedImgElemWithTimestamp 
+            value={eHCaptureP}
+            />
+          ) ,
+          eHCaptureP: eHCaptureP ,
+        }
+        : { eHCapturePreview: null, eHCaptureP: null, }
+      ) ;
+  }
+  ) ;
+  const useScgbDependenciesDefaultntervalRefresh = (() => {
+    // function implIncrement(v: symbol ) : symbol ;
+    // function implIncrement(v: number ) : number ;
+    function implIncrement(v: symbol | number ) {
+      return (typeof v === "number" ? (v + 1 ) : Symbol() ) ;
+    } ;
+    return (
+      function useIntervalRefresh() {
+        const [c, increment, ] = (
+          React.useReducer(implIncrement , Symbol() )
+        ) ;
+        React.useLayoutEffect(() => {
+          const interval1 = setInterval(increment, (2 + Math.random() ) * 1000 , ) ;
+          return () => { clearInterval(interval1, ) ; } ;
+        } , [] , ) ;
+        const ops = {} ;
+        return ((): [typeof c, typeof ops,] => [c, ops,] )() ;
+      }
+    ) ;
+  } )() ;;
+  return (
+    main
   ) ;
 } )() ;
 

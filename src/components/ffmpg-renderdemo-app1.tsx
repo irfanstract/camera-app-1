@@ -2,6 +2,7 @@ import { Seq, List, Range, } from 'immutable';
 import { fromMmeContentType, } from 'components/url-contenttypes-1';
 import { concatAsFfConvArgs, } from 'components/ffmpg-concat-1';
 import React from 'react';
+import { useAsyncMemo, } from 'components/useAsyncMemo1';
 import { withImplicitSuspense, } from 'components/useSuspenseBoundary1';
 import { Redirect, Route } from 'react-router-dom';
 import {
@@ -52,35 +53,6 @@ import * as ffConcat101 from "components/g-avse/ffm/concat/b101";
 import {
   avFileBlobGeneratorConcat ,
 } from "components/useMediaFilePostproc1" ;
-
-const useAsyncMemo = (
-  // TODO
-  function <R>(...[callback, deps, ] : [
-    { (ctx: {} & { aS: AbortSignal ; } , ): Promise<R > ; } ,
-    React.DependencyList ,
-  ] ) {
-    const [p, setP, ] = (
-      React.useState<Promise<R> >(async () => (
-        await new Promise(() => /** leave it hanging */ {} )
-      ) )
-    ) ;
-    React["useLayoutEffect"](() => {
-      const a = new AbortController() ;
-      const { signal, } = a ;
-      setP(() => (
-        callback({ aS: signal, }, )
-      ) ) ;
-      return () => {
-        a.abort((
-          TypeError((
-            `UseAsyncMemo refreshing . usually due to change in 'deps' . `
-          ))
-        )) ;
-      } ;
-    } , deps , ) ;
-    return p ;
-  }
-) ;
 
 const xExpand1: typeof fileNamesContentsItrCompileAsArray1 = (
   fileNamesContentsItrCompileAsArray1
@@ -169,127 +141,19 @@ const XClpStructureDumpElem = (
     ) ;
   }
 ) ;
+// eslint-disable-next-line import/first 
+import {
+  nllUnplayableBlob ,
+  VView ,
+  useXPreview ,
+  useAvRenderFlatten ,
+  XPReview ,
+  useUsrShallPreview1 ,
+} from "components/g-avse/avr1" ;
 /**    
  * 
  */
 const AvGenApp1 = (() => {
-  const useXPreview = (
-    function (...[rendered110,] : [
-      null | Promise<Blob> ,
-    ] ) {
-      /**   
-       * an indirection 
-       * to deal with inevitable careless coding forgetting to put-in {@link React.useMemo } step
-       * .
-       * 
-       */
-      const rendered11 = (
-        React.useDeferredValue(rendered110, )
-      ) ;
-      return (
-        React.useMemo(() => {
-          const C2 = (
-            React.lazy(async () => {
-              const r = (
-                rendered11 &&
-                await (
-                  rendered11
-                  .catch(async (e) => (
-                    console["error"](e, )
-                    ,
-                    null
-                  ))
-                )
-              ) ;  
-              ;
-              return { 
-                default: (() => {
-                  const VView = (
-                    (...[{ value: v, }] : [{} & { value: Blob ; } , ] ) => {
-                      const { asUrl: vUrl, } = (
-                        useBlobObjAsEmbeddable(v, )
-                      ) ;
-                      return (
-                        <video 
-                        src={ vUrl || "" }
-                        controls
-                        loop
-                        style={{
-                          maxBlockSize: `100%`,
-                          maxInlineSize: `100%`,
-                          height: `16em` ,
-                          backgroundColor: "black" ,
-                          borderRadius: `0.5em` ,
-                        }}
-                        />
-                      ) ;
-                    }
-                  ) ;
-                  return (
-                    () => {
-                      if (r) {
-                        ;
-                        const mainDispl = (
-                          <VView value={r } />
-                        ) ;
-                        const dlButton = (
-                          <button type="button" onClick={() => downloadGivenBlob(r, ) } >
-                            Download
-                          </button>
-                        ) ;
-                        return (
-                          <div style={{ display: "flex", flexDirection: "column", }}>
-                            <div 
-                            style={{ 
-                              display: "flex", 
-                              flexDirection: "column", 
-                              maxBlockSize: `12em` ,
-                            }}
-                            >
-                            { mainDispl }
-                            </div>
-                            <p>
-                              { dlButton }
-                            </p>
-                          </div>
-                        ) ;
-                      } else {
-                        return <div /> ;
-                      }
-                    }
-                  ) ;
-                })() , 
-              } ;
-            } )
-          );
-          const C = (
-            () => (
-              <React.Suspense
-              fallback={(
-                <div>
-                <p>
-                  Please enjoy your groovie eh coffee {}
-                  while this's still loading.
-                </p>
-                <IonProgressBar 
-                type='indeterminate'
-                // buffer={0.5 }
-                value={0.5 }
-                />
-                </div>
-              )}
-              >
-                <C2 />
-              </React.Suspense>
-            )
-          ) ;
-          return (
-            <C />
-          ) ;
-        } , [rendered11,] , )
-      ) ;
-    }
-  ) ;
   /**    
    * we take-over the `<React.Suspense>` decorative responsibility here
    * to simplify things
@@ -320,68 +184,17 @@ const AvGenApp1 = (() => {
             const rendered = (
               React.useDeferredValue(renderedM, )
             ) ;
-            {}
-            const rendered11 = (
-              useAsyncMemo(({ aS, }, ) => {
-                type RFor = avSeqEditingSUpport.XClpWithUi.RFor ;
-                return (
-                  rendered ?
-                  ((...[src1,] : [
-                    src: Blob | RFor ,
-                  ] ) => (
-                    src1 instanceof Blob ?
-                    Promise.resolve(src1, )
-                    : 
-                    (async (...[src, ] : [
-                      src: RFor ,
-                    ] ) => {
-                      const files = () => (
-                        src[Symbol.asyncIterator]()
-                      ) ;
-                      const files1 = (
-                        /** pretend that it's finite-length. */
-                        (async function* () { for await (const f of files() ) yield f ; } )
-                      ) ;
-                      const finalFile = (
-                        await (
-                          1 ?
-                          ffConcat(files1, { aS: aS, } , )
-                          : xAvBlobListZip(files1, )
-                        )
-                      ) ;
-                      return (
-                        finalFile
-                      ) ;
-                    } )(src1, )
-                  ) )(rendered, )
-                  : new Promise<Blob>(() => /** leave hanging */ {} )
-                ) ;
-              } , [rendered , ] )
-            ) ;
             React["useEffect"](() => {
               // console["log"](rendered, ) ;
             } , [rendered, ] );
-            React["useEffect"](() => {
-              (async () => {
-                (async () => {
-                  const r = (
-                    await rendered11
-                  ) ;
-                  console["log"](...[
-                    r,
-                    r && (
-                      new (class extends Object {
-                        get ["@# shallDownload1"]() {
-                          return downloadGivenBlob(r, ) ;
-                        }
-                      } )
-                    ) ,
-                  ] ) ;
-                })() ;
-              } )() ;
-            } , [rendered11 ] );
-            const preview11 = (
-              useXPreview(rendered11, )
+            {}
+            const [
+              preview11 ,
+              { shallPreview, setShallPreview, } ,
+            ] = (
+              useUsrShallPreview1({
+                value: rendered,
+              })
             ) ;
             return (
               <div>
@@ -395,11 +208,39 @@ const AvGenApp1 = (() => {
                 // display 
               }}
               >
-                <div>
-                  <p>Preview</p>
-                  <blockquote>
-                    { preview11 }
-                  </blockquote>
+                <div style={{ display: `flex`, flexDirection: `column-reverse` }} >
+                  { (
+                    preview11 ? (
+                      <div>
+                      <p>Preview</p>
+                      <blockquote>
+                        <div 
+                        style={{ 
+                          blockSize: `15em` , 
+                          minInlineSize: `15em` ,
+                        }} 
+                        >
+                        { preview11 }
+                        </div>
+                      </blockquote>
+                      </div>
+                    ) : null
+                  ) }
+                  <p>
+                  <IonButton 
+                  type='button' 
+                  onClick={() => (
+                    /**    
+                     * had choice to read latest value given in the callback, but
+                     * for a11y/usability reasons instead take the "stale state" .
+                     * 
+                     */
+                    setShallPreview(() => !shallPreview )
+                  ) } 
+                  >
+                    Toggle Preview
+                  </IonButton>
+                  </p>
                 </div>
                 <div>
                   { (
@@ -413,9 +254,11 @@ const AvGenApp1 = (() => {
                       onUpdatedRendered: renderRef ,
                     })
                   ) }
+                  { null && (
                   <XClpStructureDumpElem 
                   value={acl }
                   />
+                  ) }
                 </div>
               </div>
               </div>

@@ -80,7 +80,8 @@ const toFfConcat1 = (
       "-f", "matroska" ,
       "-t", "900" ,
       "-c:v", "libvpx" ,
-      "-b:v", `${500E3 }` ,
+      // "-b:v", `${500E3 }` ,
+      "-b:v", `${250E3 }` ,
       "o.webm" ,
     ] )() ;
     const flGraphSection = [

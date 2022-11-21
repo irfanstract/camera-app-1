@@ -7,6 +7,10 @@ import { Stack, } from "immutable";
 import React from 'react';
 import { useIonModal, IonModal, } from "@ionic/react";
 import { useBlockingPopupElement, } from "components/ActionNeededPopup1";
+import {
+  useInputState ,
+  WithInputState ,
+} from "components/useInputElementOnchangeState1" ;
 import 'draft-js/dist/Draft.css'; // integral CSS
 import * as ReactDraft from 'draft-js';
 import { 
@@ -37,273 +41,319 @@ import * as SvgFileFromCode from "components/svgFileFromCode1" ;
 
 
 
-export const {
-  renderEditor: renderEditor ,
-  withTrimmedUndoRedoStacks: withTrimmedUndoRedoStacks ,
-} = {
-  renderEditor: (
-    function (...[{ value, onChange: onChange1 = null , }] : [
-      (
-        {} 
-        & Partial<{ onChange : null | ((e: ReactDraft.EditorState) => void ) ; }>
-        & { value : (
-          never
-          | ReactDraft.ContentState
-          | ReactDraft.EditorState
-        ) ; }
-      ) ,
-    ] ) {
+const renderEditorAndDebug = (
+  function (...[{ value, onChange: onChange1 = null , }] : [
+    (
+      {} 
+      & Partial<{ onChange : null | ((e: ReactDraft.EditorState) => void ) ; }>
+      & { value : (
+        never
+        | ReactDraft.ContentState
+        | ReactDraft.EditorState
+      ) ; }
+    ) ,
+  ] ) {
+    ;
+    const { 
+      EditorState ,
+      Editor ,
+    } = ReactDraft ;
+    const edS = (function (): (
+      ReactDraft.EditorState
+    ) {
+      if (value instanceof ReactDraft.EditorState ) {
+        return value ;
+      }
+      if (value instanceof ReactDraft.ContentState ) {
+        return ReactDraft.EditorState.createWithContent(value, ) ;
+      }
+      return (
+        ReactDraft.EditorState.createEmpty() 
+      ) ;
+    } )() ;
+    const REE = (
+      <
+      A1, 
+      A2 extends ({} & { editorState : ReactDraft.EditorState ; } ),
+      >(a: [React.ReactElement, A2]) => a
+    )  ;
+    if (onChange1) {
       ;
-      const { 
-        EditorState ,
-        Editor ,
-      } = ReactDraft ;
-      const edS = (function (): (
-        ReactDraft.EditorState
-      ) {
-        if (value instanceof ReactDraft.EditorState ) {
-          return value ;
-        }
-        if (value instanceof ReactDraft.ContentState ) {
-          return ReactDraft.EditorState.createWithContent(value, ) ;
-        }
-        return (
-          ReactDraft.EditorState.createEmpty() 
-        ) ;
-      } )() ;
-      if (onChange1) {
-        ;
-        const edS1 = (
-          ReactDraft.EditorState.set(edS, {
-            decorator : (() : ReactDraft.CompositeDecorator => {
-              return new (ReactDraft.CompositeDecorator)([
-                {
-                  strategy: (searchedBlock, callbk, c, ) => {
-                    const searchedTxt = (
-                      searchedBlock.getText()
+      const edS1 = (
+        ReactDraft.EditorState.set(edS, {
+          decorator : (() : ReactDraft.CompositeDecorator => {
+            return new (ReactDraft.CompositeDecorator)([
+              {
+                strategy: (searchedBlock, callbk, c, ) => {
+                  const searchedTxt = (
+                    searchedBlock.getText()
+                  ) ;
+                  const chrs = (
+                    searchedBlock.getCharacterList()
+                  ) ;
+                  // for (const [i, chr,] of chrs.entries() ) {
+                  //   if (chr.getStyle().contains("STRIKETHROUGH") ) {
+                  //     callbk(i, i+1, ) ;
+                  //   }
+                  // };
+                  for (const { start: startIdx, end: endIdx, } of (() => {
+                    const whetherOn = (
+                      chrs
+                      .map(chr => (
+                        chr.getStyle().contains("STRIKETHROUGH")
+                      ) )
+                      .toMap()
                     ) ;
-                    const chrs = (
-                      searchedBlock.getCharacterList()
+                    return (
+                      whetherOn
+                      .map((_, i, srcLs, ) => (
+                        (
+                          true 
+                          && !whetherOn.get(i + -1 , false, )
+                          && whetherOn.get(i, false, )
+                        ) ?
+                        { start: i, }
+                        : null
+                      ) )
+                      .toList()
+                      .filter((v) : v is (object & typeof v) => v instanceof Object )
+                      .map(({ start, }) => ({
+                        start: start ,
+                        end: (
+                          Range(start + 1 )
+                          .filterNot(i => whetherOn.get(i, false, ) )
+                          .first(Number.MAX_SAFE_INTEGER, )
+                        ) ,
+                      }) )
                     ) ;
-                    // for (const [i, chr,] of chrs.entries() ) {
-                    //   if (chr.getStyle().contains("STRIKETHROUGH") ) {
-                    //     callbk(i, i+1, ) ;
-                    //   }
-                    // };
-                    for (const { start: startIdx, end: endIdx, } of (() => {
-                      const whetherOn = (
-                        chrs
-                        .map(chr => (
-                          chr.getStyle().contains("STRIKETHROUGH")
-                        ) )
-                        .toMap()
-                      ) ;
-                      return (
-                        whetherOn
-                        .map((_, i, srcLs, ) => (
-                          (
-                            true 
-                            && !whetherOn.get(i + -1 , false, )
-                            && whetherOn.get(i, false, )
-                          ) ?
-                          { start: i, }
-                          : null
-                        ) )
-                        .toList()
-                        .filter((v) : v is (object & typeof v) => v instanceof Object )
-                        .map(({ start, }) => ({
-                          start: start ,
-                          end: (
-                            Range(start + 1 )
-                            .filterNot(i => whetherOn.get(i, false, ) )
-                            .first(Number.MAX_SAFE_INTEGER, )
-                          ) ,
-                        }) )
-                      ) ;
-                    })() ) {
-                      // TODO
-                      callbk(startIdx, endIdx, ) ;
-                    }
-                  } ,
-                  component : (
-                    function ({ children: children, } : (
-                      {}
-                      & React.PropsWithChildren
-                    ) ) {
-                      return (
-                        <button 
-                        disabled
-                        style={{ 
-                          // color: "gray", 
-                          // textDecoration: `line-through solid currentcolor` ,
-                          // textDecorationThickness: `1ex` ,
-                          userSelect: "none" ,
-                        }} 
-                        >
-                          { children }
-                        </button>
-                      ) ;
-                    }
-                  ) ,
+                  })() ) {
+                    // TODO
+                    callbk(startIdx, endIdx, ) ;
+                  }
                 } ,
-              ]) ;
-            } )() ,
-          } )
-        ) ;
-        const PWrp = (
-          function ({ children: children, } : (
-            {}
-            & React.PropsWithChildren
-          ) ) {
-            return (
+                component : (
+                  function ({ children: children, } : (
+                    {}
+                    & React.PropsWithChildren
+                  ) ) {
+                    return (
+                      <button 
+                      disabled
+                      style={{ 
+                        // color: "gray", 
+                        // textDecoration: `line-through solid currentcolor` ,
+                        // textDecorationThickness: `1ex` ,
+                        userSelect: "none" ,
+                      }} 
+                      >
+                        { children }
+                      </button>
+                    ) ;
+                  }
+                ) ,
+              } ,
+            ]) ;
+          } )() ,
+        } )
+      ) ;
+      const PWrp = (
+        function ({ children: children, } : (
+          {}
+          & React.PropsWithChildren
+        ) ) {
+          return (
+            <div
+            style={{
+              display: "flex" ,
+              flexDirection: "row",
+            }}
+            >
               <div
+              title="a paragraph"
               style={{
                 display: "flex" ,
                 flexDirection: "row",
+                borderInlineEnd: `0.375em solid currentcolor` ,
+                marginInlineEnd: `0.375em` ,
               }}
-              >
-                <div
-                title="a paragraph"
-                style={{
-                  display: "flex" ,
-                  flexDirection: "row",
-                  borderInlineEnd: `0.375em solid currentcolor` ,
-                  marginInlineEnd: `0.375em` ,
-                }}
-                > 
-                  <span>&#xB6;</span>
-                  <div>
-                    { null && (
-                    <div
-                    style={{
-                      userSelect: "none",
-                    }}
-                    >
-                    <button type="button">
-                      Delete 
-                    </button>
-                    <span>
-                      Webkit User Select
-                    </span>
-                    <button type="button">
-                      Add 
-                    </button>
-                    </div>
-                    ) }
-                  </div>
-                </div>
-                <div
-                >
+              > 
+                <span>&#xB6;</span>
+                <div>
+                  { null && (
                   <div
                   style={{
-                    paddingBlock: `0.10em 0.75em` ,
-                    paddingInline: `0.10em 0.75em` ,
+                    userSelect: "none",
                   }}
                   >
-                  { children }
+                  <button type="button">
+                    Delete 
+                  </button>
+                  <span>
+                    Webkit User Select
+                  </span>
+                  <button type="button">
+                    Add 
+                  </button>
                   </div>
+                  ) }
                 </div>
               </div>
-            ) ;
-          }
-        );
-        /**    
-         * Draft coalesced adjacent, same-type blocks into one.
-         * will need to break them apart, via {@link React.Children }
-         * 
-         */
-        const eSplitted = (
-          function (...[payload, mp, ] : [
-            React.ReactNode ,
-            { (child: React.ReactNode, ): React.ReactNode ; } ,
-          ] ): React.ReactElement {
-            return (
-              <React.Fragment>
-              { (
-                React.Children.toArray(payload, )
-                .map((payload, key, ) => (
-                  <React.Fragment key={key} >
-                  { mp(payload, ) }
-                  </React.Fragment>
-                ))
-              ) }
-              </React.Fragment>
-            ) ;
-          }
-        ) ;
-        return (
-          <div>
-            <FDE>
-            <Editor 
-            editorState={edS1 }
-            onChange={onChange1 }
-            blockRenderMap={(
-              ReactDraft.DefaultDraftBlockRenderMap
-              .merge((
-                Map((
-                  SS.identity<{
-                    [k: string ] : {
-                      element : string ,
-                      aliasedElements ?: [string, ...(string[])] ,
-                      wrapper ?: string | React.ReactElement ,
-                    } ,
-                  }>({
-                    "unstyled": {
-                      element: "div",
-                      aliasedElements: ['p'],
-                      wrapper: (() => {
-                        const PWrp1 = (
-                          ({ children: payload, } : React.PropsWithChildren ) => (
-                            eSplitted(payload, payload => (
-                              <div 
-                              style={{ 
-                                marginBlockEnd: "1em" , 
-                                // border: `0.05em dashed currentcolor`,
-                              }}
-                              >
-                              <PWrp children={payload } />
-                              </div>
-                            ) )
-                          )
-                        ) ;
-                        return (
-                          <PWrp1 />
-                        ) ;
-                      })() ,
-                    }
-                  })
-                ))
+              <div
+              >
+                <div
+                style={{
+                  paddingBlock: `0.10em 0.75em` ,
+                  paddingInline: `0.10em 0.75em` ,
+                }}
+                >
+                { children }
+                </div>
+              </div>
+            </div>
+          ) ;
+        }
+      );
+      /**    
+       * Draft coalesced adjacent, same-type blocks into one.
+       * will need to break them apart, via {@link React.Children }
+       * 
+       */
+      const eSplitted = (
+        function (...[payload, mp, ] : [
+          React.ReactNode ,
+          { (child: React.ReactNode, ): React.ReactNode ; } ,
+        ] ): React.ReactElement {
+          return (
+            <React.Fragment>
+            { (
+              React.Children.toArray(payload, )
+              .map((payload, key, ) => (
+                <React.Fragment key={key} >
+                { mp(payload, ) }
+                </React.Fragment>
               ))
-            )}
-            blockRendererFn={(c, ) => {
-              ;
-            }}
-            keyBindingFn={(e) => {
-              if (e.keyCode === 96 + 12 && ReactDraft.KeyBindingUtil.hasCommandModifier(e,) ) {
-                return "dump" ;
-              }
-              return ReactDraft.getDefaultKeyBinding(e) ;
-            } }
-            // handleKeyCommand={(e) => {
-            //   if (e === "dump") {
-            //     return "handled" ;
-            //   }
-            //   return "not-handled" ;
-            // } }
-            />
-            </FDE>
-          <div>
-          </div>
-          </div>
-        ) ;
-      }
+            ) }
+            </React.Fragment>
+          ) ;
+        }
+      ) ;
       return (
+        REE([
+          (
+            <div>
+              <FDE>
+              <WithInputState
+              autoSubmitMode={[
+                "debounce", 
+                2 * 1000,  
+                (v : null | ReactDraft.EditorState ) => {
+                  if (v) {
+                    const lg : keyof Pick<typeof console, "log" | "debug"> = "log";
+                    console[lg ]("useDraftEditor",  ) ;
+                    console[lg ]("autoSUbmitMode onCHange",  ) ;
+                    console[lg ](  v.getCurrentContent().getPlainText() ) ;
+                    onChange1(v) ;
+                  }
+                } ,
+                { clearAfterSubmit: false, } ,
+              ]}
+              // autoSubmitMode={null}
+              value={edS1 }
+              >
+              { (...[edS1D, onChange1D, removeValueD, {}, ] ) => (
+              <Editor 
+              editorState={edS1D }
+              onBlur={() => (
+                // removeValueD(v => (v && onChange1(v) ) ,)
+                removeValueD() 
+              ) }
+              onChange={onChange1D }
+              blockRenderMap={(
+                ReactDraft.DefaultDraftBlockRenderMap
+                .merge((
+                  Map((
+                    SS.identity<{
+                      [k: string ] : {
+                        element : string ,
+                        aliasedElements ?: [string, ...(string[])] ,
+                        wrapper ?: string | React.ReactElement ,
+                      } ,
+                    }>({
+                      "unstyled": {
+                        element: "div",
+                        aliasedElements: ['p'],
+                        wrapper: (() => {
+                          const PWrp1 = (
+                            ({ children: payload, } : React.PropsWithChildren ) => (
+                              eSplitted(payload, payload => (
+                                <div 
+                                style={{ 
+                                  marginBlockEnd: "1em" , 
+                                  // border: `0.05em dashed currentcolor`,
+                                }}
+                                >
+                                <PWrp children={payload } />
+                                </div>
+                              ) )
+                            )
+                          ) ;
+                          return (
+                            <PWrp1 />
+                          ) ;
+                        })() ,
+                      }
+                    })
+                  ))
+                ))
+              )}
+              blockRendererFn={(c, ) => {
+                ;
+              }}
+              keyBindingFn={(e) => {
+                if (e.keyCode === 96 + 12 && ReactDraft.KeyBindingUtil.hasCommandModifier(e,) ) {
+                  return "dump" ;
+                }
+                return ReactDraft.getDefaultKeyBinding(e) ;
+              } }
+              // handleKeyCommand={(e) => {
+              //   if (e === "dump") {
+              //     return "handled" ;
+              //   }
+              //   return "not-handled" ;
+              // } }
+              />
+              )  }
+              </WithInputState>
+              </FDE>
+            <div>
+            </div>
+            </div>
+          ) ,
+          { editorState: edS, } ,
+        ])
+      ) ;
+    }
+    return REE([
+      (
         <Editor 
         editorState={edS }
         readOnly
         onChange={e => {} }
         />
-      ) ;
+      ) ,
+      { editorState: edS, } ,
+    ]) ;
+  }
+) ;
+export { renderEditorAndDebug, };
+export const {
+  renderEditor: renderEditor ,
+  withTrimmedUndoRedoStacks: withTrimmedUndoRedoStacks ,
+} = {
+  renderEditor: (
+    function (...a: Parameters<typeof renderEditorAndDebug >) {
+      const [e, {}, ] = renderEditorAndDebug(...a, ) ;
+      return e ;
     }
   ) ,
   withTrimmedUndoRedoStacks : (

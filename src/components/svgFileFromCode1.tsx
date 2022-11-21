@@ -67,8 +67,13 @@ const {
       const cc = (
         c.getContext("2d")!
       ) ;
-      cc.scale(upscaling, upscaling, ) ;
-      cc.drawImage(asImg, 0, 0, ) ;
+      // cc.scale(upscaling, upscaling, ) ;
+      cc.drawImage(asImg, 0, 0, ...((): [w: number, h: number, ] => (
+        [
+          upscaling * asImg.width  ,
+          upscaling * asImg.height ,
+        ]
+      ) )() ) ;
       return [c, { expectedQuality, expectedFmtName, }, ] as const ;
     }
   ) ;

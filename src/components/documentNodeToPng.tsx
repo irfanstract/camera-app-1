@@ -14,6 +14,7 @@ import {
   svgStandaloneCodeAsUrl , 
 } from "components/svgFileFromCode1";
 import * as SvgFileFromCode from "components/svgFileFromCode1" ;
+import { fromMmeContentType, } from "components/url-contenttypes-1";
 
 
 
@@ -50,9 +51,10 @@ export default (
     return (
       new File([blob0,], `component-display` + ((...[tp,] : [type: string,] ) => {
         ;
-        if (tp === ("image/jpeg") ) { return (".jpeg" ) ; }
-        if (tp === ("image/png" ) ) { return (".png"  ) ; } 
-        return "" ;
+        return (
+          (fromMmeContentType(tp, ) || { fileNameExt: "" , } )
+          .fileNameExt
+        ) ;
       })(blob0.type, ) , { type: blob0.type, lastModified: date, } )
     ) ;
   }

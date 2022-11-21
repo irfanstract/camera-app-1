@@ -41,6 +41,7 @@ const {
         & (
           {}
           & { width: number ; height: number ; }
+          & Partial<{ upscaling : number ; }>
         )
       ) ,
     ] ) : [
@@ -60,6 +61,7 @@ const {
     const {
       width = 500 ,
       height = 1000 ,
+      upscaling = 1.5 ,
     } = options ;
     ;
     const id = `elem986737535256` ;
@@ -79,9 +81,9 @@ const {
        * `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">`
        * 
        */
-      `<svg width="${width }" height="${height }">` +
+      `<svg width="${upscaling * width }" height="${upscaling * height }">` +
       `<foreignObject width="100%" height="100%">` +
-      `<div id=${id }FNT style="background: white ; color: black ;" >  ` +
+      `<div id=${id }FNT style="background: white ; color: black ; zoom : ${upscaling } ;" >  ` +
       `<div id=${id } ></div> ` +
       ` </div> ` +
       `</foreignObject>` +

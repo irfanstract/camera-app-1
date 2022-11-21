@@ -44,9 +44,19 @@ const renderPairwise = (
   ] ) {
     return (
       <div
+      className={(
+        [
+          ` GAvsePairwise `  ,
+          ` GAvsePairwise-items   `  ,
+          ` GAvsePairwise-overallborder  `  ,
+          ` GAvsePairwise-backdropfilterable  `  ,
+          ` GAvsePairwise-filterable  `  ,
+          ` GAvsePairwise-fontcolor  `  ,
+        ].join(" ")
+      )}
       style={{
-        display: "flex" ,
-        flexDirection: "row" ,
+        // display: "flex" ,
+        // flexDirection: "row" ,
       }}
       >
       { e1 }
